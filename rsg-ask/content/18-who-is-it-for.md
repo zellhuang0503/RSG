@@ -2,7 +2,7 @@
 title: 關係花園的課程適合什麼人？
 slug: who-is-it-for
 category: choice
-status: review
+status: approved
 updated: 2026-09-20
 summary: 關係花園的課程適合在關係、情緒或人生方向上感到卡住、想向內探索的人，不需要心理學背景或任何課程經驗。官網首頁提到的常見情境包括：遭遇挫折、努力卻沒有結果、關係困難、健康問題與情緒困擾。若有急性精神症狀或自傷風險，工作坊不能取代醫療，應優先尋求專業協助。
 faq:

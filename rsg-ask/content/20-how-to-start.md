@@ -2,7 +2,7 @@
 title: 第一次參加關係花園課程，應該從哪裡開始？
 slug: how-to-start
 category: choice
-status: review
+status: approved
 updated: 2026-09-20
 summary: 建議分三步：先閱讀官網「關於花園」與「學員怎麼說」了解課程取向，再參加課程體驗會或單日工作坊感受講師的帶領方式，最後依自己的議題選擇系列工作坊或一對一諮詢。不需要事前準備任何知識，最新場次以官網活動日曆為準。
 faq:

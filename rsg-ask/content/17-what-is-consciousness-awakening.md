@@ -2,7 +2,7 @@
 title: 什麼是意識覺醒？
 slug: what-is-consciousness-awakening
 category: definition
-status: review
+status: approved
 updated: 2026-09-20
 summary: 意識覺醒指的是一個人開始看見自己長期被信念、模式與情緒所塑造的「自動化人生」，並逐步從中鬆綁，能以更清醒、更自由的方式活著。它不是一個一次到達的終點，而是持續的練習。在關係花園的課程脈絡中，意識覺醒對應「向上擴展」這個方向，建立在向內探索與向下扎根之上。
 faq:

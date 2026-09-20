@@ -2,7 +2,7 @@
 title: 內在小孩是什麼？
 slug: what-is-inner-child
 category: definition
-status: review
+status: approved
 updated: 2026-09-20
 summary: 內在小孩（Inner Child）是心理學與個人成長領域常用的比喻，指一個人成年後仍保留的童年經驗、需求與情緒反應。當童年的需求沒有被滿足或曾經受傷，這些感受不會消失，而是可能在成年後的關係中以過度反應、退縮或難以表達需求的方式出現。認識內在小孩，是把這些自動化反應帶回意識層面的第一步。
 faq:

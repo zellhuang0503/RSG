@@ -2,7 +2,7 @@
 title: 什麼是「帶著覺知活在當下」？
 slug: what-is-awareness
 category: definition
-status: review
+status: approved
 updated: 2026-09-20
 summary: 「帶著覺知活在當下」指的是在日常生活的每個時刻，都能留意到自己此刻的身體感受、情緒與念頭，而不是被習慣性的反應帶著走。它不是一種特殊狀態，而是一種可以練習的能力：在刺激與反應之間多出一個看見自己的瞬間。這也是關係花園課程反覆強調的基礎練習。
 faq:

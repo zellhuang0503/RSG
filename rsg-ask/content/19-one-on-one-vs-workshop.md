@@ -2,7 +2,7 @@
 title: 一對一諮詢和工作坊有什麼不同？該怎麼選？
 slug: one-on-one-vs-workshop
 category: choice
-status: review
+status: approved
 updated: 2026-09-20
 summary: 一對一諮詢適合有明確、私密議題且希望深入處理的人，時間彈性、節奏由自己掌握；工作坊則透過團體互動與代表的參與，適合想在他人的故事中看見自己、或第一次接觸這類課程的人，費用通常也較親民。兩者可以搭配，常見的路徑是先參加工作坊，再針對浮現的特定議題安排一對一。
 faq:

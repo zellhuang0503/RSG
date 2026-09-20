@@ -2,7 +2,7 @@
 title: 系統排列是什麼？
 slug: what-is-family-constellation
 category: definition
-status: review
+status: approved
 updated: 2026-09-20
 summary: 系統排列（Systemic Constellation，常稱家族系統排列）是德國心理治療師伯特・海寧格（Bert Hellinger）在 1990 年代發展的團體工作方法。參與者在空間中站位、代表當事人家庭或系統中的成員，把平時看不見的關係動力具體呈現出來，協助當事人看見隱藏的牽連，並為自己找到一個新的位置。
 faq:
