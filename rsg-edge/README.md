@@ -48,6 +48,8 @@ wrangler 會自動在 rsg.com.tw 這個 zone 建立 `ask.rsg.com.tw` 的 DNS 記
 | Security → Bots | Bot Fight Mode **關閉** | 會擋 WooCommerce 金流回呼、REST API、AI 爬蟲 |
 | Security → Settings | Browser Integrity Check 關閉 | 會擋部分外掛的 API 請求 |
 | Caching → Cache Rules | 新增規則：URI 包含 `/wp-admin`、`/wp-login.php`、`/wp-json`、`/cart`、`/checkout`、`/my-account` 或 Cookie 包含 `wordpress_logged_in` → **Bypass cache** | 避免後台與登入狀態被快取 |
+| Caching → Cache Rules | 新增規則：URI 開頭為 `/.well-known/` → **Bypass cache** | cPanel AutoSSL 憑證續約（每 60 至 90 天）靠這個路徑驗證，不能被快取或攔截 |
+| SSL/TLS → Edge Certificates | **Always Use HTTPS 開啟** | 取代 cPanel 無法開啟的 Force HTTPS Redirect（附加網域的關聯子網域未涵蓋在憑證內） |
 | Network | WebSockets 開、HTTP/3 開 | 無害 |
 | WordPress 端 | 安裝官方 **Cloudflare** 外掛，或在 wp-config 加 `HTTP_CF_CONNECTING_IP` 還原訪客 IP | 否則 Wordfence 等安全外掛會把 Cloudflare 的 IP 當攻擊者封鎖 |
 
@@ -90,8 +92,17 @@ curl -s https://rsg.com.tw/llms.txt
 - `www.*` → 301 到非 www。
 - `/ask`、`/ask/*`、`/llms.txt` → 靜態資產。
 - `/robots.txt` → 原站內容 + 追加 sitemap。
-- 其他 → 原封不動轉給 WordPress；`/wp-admin`、`/wp-json`、非 GET 一律不處理。
+- 其他 → 原封不動轉給 WordPress；`/.well-known/`、`/wp-admin`、`/wp-json`、非 GET 一律不處理。
 - 任何例外 → 直接透傳原站，Worker 出錯不會讓官網掛掉。
+
+## 主機現況（2026-09-20 自 A2 Hosting cPanel 確認）
+
+- 主機：A2 Hosting 新加坡機房（sg1-cl8-ats1），rsg.com.tw 為 vae-marketing.com 帳號下的附加網域。
+- 憑證：rsg.com.tw、www、shop 皆為 AutoSSL（Let's Encrypt）綠色鎖，10 月 20 / 23 日自動續約。切橘雲後第一次續約要回頭確認；若失敗，改用 Cloudflare Origin CA 憑證（15 年）。
+- 主題：Avada 7.12.1（待更新 7.16.1）。已知 Rocket Loader 會打壞 Avada 的 JS，務必關閉。
+- 已見外掛：Avada Builder、Avada Core、Avada Custom Branding、Magic Embeds、WP Social Widget（清單下半段待補）。
+- WordPress 6.8.8，建議先升 6.8.9（安全性小版本），暫不升 7.x。
+- 已處理：關閉 WP 除錯模式、開啟主機接管 wp-cron。
 
 ## 免費方案配額
 
