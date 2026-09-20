@@ -20,13 +20,24 @@
 - 2026-09-21 即時測試：兩頁皆「可建立索引」，強化項目中已無 AMP 項目，已按「要求建立索引」。預期 3 到 14 天後 AMP 報表歸零、搜尋標題恢復。
 - `*.workers.dev` 是任何人可免費申請的子網域，**與關係花園自己的 Cloudflare 帳號無關**。
 
+### 2026-09-21 伺服器與資料庫檢查（已完成，結果乾淨）
+
+- 主站根目錄是 `/home/vaemarke/rsg.com.tw/`（附加網域，**不是** `public_html`）；商店在 `/home/vaemarke/shop.rsg.com.tw/`。
+- 隔離區原本誤放在網站根目錄內（`rsg.com.tw/quarantine_rsg_20260920/`，可由網址讀取），已移至 `/home/vaemarke/quarantine_rsg_20260920/`。
+- 根目錄下的 `.wp-toolkit_u/`（WP Toolkit 站台快照）內另有一份 `about`、`share` 副本，已移入隔離區為 `about.toolkit_copy`、`share.toolkit_copy`。隔離區共 5 個檔案。
+- `find -mtime` 逐日盤點 6/25 到 9/18 的檔案修改：小量修改的日子（7/7 Smart Slider、7/15 Rank Math、7/17 wp-includes、8/6 wp-login.php）以 `grep base64_decode|eval(|gzinflate|…` 逐一驗證皆無注入，判定為外掛與核心小版本更新。`wp-config.php` 乾淨。
+- WP-CLI 查詢 `posts`、`options`、`postmeta` 搜尋 `odongpubliara`、`workers.dev`、`kiwkiw`、`amphtml`：**零筆**（對照查詢 1,036 篇已發布內容）。
+- 使用者僅剩 `adminR` 與 `zell.huang@gmail.com` 兩個管理員（`test1`、`test2` 已刪除）；`siteurl`/`home` 為 `https://rsg.com.tw`，`users_can_register` 為 0。
+- 結論：攻擊者留在伺服器的只有 5 個靜態檔，程式碼與資料庫未被植入。
+
 ### 待辦（依優先順序）
 
-- [ ] cPanel 終端機檢查殘留：`grep -rl "odongpubliara\|kiwkiw\|amphtml" <網站根目錄>`，應為零命中。
-- [ ] phpMyAdmin 檢查：`wp_posts.post_content` 與 `wp_options.option_value` 搜尋 `odongpubliara`、`workers.dev`、`amphtml`，應為零筆。
+- [x] cPanel 終端機檢查殘留（2026-09-21 完成，零命中）。
+- [x] 資料庫檢查（2026-09-21 完成，零筆）。
+- [ ] 從 cPanel WP Toolkit 移除 `.wp-toolkit_u` 快照；新站上線前關閉 `WP_DEBUG_LOG`（`wp-content/debug.log` 持續寫入）。
 - [ ] 到 https://abuse.cloudflare.com/ 檢舉 `odongpubliara.workers.dev`（類別 Phishing/Spam），附兩個網址與搜尋結果截圖。
 - [ ] GSC 移除 `yawiaden19@gmail.com` 的未使用權杖；Bing Webmaster Tools 檢查擁有者清單。
-- [ ] 最低限度加固（新站上線前維持）：刪除 CF7 Skins、Magic Embeds；更新 WP Social Widget；刪除從未登入的 `test1`、`test2`；更換 `adminR` 與 cPanel 密碼；向 Roger 確認 2026-04-29 06:38 的 adminR 登入；Wordfence 設每日掃描與 email 通知。
+- [ ] 最低限度加固（新站上線前維持）：刪除 CF7 Skins、Magic Embeds；更新 WP Social Widget；~~刪除 `test1`、`test2`~~（已完成）；更換 `adminR` 與 cPanel 密碼；向 Roger 確認 2026-04-29 06:38 的 adminR 登入；Wordfence 設每日掃描與 email 通知。
 - [ ] 一週後覆核：GSC AMP 報表為 0、`site:rsg.com.tw gacor` 無結果、「網頁」報表的「已檢索但尚未建立索引 (1,372)」與「noindex (2,150)」抽查無垃圾網址。
 - [ ] 主站改以程式碼重建（見 `rsg-export/`），完成後切換，舊 WordPress 主站下線；`shop.rsg.com.tw` 不動。
 
@@ -149,7 +160,7 @@
 
 - [ ] 用一般瀏覽器 UA、Googlebot UA、`Accept: text/markdown` 三種方式請求 `/about` 與首頁，內容皆為關係花園正常頁面。
 - [ ] Wordfence 完整掃描零發現。
-- [ ] 全站 `grep` 垃圾關鍵字零命中。
+- [x] 全站 `grep` 垃圾關鍵字零命中（2026-09-21）。
 - [ ] Google Search Console「安全性問題」為空，`/about` 收錄標題恢復正常，「AMP」報表為 0。
 - [ ] 同帳號其他網站掃描完成且無發現。
 - [ ] 所有密碼與 salts 已更換，File Manager Advanced 已移除。
