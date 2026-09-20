@@ -1,7 +1,34 @@
 # rsg.com.tw 資安事件：博弈 SEO 垃圾頁植入 — 處理清單
 
 **發現日期**：2026-09-20
-**狀態**：待處理（本清單完成前，暫停 GEO/AEO 專案的切橘雲與 Worker 部署）
+**狀態**：處理中（2026-09-20 更新：垃圾檔已隔離、GSC 擁有權已收回、兩頁已要求重新索引；本清單完成前，暫停 GEO/AEO 專案的切橘雲與 Worker 部署）
+
+## 2026-09-20 處理進度與新發現
+
+### 已確認的事實
+
+- 垃圾內容來源是網站根目錄的兩個**靜態檔** `about` 與 `share`（2026-07-07 建立），蓋掉 WordPress 的同名路由；已移至 `/home/vaemarke/quarantine_rsg_20260920`。移除後 `/about` 正常 301 到 `/about-2`，`/share` 顯示真實頁面。
+- 攻擊者在 GSC 放的驗證檔 `google1ee0d0eef8e90efa.html`（2026-07-06）已一併隔離；對應的 `yawiaden19@gmail.com` 在 GSC 已降為「未使用的擁有權權杖」，可移除。`zell.huang@gmail.com` 為驗證擁有者，`zell.huang@vai-marketing.com` 已加為委派擁有者。
+- 2026-04-02 01:34:39 有一批 0 byte 的後門殘骸（推測被主機端防毒截斷），為最早的入侵痕跡。
+- Wordfence 高敏感度掃描：無惡意檔案；發現 Avada Builder 3.12.1（CVSS 9.8）、Avada Core 5.12.1、WP Social Widget 2.3.1、Avada Custom Branding 有已知漏洞，CF7 Skins 與 Magic Embeds 已從 wordpress.org 下架。**Avada Builder 9.8 漏洞是最可能的入侵點**；Avada 無授權紀錄，無法更新。
+- GSC「安全性問題」與「人工判決處罰」皆無；「移除網址」無任何要求；Cloudflare Email Routing 目的地皆為已知人員，Cloudflare 帳號未被動過。
+
+### 手法：AMP 劫持（AMP hijack）
+
+- 兩個靜態檔內含 `<link rel="amphtml" href="https://about-kw.odongpubliara.workers.dev/kiwkiw">`（`/share` 對應 `share-ktv.odongpubliara.workers.dev/kiwkiw`）。Google 將攻擊者的 Cloudflare Workers 頁面當成本站頁面的 AMP 版本收錄，搜尋結果點擊直接落到博弈站。
+- GSC「強化項目 → AMP」報表只有這 2 個網址，自 2026-07-07 起，**確認攻擊範圍僅 `/about` 與 `/share` 兩頁**。
+- 2026-09-21 即時測試：兩頁皆「可建立索引」，強化項目中已無 AMP 項目，已按「要求建立索引」。預期 3 到 14 天後 AMP 報表歸零、搜尋標題恢復。
+- `*.workers.dev` 是任何人可免費申請的子網域，**與關係花園自己的 Cloudflare 帳號無關**。
+
+### 待辦（依優先順序）
+
+- [ ] cPanel 終端機檢查殘留：`grep -rl "odongpubliara\|kiwkiw\|amphtml" <網站根目錄>`，應為零命中。
+- [ ] phpMyAdmin 檢查：`wp_posts.post_content` 與 `wp_options.option_value` 搜尋 `odongpubliara`、`workers.dev`、`amphtml`，應為零筆。
+- [ ] 到 https://abuse.cloudflare.com/ 檢舉 `odongpubliara.workers.dev`（類別 Phishing/Spam），附兩個網址與搜尋結果截圖。
+- [ ] GSC 移除 `yawiaden19@gmail.com` 的未使用權杖；Bing Webmaster Tools 檢查擁有者清單。
+- [ ] 最低限度加固（新站上線前維持）：刪除 CF7 Skins、Magic Embeds；更新 WP Social Widget；刪除從未登入的 `test1`、`test2`；更換 `adminR` 與 cPanel 密碼；向 Roger 確認 2026-04-29 06:38 的 adminR 登入；Wordfence 設每日掃描與 email 通知。
+- [ ] 一週後覆核：GSC AMP 報表為 0、`site:rsg.com.tw gacor` 無結果、「網頁」報表的「已檢索但尚未建立索引 (1,372)」與「noindex (2,150)」抽查無垃圾網址。
+- [ ] 主站改以程式碼重建（見 `rsg-export/`），完成後切換，舊 WordPress 主站下線；`shop.rsg.com.tw` 不動。
 
 ## 事件摘要
 
@@ -100,7 +127,9 @@
 
 - [ ] Google Search Console：
   - [ ] 「安全性問題」若有列出，清完後送出「要求審查」。
-  - [ ] 對 `/about` 使用「網址檢查」→「要求建立索引」；若清理需時，先用「移除」工具暫時隱藏 `/about`。
+  - [x] 對 `/about` 與 `/share` 使用「網址檢查」→「即時測試」確認無 AMP 項目後「要求建立索引」（2026-09-21 完成）。
+  - [ ] 「強化項目 → AMP」報表：等待 2 個攻擊者網址從報表消失。
+  - [x] Sitemap：已提交 `sitemap_index.xml`（2026-09-20）；靜態 `sitemap.xml` 待新站上線再移除。
   - [ ] 「網頁」報表檢查有無突然多出大量不明網址（垃圾頁常會生成上千個假網址）。
   - [ ] 「連結」報表檢查有無博弈網站的外部連結指向本站。
 - [ ] Bing Webmaster Tools 同上（ChatGPT 搜尋用 Bing 索引）。
@@ -121,7 +150,7 @@
 - [ ] 用一般瀏覽器 UA、Googlebot UA、`Accept: text/markdown` 三種方式請求 `/about` 與首頁，內容皆為關係花園正常頁面。
 - [ ] Wordfence 完整掃描零發現。
 - [ ] 全站 `grep` 垃圾關鍵字零命中。
-- [ ] Google Search Console「安全性問題」為空，`/about` 收錄標題恢復正常。
+- [ ] Google Search Console「安全性問題」為空，`/about` 收錄標題恢復正常，「AMP」報表為 0。
 - [ ] 同帳號其他網站掃描完成且無發現。
 - [ ] 所有密碼與 salts 已更換，File Manager Advanced 已移除。
 - [ ] GPTBot、ClaudeBot、PerplexityBot、bingbot 皆回 200。
