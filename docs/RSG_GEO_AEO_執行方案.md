@@ -11,7 +11,9 @@
 | 項目 | 現況 | 影響 |
 |---|---|---|
 | Cloudflare Proxy | 主站與 www、shop 皆為灰色雲（僅 DNS） | Cloudflare 任何邊緣功能對主站不生效；也代表 Cloudflare 沒有擋 AI 爬蟲 |
-| 灰雲原因 | 管理員回報過去橘雲時外掛功能受限 | 需釐清是哪些功能，多數可用設定解決（見 rsg-edge/README.md） |
+| 灰雲原因 | 管理員回報過去橘雲時外掛功能受限 | 外掛清單已取得（見 rsg-edge/README.md）；最可能的元兇是 Wordfence 未設定 Cloudflare IP 標頭，一個下拉選單可解 |
+| 主機 | A2 Hosting 新加坡，vae-marketing.com 帳號下的附加網域 | 台灣訪客跨海連線，橘雲的快取對速度有實質幫助，是對業主溝通的好理由 |
+| SEO / schema 外掛 | Rank Math SEO 與 Schema & Structured Data 並存 | 需確認是否重複輸出 Organization；重複會讓 AI 整組丟棄 |
 | www / 非 www | 兩個版本都被索引 | 權重分散，AI 引用來源不一致 |
 | 網址結構 | `/archives/數字`、`/events/中文` | 不影響 AI 讀取，暫不處理 |
 | 結構化資料 | 未確認 | 需診斷（見 §4） |
@@ -63,11 +65,10 @@ Cloudflare 邊緣（Worker：rsg-edge）
 
 | 資訊 | 怎麼取得 | 用途 |
 |---|---|---|
-| 完整外掛清單（含版本、是否啟用） | 後台 → 工具 → 網站健康狀態 → 資訊 → 「複製網站資訊到剪貼簿」 | 判斷哪些外掛與 Cloudflare 衝突；同時看到主題、PHP、伺服器 |
-| 快取外掛 | 同上（WP Rocket / LiteSpeed Cache / W3TC / WP Super Cache） | 決定 Cloudflare 端快取規則，避免雙重快取 |
-| 安全外掛 | 同上（Wordfence / iThemes / All In One WP Security） | 決定是否需要還原真實 IP |
-| SEO 外掛與其 schema 設定 | 同上 + 後台 SEO 外掛「網站基本資料」頁截圖 | 決定 Organization schema 由外掛或 Worker 輸出 |
-| 是否有 WooCommerce | 同上 | shop 子網域是否也在同一個 WordPress |
+| ~~完整外掛清單~~ | 已取得（2026-09-20），見 rsg-edge/README.md | 30 個外掛全部啟用，無 WooCommerce，無專用快取外掛（僅 SiteGround 遺留的 Speed Optimizer） |
+| ~~安全外掛~~ | 已確認：Wordfence + Kadence Security Basic | Wordfence 需改 IP 來源為 CF-Connecting-IP |
+| SEO 外掛 schema 設定 | validator.schema.org 貼首頁網址，看是否出現兩個 Organization | Rank Math 與 Schema & Structured Data 二擇一 |
+| WP Mail SMTP 設定 | 後台 → WP Mail SMTP → 設定 第一頁截圖 | 決定 SPF 要 include 哪個服務（DMARC 觀察期後升級政策的依據） |
 | 當年切灰雲的具體症狀 | 直接問管理員 | 對照 §3 表格 |
 | 固定網址設定 | 後台 → 設定 → 固定網址 截圖 | 確認 `/ask/` 路徑沒有被 WordPress 占用 |
 
