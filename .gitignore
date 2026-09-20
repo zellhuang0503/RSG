@@ -51,3 +51,5 @@ rsg-export/out/
 rsg-site/node_modules/
 rsg-site/dist/
 rsg-site/.astro/
+# 上方 Python 區段的 lib/ 會誤殺 rsg-site/src/lib/，這裡把它加回來
+!rsg-site/src/lib/
