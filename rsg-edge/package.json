@@ -1,0 +1,17 @@
+{
+  "name": "rsg-edge",
+  "private": true,
+  "version": "0.1.0",
+  "description": "關係花園 rsg.com.tw 的 Cloudflare Worker（子目錄學習指南 + llms.txt + robots + Organization schema）",
+  "scripts": {
+    "build": "node ../rsg-ask/build.js",
+    "build:drafts": "node ../rsg-ask/build.js --drafts",
+    "build:subdomain": "SITE_URL=https://ask.rsg.com.tw BASE_PATH= node ../rsg-ask/build.js",
+    "preview": "npm run build:drafts && wrangler dev",
+    "deploy:subdir": "npm run build && wrangler deploy --env subdir",
+    "deploy:subdomain": "npm run build:subdomain && wrangler deploy --env subdomain"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  // Cloudflare Worker 設定。部署前請先執行 `npm run build` 產生 ../rsg-ask/dist
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rsg-edge",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "../rsg-ask/dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "vars": {
+    "DEPLOY_MODE": "subdir",
+    // 等診斷確認 WordPress 沒有輸出 Organization schema 後再改成 "true"
+    "INJECT_ORG_SCHEMA": "false"
+  },
+  "env": {
+    // 模式一：主站橘色雲，Worker 掛在主網域路由（需先開 Proxy）
+    // 部署：npm run deploy:subdir
+    "subdir": {
+      "vars": { "DEPLOY_MODE": "subdir", "INJECT_ORG_SCHEMA": "false" },
+      "routes": [
+        { "pattern": "rsg.com.tw/*", "zone_name": "rsg.com.tw" },
+        { "pattern": "www.rsg.com.tw/*", "zone_name": "rsg.com.tw" }
+      ]
+    },
+    // 模式二：主站維持灰色雲，只在 ask.rsg.com.tw 上線
+    // 部署：npm run deploy:subdomain（會自動建立 ask.rsg.com.tw 的 DNS 記錄）
+    "subdomain": {
+      "vars": { "DEPLOY_MODE": "subdomain", "INJECT_ORG_SCHEMA": "false" },
+      "routes": [
+        { "pattern": "ask.rsg.com.tw", "custom_domain": true }
+      ]
+    }
+  }
+}

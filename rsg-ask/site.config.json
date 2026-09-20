@@ -1,0 +1,26 @@
+{
+  "siteName": "關係花園 Relationship Garden",
+  "siteUrl": "https://rsg.com.tw",
+  "basePath": "/ask",
+  "sectionTitle": "關係花園 學習指南",
+  "sectionDescription": "關於系統排列、內在小孩、覺知與關係成長課程的常見問題與解答。由關係花園整理，內容引用講師公開文字與課程資訊。",
+  "language": "zh-Hant-TW",
+  "organization": {
+    "name": "關係花園 Relationship Garden",
+    "alternateName": "關係花園",
+    "url": "https://rsg.com.tw/",
+    "logo": "https://rsg.com.tw/ask/assets/logo.png",
+    "foundingDate": "2005",
+    "description": "關係花園成立於 2005 年，以「關係」為核心，透過工作坊、課程與一對一諮詢，陪伴學員向內探索思想、情緒、感受、信念與模式，並在日常生活中落地實踐。",
+    "areaServed": ["TW", "MY", "SG", "CN"],
+    "sameAs": [
+      "https://www.facebook.com/rsg.garden/",
+      "https://shop.rsg.com.tw/"
+    ],
+    "founders": [
+      { "name": "林慧卿", "jobTitle": "關係花園 創辦講師", "url": "https://rsg.com.tw/about" },
+      { "name": "高曉瑩", "jobTitle": "關係花園 創辦講師", "url": "https://rsg.com.tw/about" }
+    ]
+  },
+  "publisherNote": "本頁由關係花園學習指南整理。定義類內容為一般性知識說明，並非醫療或心理治療建議。"
+}
