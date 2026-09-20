@@ -1,0 +1,6 @@
+# 關係花園 rsg.com.tw
+User-agent: *
+Allow: /
+Disallow: /search
+
+Sitemap: https://rsg.com.tw/sitemap-index.xml

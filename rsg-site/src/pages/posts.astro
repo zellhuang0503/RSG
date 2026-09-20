@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import { getPosts, paginate } from '../lib/content';
+import { site } from '../site';
+const page = paginate(await getPosts(), 1, site.postsPerPage);
+---
+<Base title="文章" description={`${site.shortName}的課程紀錄、學員分享與生命探索文章。`} path="/posts" breadcrumbs={[{ name: '文章', path: '/posts' }]}>
+  <PostList title="文章" posts={page.items} current={page.current} totalPages={page.totalPages} total={page.total} base="/posts" />
+</Base>

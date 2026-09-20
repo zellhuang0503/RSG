@@ -53,6 +53,7 @@ python show_export_stats.py
 - **`docs/RSG_GEO_AEO_執行方案.md`** - 整體方案、橘雲/灰雲決策、站外實體清單、成效衡量、時程
 - **`rsg-ask/`** - 問答站內容與零相依建置腳本（`node build.js --drafts` 預覽）
 - **`rsg-export/`** - 官網內容匯出工具（REST API → Markdown、媒體、301 對照表底稿），主站程式碼重建的第一步
+- **`rsg-site/`** - **新主站**（Astro 靜態站，取代 WordPress；商店不動）。內容為 Markdown，部署在 Cloudflare Pages，舊網址全部維持。使用方式見 `rsg-site/README.md`
 - **`rsg-edge/`** - Cloudflare Worker 與部署手冊（子目錄 / 子網域兩種模式）
 
 ---

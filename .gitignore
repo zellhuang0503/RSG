@@ -46,3 +46,8 @@ Thumbs.db
 
 # rsg-export 匯出資料（大量圖片與原站內容，不進版控）
 rsg-export/out/
+
+# rsg-site（Astro 新站）
+rsg-site/node_modules/
+rsg-site/dist/
+rsg-site/.astro/

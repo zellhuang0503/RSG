@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PostCard from './PostCard.astro';
+import Pagination from './Pagination.astro';
+interface Props {
+  title: string;
+  description?: string;
+  posts: CollectionEntry<'posts'>[];
+  current: number;
+  totalPages: number;
+  total: number;
+  base: string;
+}
+const { title, description, posts, current, totalPages, total, base } = Astro.props;
+---
+<div class="container">
+  <header class="list-head">
+    <h1>{title}</h1>
+    {description && <p class="muted">{description}</p>}
+    <p class="muted">共 {total} 篇{totalPages > 1 && `，第 ${current} / ${totalPages} 頁`}</p>
+  </header>
+  {posts.length ? (
+    <div class="grid">{posts.map((p) => <PostCard post={p} />)}</div>
+  ) : (
+    <p class="muted">目前還沒有文章。</p>
+  )}
+  <Pagination current={current} totalPages={totalPages} base={base} />
+</div>

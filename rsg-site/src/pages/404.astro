@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="找不到頁面" path="/404" noindex={true} searchable={false}>
+  <div class="container notfound">
+    <h1>找不到這個頁面</h1>
+    <p class="muted">網址可能已經變更或輸入有誤。</p>
+    <p><a class="btn" href="/">回首頁</a> <a class="btn" href="/search">搜尋全站</a></p>
+  </div>
+</Base>
