@@ -7,6 +7,7 @@
     "build": "node ../rsg-ask/build.js",
     "build:drafts": "node ../rsg-ask/build.js --drafts",
     "build:subdomain": "SITE_URL=https://ask.rsg.com.tw BASE_PATH= node ../rsg-ask/build.js",
+    "build:subdomain:preview": "SITE_URL=https://ask.rsg.com.tw BASE_PATH= INCLUDE_DRAFTS=1 node ../rsg-ask/build.js",
     "preview": "npm run build:drafts && wrangler dev",
     "deploy:subdir": "npm run build && wrangler deploy --env subdir",
     "deploy:subdomain": "npm run build:subdomain && wrangler deploy --env subdomain"

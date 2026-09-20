@@ -23,6 +23,19 @@ npx wrangler login
 
 ## 模式二：子網域（可以今天就上線）
 
+### 自動部署（建議，設定一次即可）
+
+`.github/workflows/deploy-ask.yml` 會在 main 分支的 `rsg-ask/` 或 `rsg-edge/` 有變動時自動建置並部署到 ask.rsg.com.tw。只需一次性設定兩個 GitHub Secrets：
+
+1. **建立 Cloudflare API Token**：Cloudflare 儀表板右上角頭像 → 我的設定檔 → API 權杖 → 建立權杖 → 使用「編輯 Cloudflare Workers」範本，然後在「區域資源」加上 rsg.com.tw，並在權限補一項 **區域 → DNS → 編輯**（自訂網域 ask.rsg.com.tw 需要它建 DNS 記錄）。帳戶資源選您的帳戶。建立後複製權杖。
+2. **取得帳戶 ID**：Cloudflare 選 rsg.com.tw 後，概觀頁右側「帳戶 ID」。
+3. **存進 GitHub**：repo → Settings → Secrets and variables → Actions → New repository secret，分別新增 `CLOUDFLARE_API_TOKEN` 與 `CLOUDFLARE_ACCOUNT_ID`。權杖只貼在這裡，不要貼在任何對話或文件中。
+4. 到 repo 的 Actions 分頁，選「Deploy ask.rsg.com.tw」→ Run workflow 手動跑第一次。成功後 ask.rsg.com.tw 即上線。
+
+自動部署使用預覽建置（`build:subdomain:preview`）：所有 status 為 draft / review 的頁面也會上線，但帶 `noindex` 且不進 sitemap，方便業主看實際網頁；只有 `approved` 的頁面會被收錄。
+
+### 手動部署
+
 ```bash
 npm run deploy:subdomain
 ```

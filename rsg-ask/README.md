@@ -55,6 +55,20 @@ related:                            # 相關問題的 slug
 3. **業主回覆方式**：直接在預覽頁截圖圈選，或回覆「第 N 題：OK / 刪除 / 改成 ___」。梵亞改完把 `status` 改成 `approved`。
 4. **紅線**：不改寫官網任何既有文字；學員心得逐字引用並標明出處；不做醫療宣稱。
 
+## 上線狀態流程
+
+| status | 建置（正式） | 建置（預覽 / CI） | 收錄 |
+|---|---|---|---|
+| draft | 不輸出 | 輸出，帶「DRAFT」徽章與 noindex | 否 |
+| review | 不輸出 | 輸出，帶「REVIEW」徽章與 noindex | 否 |
+| approved | 輸出 | 輸出 | 是，進 sitemap 與 llms.txt |
+
+CI（`.github/workflows/deploy-ask.yml`）使用預覽建置，所以 ask.rsg.com.tw 上看得到全部頁面，但搜尋引擎與 AI 只會收錄 approved 的。
+
+**審核分工**：
+- 觀念解說（definition）6 題與如何選擇（choice）4 題為一般性知識，以梵亞整理名義發布，附學術與書籍來源，**由黃老闆審核後改為 approved**。
+- 關於關係花園（brand）6 題與課程介紹（course）5 題含業主事實資料，**需業主填寫 `【待業主確認】` 並審核**。
+
 ## 內容規劃（第一批 21 題）
 
 | 類別 | 題數 | 說明 |
