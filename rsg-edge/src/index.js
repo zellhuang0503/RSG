@@ -15,7 +15,8 @@
  */
 import site from "../../rsg-ask/site.config.json";
 
-const PASSTHROUGH_PREFIXES = ["/wp-admin", "/wp-login.php", "/wp-json", "/wp-cron.php", "/xmlrpc.php", "/wp-content", "/wp-includes"];
+// /.well-known/ 必須直通：cPanel AutoSSL（Let's Encrypt）續約靠 /.well-known/acme-challenge/ 驗證
+const PASSTHROUGH_PREFIXES = ["/.well-known", "/wp-admin", "/wp-login.php", "/wp-json", "/wp-cron.php", "/xmlrpc.php", "/wp-content", "/wp-includes"];
 
 function orgJsonLd() {
   const o = site.organization;
@@ -53,6 +54,9 @@ async function handleSubdir(request, env) {
   }
 
   const p = url.pathname;
+
+  // 1b. 憑證驗證與 WordPress 系統路徑：完全不處理，直接給原站
+  if (PASSTHROUGH_PREFIXES.some((x) => p.startsWith(x))) return fetch(request);
 
   // 2. 子目錄站與 llms.txt：由靜態資產回應
   if (p === "/llms.txt" || p === base || p.startsWith(base + "/")) {
