@@ -2,7 +2,7 @@
 title: 靜心是什麼？和冥想有什麼不同？
 slug: what-is-meditation
 category: definition
-status: review
+status: approved
 updated: 2026-09-20
 summary: 靜心與冥想在中文語境裡經常互通，都指讓心安定下來、觀照當下的練習。若要細分，「冥想」較常用於翻譯英文的 meditation，涵蓋各種傳統與方法；「靜心」則更常見於身心靈與成長課程，強調安靜地與自己同在的狀態本身。兩者的重點都不在姿勢或形式，而在專注與覺察。
 faq:

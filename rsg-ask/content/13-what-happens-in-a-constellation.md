@@ -2,7 +2,7 @@
 title: 系統排列的過程會發生什麼事？
 slug: what-happens-in-a-constellation
 category: definition
-status: review
+status: approved
 updated: 2026-09-20
 summary: 一次系統排列通常經過四個階段：當事人簡短提出議題、帶領者邀請其他參與者擔任代表並站到空間中、代表依當下的感受移動與表達、最後由帶領者引導出一個讓系統回到平衡的畫面。單一議題的排列大約 30 到 90 分鐘，過程中當事人多半是觀看與感受，而不是不斷說話。
 faq:

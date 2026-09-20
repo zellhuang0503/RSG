@@ -2,7 +2,7 @@
 title: 參加工作坊之前需要準備什麼？
 slug: what-to-prepare
 category: choice
-status: review
+status: approved
 updated: 2026-09-20
 summary: 參加工作坊不需要準備知識或經驗，實務上只要穿著舒適、預留完整的時間、帶著開放的心即可。若當天可能排列或深入處理個人議題，建議前後不要安排太緊湊的行程，讓自己有沉澱的空間。各場次的具體注意事項以活動頁公告為準。
 faq:
