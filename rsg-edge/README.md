@@ -95,14 +95,42 @@ curl -s https://rsg.com.tw/llms.txt
 - 其他 → 原封不動轉給 WordPress；`/.well-known/`、`/wp-admin`、`/wp-json`、非 GET 一律不處理。
 - 任何例外 → 直接透傳原站，Worker 出錯不會讓官網掛掉。
 
-## 主機現況（2026-09-20 自 A2 Hosting cPanel 確認）
+## 主機與 WordPress 現況（2026-09-20 確認）
 
-- 主機：A2 Hosting 新加坡機房（sg1-cl8-ats1），rsg.com.tw 為 vae-marketing.com 帳號下的附加網域。
+- 主機：A2 Hosting 新加坡機房（sg1-cl8-ats1），rsg.com.tw 為 vae-marketing.com 帳號下的附加網域，同帳號另有 21 個網站。
 - 憑證：rsg.com.tw、www、shop 皆為 AutoSSL（Let's Encrypt）綠色鎖，10 月 20 / 23 日自動續約。切橘雲後第一次續約要回頭確認；若失敗，改用 Cloudflare Origin CA 憑證（15 年）。
+- WordPress 6.8.9（已於 9/20 由 6.8.8 升級）、PHP 8.3。暫不升 7.x，需先確認 Avada 相容。
 - 主題：Avada 7.12.1（待更新 7.16.1）。已知 Rocket Loader 會打壞 Avada 的 JS，務必關閉。
-- 已見外掛：Avada Builder、Avada Core、Avada Custom Branding、Magic Embeds、WP Social Widget（清單下半段待補）。
-- WordPress 6.8.8，建議先升 6.8.9（安全性小版本），暫不升 7.x。
 - 已處理：關閉 WP 除錯模式、開啟主機接管 wp-cron。
+- cPanel WP Toolkit 的「智能更新」在此帳號會因複製失敗而無法使用（磁碟空間），更新請關閉智能更新直接執行。
+
+### 外掛清單（30 個，全部啟用）與橘雲相容性
+
+| 外掛 | 用途 | 橘雲影響 / 備註 |
+|---|---|---|
+| **Wordfence Security** 9.0.1 | 防火牆 | **必改**：所有選項 → 「Wordfence 如何取得 IP」改為 Cloudflare `CF-Connecting-IP`，否則會封鎖 Cloudflare IP 造成全站無法訪問 |
+| Kadence Security Basic 10.0.4 | 安全 | 與 Wordfence 重複，建議停用（管理員決定） |
+| Speed Optimizer 7.8.2 | SiteGround 專用快取 | 主機是 A2，屬搬家遺留，建議停用；若保留，橘雲後關閉其 HTML/CSS/JS 壓縮 |
+| **Rank Math SEO** 1.0.278 | SEO / schema | Organization schema 由此輸出，Worker 的 `INJECT_ORG_SCHEMA` 維持 false |
+| **Schema & Structured Data for WP & AMP** 1.66 | schema | 與 Rank Math 重複輸出風險，需用 validator.schema.org 確認；二擇一 |
+| Site Kit by Google | GSC / GA | 成效衡量用，保留 |
+| The Events Calendar 6.17.5 | 活動日曆 | 自動輸出 Event schema，保留 |
+| Contact Form 7 + CF7 Apps + CF7 Skins | 表單 | 通知信經 WP Mail SMTP 寄出；橘雲後測試表單送出 |
+| WP Mail SMTP 4.9.0 | 寄信 | 決定 SPF 需 include 的服務（設定待確認） |
+| Elementor 4.2.4 | 頁面編輯器 | 與 Avada 並存；橘雲後關 Rocket Loader、Auto Minify 即可 |
+| Avada Builder / Core / Custom Branding | 主題配套 | 同上 |
+| Smart Slider 3 | 滑塊 | Rocket Loader 關閉後無影響 |
+| Embed Plus for YouTube、Magic Embeds | 嵌入 | 無影響 |
+| UpdraftPlus、WPvivid Backup | 備份 | 重複，建議留一套 |
+| Classic Editor、Classic Widgets、Advanced Editor Tools、Admin Menu Editor、Duplicate Page、File Manager Advanced、TablePress、Tag Groups、ThumbPress、WP Social Widget | 後台與內容工具 | 無影響 |
+
+### 橘雲前置檢查清單（針對本站）
+
+1. Wordfence 的 IP 來源改為 `CF-Connecting-IP`（切橘雲前先改，改了在灰雲下也不影響）。
+2. Cloudflare 關閉 Rocket Loader、Auto Minify、Email Obfuscation、Bot Fight Mode、Browser Integrity Check。
+3. SSL/TLS 設 Full (strict)，Always Use HTTPS 開啟。
+4. Cache Rules：`/wp-admin`、`/wp-login.php`、`/wp-json`、`/.well-known/`、登入 cookie → Bypass。
+5. 切橘雲後測試：首頁、課程頁、活動日曆、聯絡表單送出、後台登入、Elementor 編輯一頁不儲存。
 
 ## 免費方案配額
 
