@@ -126,6 +126,7 @@ curl -s https://rsg.com.tw/llms.txt
 
 ### 橘雲前置檢查清單（針對本站）
 
+0. **先完成 [資安事件處理清單](../docs/RSG_資安事件_博弈垃圾頁處理清單.md) 的第 6 階段驗收**。2026-09-20 發現 `/about` 被植入博弈垃圾頁且已被 Google 收錄，清理前不切橘雲、不部署 Worker。
 1. Wordfence 的 IP 來源改為 `CF-Connecting-IP`（切橘雲前先改，改了在灰雲下也不影響）。
 2. Cloudflare 關閉 Rocket Loader、Auto Minify、Email Obfuscation、Bot Fight Mode、Browser Integrity Check。
 3. SSL/TLS 設 Full (strict)，Always Use HTTPS 開啟。
