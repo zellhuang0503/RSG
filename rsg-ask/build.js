@@ -14,6 +14,7 @@
  *   node build.js            只輸出 status: approved 的頁面
  *   node build.js --drafts   連 draft / review 一起輸出（預覽用，未定稿頁會加 noindex 且不進 sitemap）
  *   SITE_URL=https://ask.rsg.com.tw BASE_PATH= node build.js   子網域模式（見 rsg-edge/README.md）
+ *   INCLUDE_DRAFTS=1 等同 --drafts（CI 用）
  */
 const fs = require("fs");
 const path = require("path");
@@ -21,7 +22,7 @@ const path = require("path");
 const ROOT = __dirname;
 const CONTENT_DIR = path.join(ROOT, "content");
 const DIST = path.join(ROOT, "dist");
-const INCLUDE_DRAFTS = process.argv.includes("--drafts");
+const INCLUDE_DRAFTS = process.argv.includes("--drafts") || process.env.INCLUDE_DRAFTS === "1";
 const site = JSON.parse(fs.readFileSync(path.join(ROOT, "site.config.json"), "utf8"));
 // 子網域模式可用環境變數覆寫：SITE_URL=https://ask.rsg.com.tw BASE_PATH= node build.js
 if (process.env.SITE_URL) site.siteUrl = process.env.SITE_URL.replace(/\/$/, "");
