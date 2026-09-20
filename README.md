@@ -52,6 +52,7 @@ python show_export_stats.py
 - **`docs/RSG_資安事件_博弈垃圾頁處理清單.md`** - 2026-09-20 發現 `/about` 被植入博弈垃圾頁的處理清單；清理驗收通過前暫停切橘雲與部署
 - **`docs/RSG_GEO_AEO_執行方案.md`** - 整體方案、橘雲/灰雲決策、站外實體清單、成效衡量、時程
 - **`rsg-ask/`** - 問答站內容與零相依建置腳本（`node build.js --drafts` 預覽）
+- **`rsg-export/`** - 官網內容匯出工具（REST API → Markdown、媒體、301 對照表底稿），主站程式碼重建的第一步
 - **`rsg-edge/`** - Cloudflare Worker 與部署手冊（子目錄 / 子網域兩種模式）
 
 ---
