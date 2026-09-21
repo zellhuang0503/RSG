@@ -15,3 +15,12 @@ https://www.rsg.com.tw/*  https://rsg.com.tw/:splat  301
 
 # 舊站的會員登入連結：主站已無後台，導向商店的登入頁（wp-admin/* 不設規則，直接 404）
 /wp-login.php  https://shop.rsg.com.tw/wp-login.php  302
+
+# ---- 以下由 scripts/import-export.mjs 依 content/urls.csv 的 new_path 產生 ----
+/課程行事曆  /events  301
+/3752-2  /  301
+/membership-login/password-reset  https://shop.rsg.com.tw/  301
+/membership-login/membership-profile  https://shop.rsg.com.tw/  301
+/membership-login  https://shop.rsg.com.tw/  301
+/membership-join/membership-registration  https://shop.rsg.com.tw/  301
+/membership-join  https://shop.rsg.com.tw/  301

@@ -79,7 +79,7 @@ npm run preview    # 用建置結果起本機伺服器（網址行為與正式�
 |---|---|
 | `/`、`/about-2`、`/archives/6311`、`/events/xxx` … | `content/**` 每個檔案的 `original_path` |
 | `/posts`、`/posts/2` … | 文章清單與分頁 |
-| `/category/<slug>`、`/tag/<slug>` | 分類與標籤（slug 來自 `taxonomy.json`） |
+| `/archives/category/<名稱>`、`/archives/tag/<名稱>` | 分類與標籤，與舊站網址相同 |
 | `/events` | 活動清單（即將舉辦 + 過往） |
 | `/search` | 站內搜尋（Pagefind，build 時產生索引） |
 | `/feed.xml`、`/sitemap-index.xml`、`/llms.txt`、`/robots.txt` | 自動產生 |

@@ -7,7 +7,7 @@ export type AnyEntry = CollectionEntry<'pages'> | CollectionEntry<'posts'> | Col
 // 這些路徑由專屬頁面產生（首頁、清單、搜尋…），舊站若有同路徑的內容會被跳過並在建置時提示。
 // 注意 /events/xxx 與 /posts/xxx 是內容頁的合法路徑，只有清單頁本身與分頁（/posts/2）保留。
 export const RESERVED_EXACT = ['/', '/posts', '/events', '/search', '/404', '/feed.xml', '/llms.txt', '/robots.txt'];
-export const RESERVED_PREFIXES = ['/category/', '/tag/', '/pagefind/', '/_astro/'];
+export const RESERVED_PREFIXES = ['/archives/category/', '/archives/tag/', '/pagefind/', '/_astro/'];
 
 export function isReserved(path: string) {
   return RESERVED_EXACT.includes(path) || RESERVED_PREFIXES.some((p) => path.startsWith(p)) || /^\/posts\/\d+$/.test(path);
@@ -81,7 +81,8 @@ export function termSlug(kind: 'category' | 'tag', name: string) {
 }
 
 export function termHref(kind: 'category' | 'tag', name: string) {
-  return `/${kind}/${encodeURIComponent(termSlug(kind, name))}`;
+  // 舊站的分類網址是 /archives/category/<名稱>，標籤是 /archives/tag/<名稱>，維持不變
+  return `/archives/${kind}/${encodeURIComponent(termSlug(kind, name))}`;
 }
 
 export function termDescription(kind: 'category' | 'tag', name: string) {
@@ -140,9 +141,30 @@ export function stripMarkdown(md: string) {
     .trim();
 }
 
+/** WordPress 摘要常帶 HTML 實體與「…read more」尾巴，清掉；太短就改用內文 */
+export function cleanExcerpt(s: string) {
+  return s
+    .replace(/&#8230;|&hellip;/g, '…')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&#039;/g, "'")
+    .replace(/…?\s*read more\s*$/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 export function summaryOf(entry: AnyEntry, max = 120) {
-  const d = entry.data.description || entry.data.excerpt || stripMarkdown(entry.body ?? '');
+  const ex = cleanExcerpt(entry.data.excerpt || '');
+  const d = entry.data.description || (ex.length >= 20 ? ex : stripMarkdown(entry.body ?? ''));
   return d.length > max ? d.slice(0, max).trimEnd() + '…' : d;
+}
+
+/** 卡片縮圖：精選圖優先，沒有就抓內文第一張 /media 圖片 */
+export function thumbnailOf(entry: AnyEntry): string {
+  if (entry.data.featured_image) return entry.data.featured_image;
+  const m = (entry.body ?? '').match(/!\[[^\]]*\]\((\/media\/[^)\s"]+)/);
+  return m ? m[1] : '';
 }
 
 export function paginate<T>(items: T[], page: number, perPage: number) {
