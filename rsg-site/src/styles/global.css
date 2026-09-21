@@ -1,9 +1,9 @@
 /* 關係花園主站樣式。色彩取自 logo 的紫與青，字體用 Noto Serif TC（標題）與 Noto Sans TC（內文）。 */
 :root {
   color-scheme: light;
-  --bg: #fbf9f4;
-  --bg-elev: #ffffff;
-  --bg-soft: #f2eee6;
+  --bg: #ffffff;            /* 舊站底色：純白（老師選的） */
+  --bg-elev: #f6fcfd;       /* 卡片：帶一點淺淺的藍白 */
+  --bg-soft: #eef7f9;
   --text: #2b2f3f;
   --text-muted: #6b6f80;
   --heading: #2f3a6b;
@@ -12,7 +12,7 @@
   --accent: #37b8c8;
   --accent-soft: #e4f7fa;
   --sky: #9ee9f2;
-  --line: #e4dfd4;
+  --line: #dcecf0;
   --link: #533c83;
   --radius: 14px;
   --shadow: 0 1px 2px rgba(43, 47, 63, 0.06), 0 8px 24px rgba(43, 47, 63, 0.06);
@@ -46,8 +46,25 @@ p { margin: 0 0 1.1em; }
 .muted { color: var(--text-muted); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
+/* ---------- 頁首（照舊站：logo 置中、淺藍選單列） ---------- */
+.site-header.classic { position: static; background: #fff; backdrop-filter: none; border-bottom: 0; }
+.site-header.classic .brand-row { display: flex; justify-content: center; align-items: center; padding: 18px 0 14px; position: relative; }
+.site-header.classic .brand img { height: 72px; width: auto; }
+.site-header.classic .menubar { background: var(--sky); }
+.site-header.classic .menubar .nav { justify-content: center; gap: 8px; min-height: 60px; }
+.site-header.classic .menubar .nav > a, .site-header.classic .menubar .nav-item > a { font-size: 1.05rem; color: var(--heading); padding: 10px 16px; border-radius: 0; border-bottom: 3px solid transparent; }
+.site-header.classic .menubar .nav > a:hover, .site-header.classic .menubar .nav > a[aria-current="page"], .site-header.classic .menubar .nav-item > a:hover, .site-header.classic .menubar .nav-item > a[aria-current="page"] { background: transparent; color: #c2643a; border-bottom-color: #c2643a; }
+.site-header.classic .submenu a { border-bottom: 0; }
+@media (max-width: 800px) {
+  .site-header.classic .brand-row { justify-content: space-between; padding: 10px 0; }
+  .site-header.classic .brand img { height: 52px; }
+  .site-header.classic .nav-toggle-label { display: block; }
+  .site-header.classic .menubar { background: transparent; }
+  .site-header.classic .menubar .nav { min-height: 0; }
+  .site-header.classic .nav-toggle:checked ~ .menubar .nav, .site-header.classic:has(.nav-toggle:checked) .menubar .nav { display: flex; }
+}
 /* ---------- 頁首 ---------- */
-.site-header { position: sticky; top: 0; z-index: 20; background: rgba(251, 249, 244, 0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-header { position: sticky; top: 0; z-index: 20; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .site-header .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--heading); }
 .brand img { height: 48px; width: auto; }
