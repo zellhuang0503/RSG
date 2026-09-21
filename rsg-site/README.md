@@ -114,6 +114,19 @@ status: "publish"                                 # draft 不會出現在網站�
 
 選單在 `src/site.ts` 的 `nav`。logo 放到 `public/`，路徑填在 `site.logo`。
 
+### 首頁輪播
+
+把圖片放進 `public/banners/`，依檔名排序自動變成首頁輪播（建議 `01.jpg`、`02.jpg`…，寬 1920px、高 800 到 1000px，每張壓到 300 KB 以下）。每張的文案與連結在 `content/banners.json` 填：
+
+```json
+[
+  { "file": "01.jpg", "title": "生命覺醒之花", "subtitle": "二十年的耕耘深植，只為此刻的綻放與覺醒。" },
+  { "file": "02.jpg", "title": "生命藍圖工作坊", "subtitle": "活出最高版本的自己", "href": "/archives/7554" }
+]
+```
+
+沒填文案的圖會用 `src/site.ts` 的 `heroTitle`、`heroSubtitle`。資料夾是空的時候，首頁用 `site.heroImage` 單張圖。
+
 ## 部署到 Cloudflare Pages（免費）
 
 1. Cloudflare 儀表板 → Workers & Pages → Create → Pages → **Connect to Git**，選這個 repo。

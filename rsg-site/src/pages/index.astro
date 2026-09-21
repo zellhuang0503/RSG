@@ -6,23 +6,77 @@ import EventCard from '../components/EventCard.astro';
 import { getPosts, getEvents, getHomePage, isUpcoming } from '../lib/content';
 import { site } from '../site';
 
+import fs from 'node:fs';
+import path from 'node:path';
+
+// 首頁輪播：public/banners/ 裡的圖片依檔名排序自動成為輪播；
+// 可選的 content/banners.json 提供每張的文案 [{ file, title, subtitle, href }]
+const bannerDir = path.resolve('public/banners');
+const bannerFiles = fs.existsSync(bannerDir)
+  ? fs.readdirSync(bannerDir).filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f)).sort((a, b) => a.localeCompare(b, 'zh-Hant', { numeric: true }))
+  : [];
+const captionFile = path.resolve('content/banners.json');
+const captions: { file: string; title?: string; subtitle?: string; href?: string }[] = fs.existsSync(captionFile) ? JSON.parse(fs.readFileSync(captionFile, 'utf8')) : [];
+const slides = bannerFiles.length
+  ? bannerFiles.map((f) => {
+      const c = captions.find((x) => x.file === f) ?? {};
+      return { src: `/banners/${encodeURIComponent(f)}`, title: c.title ?? site.heroTitle, subtitle: c.subtitle ?? site.heroSubtitle, href: c.href };
+    })
+  : [{ src: site.heroImage, title: site.heroTitle, subtitle: site.heroSubtitle, href: undefined }];
+
 const posts = (await getPosts()).slice(0, site.homeLatestPosts);
 const upcoming = (await getEvents()).filter((e) => isUpcoming(e)).reverse().slice(0, site.homeUpcomingEvents);
 const home = await getHomePage();
 const HomeContent = home ? (await render(home)).Content : null;
 ---
-<Base title={site.name} path="/" image={site.heroImage}>
-  <section class="hero with-image" style={`background-image: url('${site.heroImage}')`}>
-    <div class="container">
-      <h1>{site.heroTitle}</h1>
-      <p class="lead">{site.heroSubtitle}</p>
-      <div class="cta">
-        <a class="btn primary" href="/events">近期課程與工作坊</a>
-        <a class="btn" href="/about-2">認識關係花園</a>
-        <a class="btn" href="https://shop.rsg.com.tw/" target="_blank" rel="noopener">能量商店</a>
+<Base title={site.name} path="/" image={slides[0].src}>
+  <section class="hero slider" aria-roledescription="輪播" aria-label="首頁主視覺">
+    {slides.map((sl, i) => (
+      <div class="slide" class:list={[{ active: i === 0 }]} style={`background-image: url('${sl.src}')`} aria-hidden={i === 0 ? 'false' : 'true'}>
+        <div class="container">
+          {i === 0 ? <h1>{sl.title}</h1> : <p class="h1">{sl.title}</p>}
+          {sl.subtitle && <p class="lead">{sl.subtitle}</p>}
+          <div class="cta">
+            {sl.href ? <a class="btn primary" href={sl.href}>了解更多</a> : <a class="btn primary" href="/events">近期課程與工作坊</a>}
+            <a class="btn" href="/about-2">認識關係花園</a>
+            <a class="btn" href="https://shop.rsg.com.tw/" target="_blank" rel="noopener">能量商店</a>
+          </div>
+        </div>
       </div>
-    </div>
+    ))}
+    {slides.length > 1 && (
+      <>
+        <button class="slider-btn prev" type="button" aria-label="上一張">‹</button>
+        <button class="slider-btn next" type="button" aria-label="下一張">›</button>
+        <div class="dots" role="tablist">{slides.map((_, i) => <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-label={`第 ${i + 1} 張`}></button>)}</div>
+      </>
+    )}
   </section>
+  {slides.length > 1 && (
+    <script is:inline>
+      (() => {
+        const root = document.querySelector('.hero.slider');
+        if (!root) return;
+        const slides = [...root.querySelectorAll('.slide')];
+        const dots = [...root.querySelectorAll('.dots button')];
+        let i = 0, timer;
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const show = (n) => {
+          i = (n + slides.length) % slides.length;
+          slides.forEach((s, k) => { s.classList.toggle('active', k === i); s.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
+          dots.forEach((d, k) => d.setAttribute('aria-selected', k === i ? 'true' : 'false'));
+        };
+        const play = () => { if (!reduce) timer = setInterval(() => show(i + 1), 6000); };
+        const stop = () => clearInterval(timer);
+        root.querySelector('.prev').addEventListener('click', () => { stop(); show(i - 1); play(); });
+        root.querySelector('.next').addEventListener('click', () => { stop(); show(i + 1); play(); });
+        dots.forEach((d, k) => d.addEventListener('click', () => { stop(); show(k); play(); }));
+        root.addEventListener('mouseenter', stop);
+        root.addEventListener('mouseleave', play);
+        play();
+      })();
+    </script>
+  )}
 
   {upcoming.length > 0 && (
     <section class="section">
