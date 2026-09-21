@@ -69,7 +69,7 @@ npm run preview    # 用建置結果起本機伺服器（網址行為與正式�
 
 3. `npm run dev` 逐頁檢查。用 Avada Builder 排版的頁面（首頁、關於、課程介紹）轉成 Markdown 後只剩文字與圖片，需要對照 `rsg-export/out/raw/pages/<id>.html` 重新排版；一般文章通常不用改。
 
-4. 圖片如果超過幾百 MB，`public/media/` 進版控會讓 repo 很肥。可以改放 Cloudflare R2 並在 `src/site.ts` 加一個媒體網域，之後再處理。
+4. 壓縮圖片：`pip install pillow` 後執行 `python scripts/optimize-media.py`。JPEG 重壓、寬度縮到 1920、不透明 PNG 轉 JPG、大的透明 PNG 轉 WebP，並自動改寫內容裡的引用、把舊路徑加進 301。之後再 `npm run redirects`。新加圖片時也可以再跑一次，只會處理還沒壓過的。
 
 ## 網址規則
 
