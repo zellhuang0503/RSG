@@ -7,6 +7,13 @@ import { site } from '../site';
 const all = await getEvents(); // 依開始日期新→舊
 const upcoming = all.filter((e) => isUpcoming(e)).reverse(); // 即將舉辦：近→遠
 const past = all.filter((e) => !isUpcoming(e));
+// 過往活動依年份分組（新→舊）
+const pastByYear = new Map<string, typeof past>();
+for (const e of past) {
+  const y = (e.data.start_date || e.data.date).slice(0, 4) || '其他';
+  if (!pastByYear.has(y)) pastByYear.set(y, []);
+  pastByYear.get(y)!.push(e);
+}
 ---
 <Base title="課程活動" description={`${site.shortName}的工作坊、課程與體驗會時程。`} path="/events" breadcrumbs={[{ name: '課程活動', path: '/events' }]}>
   <div class="container event-list">
@@ -19,7 +26,12 @@ const past = all.filter((e) => !isUpcoming(e));
     {past.length > 0 && (
       <>
         <h2>過往活動</h2>
-        <div class="grid past">{past.map((e) => <EventCard event={e} />)}</div>
+        {[...pastByYear.entries()].map(([year, list]) => (
+          <details class="year-group" open={year === [...pastByYear.keys()][0]}>
+            <summary><h3>{year} 年（{list.length} 場）</h3></summary>
+            <div class="grid past">{list.map((e) => <EventCard event={e} />)}</div>
+          </details>
+        ))}
       </>
     )}
   </div>

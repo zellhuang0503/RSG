@@ -11,24 +11,18 @@ const upcoming = (await getEvents()).filter((e) => isUpcoming(e)).reverse().slic
 const home = await getHomePage();
 const HomeContent = home ? (await render(home)).Content : null;
 ---
-<Base title={site.name} path="/">
-  <section class="hero">
+<Base title={site.name} path="/" image={site.heroImage}>
+  <section class="hero with-image" style={`background-image: url('${site.heroImage}')`}>
     <div class="container">
-      <h1>{site.shortName}</h1>
-      <p class="lead">{site.description}</p>
+      <h1>{site.heroTitle}</h1>
+      <p class="lead">{site.heroSubtitle}</p>
       <div class="cta">
         <a class="btn primary" href="/events">近期課程與工作坊</a>
         <a class="btn" href="/about-2">認識關係花園</a>
-        <a class="btn" href="https://shop.rsg.com.tw/" target="_blank" rel="noopener">線上商店</a>
+        <a class="btn" href="https://shop.rsg.com.tw/" target="_blank" rel="noopener">能量商店</a>
       </div>
     </div>
   </section>
-
-  {HomeContent && (
-    <section class="section">
-      <div class="container prose"><HomeContent /></div>
-    </section>
-  )}
 
   {upcoming.length > 0 && (
     <section class="section">
@@ -41,8 +35,14 @@ const HomeContent = home ? (await render(home)).Content : null;
 
   <section class="section">
     <div class="container">
-      <div class="section-head"><h2>最新文章</h2><a href="/posts">所有文章</a></div>
+      <div class="section-head"><h2>最新消息</h2><a href="/posts">所有文章</a></div>
       {posts.length ? <div class="grid">{posts.map((p) => <PostCard post={p} />)}</div> : <p class="muted">尚無文章。</p>}
     </div>
   </section>
+
+  {HomeContent && (
+    <section class="section home-body">
+      <div class="container prose"><HomeContent /></div>
+    </section>
+  )}
 </Base>
