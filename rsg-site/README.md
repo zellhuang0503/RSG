@@ -12,7 +12,7 @@ rsg-site/
 │   └── urls.csv             舊站網址對照表（匯入後產生）
 ├── public/                  原樣複製到網站根目錄
 │   ├── media/               圖片（舊站 wp-content/uploads 的內容）
-│   ├── _redirects           Cloudflare Pages 轉址規則（由 npm run import 產生）
+│   ├── _redirects           Cloudflare 轉址規則（由 npm run import 產生）
 │   ├── _headers             安全與快取標頭
 │   └── robots.txt
 ├── scripts/
@@ -127,7 +127,27 @@ status: "publish"                                 # draft 不會出現在網站�
 
 沒填文案的圖會用 `src/site.ts` 的 `heroTitle`、`heroSubtitle`。資料夾是空的時候，首頁用 `site.heroImage` 單張圖。
 
-## 部署到 Cloudflare Pages（免費）
+## 部署到 Cloudflare（免費）
+
+兩種方式擇一，都是每次 push 到 `main` 自動重新部署。目前實際採用 **Workers（從 Git 建置）**。
+
+### 方式 A：Workers 從 Git 建置（目前採用）
+
+設定檔在 `wrangler.jsonc`（把 `dist/` 當靜態網站，404 用 `dist/404.html`，`_redirects`／`_headers` 同樣有效）。
+
+1. Cloudflare 儀表板 → Workers 和 Pages → 建立應用程式 → 匯入存放庫，選這個 repo。
+2. 建立和部署：
+   - 專案名稱：`rsg`
+   - 組建命令：`npm run build`
+   - 部署命令：`npx wrangler deploy`（預設）
+   - 非生產分支部署命令：`npx wrangler versions upload`（預設）
+   - 進階設定 → 路徑：`rsg-site`
+   - 變數：`NODE_VERSION` = `22`
+   - Protect with Cloudflare Access：關閉（預覽網址才能直接分享）
+3. 完成後得到 `rsg.<帳號>.workers.dev` 預覽網址。本機也可以 `npx wrangler deploy --dry-run` 檢查設定。
+4. 正式切換時在 Worker → 設定 → 網域和路由 加 `rsg.com.tw` 與 `www.rsg.com.tw`，其餘同下方步驟 4、5。
+
+### 方式 B：Pages
 
 1. Cloudflare 儀表板 → Workers & Pages → Create → Pages → **Connect to Git**，選這個 repo。
 2. 建置設定：
