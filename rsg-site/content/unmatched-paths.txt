@@ -323,16 +323,3 @@
 /events/關係工作坊-173	sitemap-only	
 /events/關係工作坊-172	sitemap-only	
 /events/農曆年假	sitemap-only	
-/archives/category/關係花園文章	sitemap-only	
-/archives/category/學員心得分享-關係工作坊	sitemap-only	
-/archives/category/學員心得分享-活出角色	sitemap-only	
-/archives/category/學員心得分享-內在小孩療癒	sitemap-only	
-/archives/category/學員心得分享-靜心觀照	sitemap-only	
-/archives/category/學員心得分享-意識覺醒	sitemap-only	
-/archives/category/學員心得分享-深度轉化	sitemap-only	
-/archives/category/學員心得分享-愛與幸福	sitemap-only	
-/archives/category/學員心得分享-豐盛致富	sitemap-only	
-/archives/category/課程介紹	sitemap-only	
-/archives/category/最新學員心得	sitemap-only	
-/archives/category/熱門文章	sitemap-only	
-/archives/category/心靈捕夢網	sitemap-only	

@@ -16,13 +16,13 @@ template: "100-width.php"
 
 [rev\_slider alias=”home-Slider” /]
 
-**最新消息**
+## 最新消息
 
 [rev\_slider alias=”latest-courses-1″ /]
 
 [rev\_slider alias=”home-slider-1″ /]
 
-**系統排列─圓滿未竟之事，回歸美好平靜！深入內在的心靈工程**
+### 系統排列─圓滿未竟之事，回歸美好平靜！深入內在的心靈工程
 
 《系統排列》的心靈工程，直達議題的核心、深具洞察與穿透力，
 
@@ -36,9 +36,9 @@ template: "100-width.php"
 
 > [關係花園粉絲團](https://www.facebook.com/rsg.garden)
 
-**心靈修鍊**
+## 心靈修鍊
 
-**心靈修鍊語句：**
+## 心靈修鍊語句：
 
 - 我釋放過去的負面訊息與感受
 - 我釋放恐懼、憤怒、罪惡感&悲傷
@@ -60,9 +60,9 @@ template: "100-width.php"
 
 > [關係花園粉絲團](https://www.facebook.com/rsg.garden)
 
-**心靈修鍊**
+## 心靈修鍊
 
-**心靈修鍊語句：**
+## 心靈修鍊語句：
 
 - 我釋放過去的負面訊息與感受
 - 我釋放恐懼、憤怒、罪惡感&悲傷

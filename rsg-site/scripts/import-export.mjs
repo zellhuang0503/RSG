@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 // 把 rsg-export 匯出的舊站內容搬進新站：
-//   node scripts/import-export.mjs [匯出資料夾，預設 ../rsg-export/out]
+//   node scripts/import-export.mjs [匯出資料夾，預設 ../rsg-export/out] [--only pages|posts|events|media]
+//
+//   --only：只更新某一類（例如補跑 python export_wp.py --only events 之後），
+//           其他類型的內容檔不會被覆蓋，已在新站手動修過的頁面才不會被洗掉。
+//   --redirects-only：不讀匯出資料夾，只依 content/urls.csv 重新產生 public/_redirects
+//           與 content/unmatched-paths.txt（改了 urls.csv 的 new_path 之後用這個）。
 //
 // 做的事：
 //   1. 刪除 content/**/sample-*.md（骨架附的範例）
@@ -15,20 +20,32 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const src = path.resolve(process.argv[2] ?? path.join(root, '..', 'rsg-export', 'out'));
+const argv = process.argv.slice(2);
+const onlyIdx = argv.indexOf('--only');
+const only = onlyIdx >= 0 ? argv[onlyIdx + 1] : null;
+const redirectsOnly = argv.includes('--redirects-only');
+const positional = argv.filter((a, i) => a !== '--only' && a !== '--redirects-only' && i !== onlyIdx + 1);
+const src = path.resolve(positional[0] ?? path.join(root, '..', 'rsg-export', 'out'));
+if (only && !['pages', 'posts', 'events', 'media'].includes(only)) {
+  console.error(`--only 只接受 pages / posts / events / media，收到：${only}`);
+  process.exit(1);
+}
+const wants = (kind) => !only || only === kind;
 
-if (!fs.existsSync(src)) {
+if (!redirectsOnly && !fs.existsSync(src)) {
   console.error(`找不到匯出資料夾：${src}\n先在 rsg-export/ 執行 python export_wp.py，或把資料夾路徑當參數傳入。`);
   process.exit(1);
 }
 
 const stats = { pages: 0, posts: 0, events: 0, media: 0, redirects: 0, unmatched: 0 };
 
+if (!redirectsOnly) {
 // 1 + 2：內容
 for (const kind of ['pages', 'posts', 'events']) {
   const dest = path.join(root, 'content', kind);
   fs.mkdirSync(dest, { recursive: true });
   for (const f of fs.readdirSync(dest)) if (f.startsWith('sample-')) fs.rmSync(path.join(dest, f));
+  if (!wants(kind)) continue;
   const from = path.join(src, kind);
   if (!fs.existsSync(from)) { console.warn(`（匯出裡沒有 ${kind}/，略過）`); continue; }
   for (const f of fs.readdirSync(from)) {
@@ -38,21 +55,40 @@ for (const kind of ['pages', 'posts', 'events']) {
   }
 }
 
-// 3：分類與網址表
-for (const f of ['taxonomy.json', 'urls.csv']) {
-  const p = path.join(src, f);
-  if (fs.existsSync(p)) fs.copyFileSync(p, path.join(root, 'content', f));
-  else console.warn(`（匯出裡沒有 ${f}）`);
+// 3：分類與網址表。urls.csv 裡人工填過的 new_path（轉址）在重新匯入時保留
+if (fs.existsSync(path.join(src, 'taxonomy.json'))) fs.copyFileSync(path.join(src, 'taxonomy.json'), path.join(root, 'content', 'taxonomy.json'));
+{
+  const fresh = path.join(src, 'urls.csv');
+  const mine = path.join(root, 'content', 'urls.csv');
+  if (!fs.existsSync(fresh)) console.warn('（匯出裡沒有 urls.csv）');
+  else {
+    const overrides = new Map();
+    if (fs.existsSync(mine)) {
+      for (const r of parseCsv(fs.readFileSync(mine, 'utf8').replace(/^\uFEFF/, ''))) {
+        if (r.new_path && r.new_path !== r.path) overrides.set(r.path, r.new_path);
+      }
+    }
+    const text = fs.readFileSync(fresh, 'utf8').replace(/^\uFEFF/, '');
+    const rows = parseCsv(text);
+    let applied = 0;
+    for (const r of rows) if (overrides.has(r.path)) { r.new_path = overrides.get(r.path); applied++; }
+    const header = ['type', 'id', 'url', 'path', 'title', 'date', 'modified', 'new_path'];
+    const esc = (v) => (/[",\n\r]/.test(v ?? '') ? `"${String(v).replace(/"/g, '""')}"` : (v ?? ''));
+    fs.writeFileSync(mine, '\uFEFF' + [header.join(','), ...rows.map((r) => header.map((h) => esc(r[h])).join(','))].join('\n') + '\n');
+    if (applied) console.log(`urls.csv：保留 ${applied} 筆人工填的 new_path`);
+  }
 }
 
 // 4：媒體
 const mediaFrom = path.join(src, 'media');
-if (fs.existsSync(mediaFrom)) {
+if (wants('media') && fs.existsSync(mediaFrom)) {
   const mediaTo = path.join(root, 'public', 'media');
   fs.cpSync(mediaFrom, mediaTo, { recursive: true, force: false, errorOnExist: false });
   const count = (dir) => fs.readdirSync(dir, { withFileTypes: true }).reduce((n, e) => n + (e.isDirectory() ? count(path.join(dir, e.name)) : 1), 0);
   stats.media = count(mediaTo);
 }
+
+} // !redirectsOnly
 
 // 5 + 6：轉址與比對
 const contentPaths = new Set();
@@ -72,10 +108,12 @@ const unmatched = [];
 if (fs.existsSync(csvPath)) {
   for (const row of parseCsv(fs.readFileSync(csvPath, 'utf8').replace(/^﻿/, ''))) {
     const from = (row.path || '').replace(/\/+$/, '') || '/';
-    const to = (row.new_path || '').replace(/\/+$/, '') || '/';
+    // 站內路徑去掉結尾斜線；絕對網址（轉到商店等）原樣保留
+    const rawTo = row.new_path || '';
+    const to = /^https?:\/\//.test(rawTo) ? rawTo : rawTo.replace(/\/+$/, '') || '/';
     if (row.type === 'media') continue;
     if (to !== from) { generated.push(`${from}  ${to}  301`); continue; }
-    const covered = contentPaths.has(from) || builtIn.includes(from) || /^\/(category|tag)\//.test(from);
+    const covered = contentPaths.has(from) || builtIn.includes(from) || /^\/archives\/(category|tag)\//.test(from);
     if (!covered) unmatched.push(`${from}\t${row.type}\t${row.title || ''}`);
   }
 }

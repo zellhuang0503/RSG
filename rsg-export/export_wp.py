@@ -225,7 +225,8 @@ def export_events(rows):
     print("匯出活動（The Events Calendar）…")
     items, page = [], 1
     while True:
-        r = get(f"{API}/tribe/events/v1/events", {"per_page": PER_PAGE, "page": page, "status": "publish"})
+        # tribe API 預設只回傳未來的活動，加 start_date 才會連過往活動一起給
+        r = get(f"{API}/tribe/events/v1/events", {"per_page": PER_PAGE, "page": page, "status": "publish", "start_date": "2000-01-01"})
         if r is None or r.status_code != 200:
             if r is not None and page == 1:
                 report["errors"].append({"url": r.url, "status": r.status_code, "body": r.text[:200]})
@@ -347,8 +348,15 @@ def main():
     if args.only is None:
         export_sitemap_urls(rows)
 
-    with open(OUT / "urls.csv", "w", newline="", encoding="utf-8-sig") as f:
-        w = csv.DictWriter(f, fieldnames=["type", "id", "url", "path", "title", "date", "modified", "new_path"])
+    fields = ["type", "id", "url", "path", "title", "date", "modified", "new_path"]
+    csv_path = OUT / "urls.csv"
+    if args.only and csv_path.exists():
+        # 只重匯某一類時，保留 urls.csv 其他類型的列，只換掉這一類
+        with open(csv_path, encoding="utf-8-sig", newline="") as f:
+            keep = [r for r in csv.DictReader(f) if r.get("type") != args.only]
+        rows = keep + rows
+    with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
+        w = csv.DictWriter(f, fieldnames=fields)
         w.writeheader()
         w.writerows(rows)
 

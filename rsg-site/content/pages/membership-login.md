@@ -7,7 +7,7 @@ original_url: "https://rsg.com.tw/membership-login"
 original_path: "/membership-login"
 date: "2020-08-12T06:13:27"
 modified: "2020-08-12T06:13:27"
-status: "publish"
+status: "draft"
 featured_image: ""
 excerpt: "&#8230;read more"
 menu_order: 0

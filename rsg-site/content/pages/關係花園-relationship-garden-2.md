@@ -14,13 +14,9 @@ menu_order: 0
 template: "100-width.php"
 ---
 
-**最新消息**
+## 學習主軸：系統排列
 
-**學習主軸**
-
-**系統排列**
-
-**深入內在的心靈工程**
+## 深入內在的心靈工程
 
 生活中難免遇到不如意、困難、挫折、努力卻無結果、追求卻不可得、相愛卻無法相處、同床卻異夢、共事卻無共識、辛苦卻賺不到錢、健康亮起紅燈、深受情緒所困擾；或是人生正面臨十字路口，不知接下來該往哪裡去？該如何選擇、決定？生命的方向到底在哪裡？或是某些事件，重複不斷發生⋯。
 
@@ -28,9 +24,9 @@ template: "100-width.php"
 
 《系統排列》的心靈工程，直達議題的核心、深具洞察與穿透力，有效且迅速地從 “根源處“ 著手，為生命與生活帶來深度&快速的轉變。
 
-[More](https://www.youtube.com/watch?v=GzuOBKAA3KU)
+[觀看影片：系統排列介紹 →](https://www.youtube.com/watch?v=GzuOBKAA3KU)
 
-**Podcast**
+## Podcast
 
 [![](/media/2025/11/1.jpg)](https://open.firstory.me/story/cmd1rqfge03m001wwfrrc8hbw/platforms)
 

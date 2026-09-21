@@ -7,7 +7,7 @@ original_url: "https://rsg.com.tw/membership-join"
 original_path: "/membership-join"
 date: "2020-08-12T06:13:26"
 modified: "2020-08-12T06:13:26"
-status: "publish"
+status: "draft"
 featured_image: ""
 excerpt: "&#8230;read more"
 menu_order: 0
@@ -18,11 +18,11 @@ This page and the content has been automatically generated for you to give you a
 
 If you end up changing the URL of this page then make sure to update the URL value in the settings menu of the plugin.
 
-**Free Membership**  
+### Free Membership
   
 You get unlimited access to free membership content  
   
-***Price: Free!***
+### *Price: Free!*
 
 Link the following image to go to the Registration Page if you want your visitors to be able to create a free membership account
 

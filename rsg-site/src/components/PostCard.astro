@@ -1,13 +1,14 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { routeOf, formatDate, summaryOf, termHref } from '../lib/content';
+import { routeOf, formatDate, summaryOf, termHref, thumbnailOf } from '../lib/content';
 interface Props { post: CollectionEntry<'posts'>; }
 const { post } = Astro.props;
 const href = routeOf(post);
+const thumb = thumbnailOf(post);
 ---
 <article class="card">
-  {post.data.featured_image && (
-    <a class="thumb" href={href} tabindex="-1" aria-hidden="true"><img src={post.data.featured_image} alt="" loading="lazy" /></a>
+  {thumb && (
+    <a class="thumb" href={href} tabindex="-1" aria-hidden="true"><img src={thumb} alt="" loading="lazy" /></a>
   )}
   <div class="body">
     <div class="meta">

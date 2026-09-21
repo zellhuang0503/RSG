@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
-    "import": "node scripts/import-export.mjs"
+    "import": "node scripts/import-export.mjs",
+    "redirects": "node scripts/import-export.mjs --redirects-only"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

@@ -1,17 +1,18 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { routeOf, formatDate, summaryOf } from '../lib/content';
+import { routeOf, formatDate, summaryOf, thumbnailOf } from '../lib/content';
 interface Props { event: CollectionEntry<'events'>; }
 const { event } = Astro.props;
 const href = routeOf(event);
 const d = event.data;
+const thumb = thumbnailOf(event);
 const range = d.end_date && d.end_date.slice(0, 10) !== d.start_date.slice(0, 10)
   ? `${formatDate(d.start_date, { month: 'numeric', day: 'numeric' })} – ${formatDate(d.end_date, { month: 'numeric', day: 'numeric' })}`
   : formatDate(d.start_date, { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' });
 ---
 <article class="card event-card">
-  {d.featured_image && (
-    <a class="thumb" href={href} tabindex="-1" aria-hidden="true"><img src={d.featured_image} alt="" loading="lazy" /></a>
+  {thumb && (
+    <a class="thumb" href={href} tabindex="-1" aria-hidden="true"><img src={thumb} alt="" loading="lazy" /></a>
   )}
   <div class="body">
     {d.start_date && <span class="when"><time datetime={d.start_date}>{range}</time></span>}

@@ -7,7 +7,7 @@ original_url: "https://rsg.com.tw/membership-login/password-reset"
 original_path: "/membership-login/password-reset"
 date: "2020-08-12T06:13:27"
 modified: "2020-08-12T06:13:27"
-status: "publish"
+status: "draft"
 featured_image: ""
 excerpt: "&#8230;read more"
 parent_id: 3684

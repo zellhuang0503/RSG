@@ -14,7 +14,7 @@ menu_order: 0
 template: "100-width.php"
 ---
 
-**最新課程**
+## 最新課程
 
 [![](/media/2026/08/關係花園_課程-115-0810-2-2.png)](https://rsg.com.tw/archives/7586)
 
