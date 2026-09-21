@@ -1,0 +1,22 @@
+---
+title: "花園意識能量卡［I階］工作坊"
+slug: "花園意識能量卡［i階］工作坊"
+wp_id: 7568
+type: events
+original_url: "https://rsg.com.tw/events/%e8%8a%b1%e5%9c%92%e6%84%8f%e8%ad%98%e8%83%bd%e9%87%8f%e5%8d%a1%ef%bc%bbi%e9%9a%8e%ef%bc%bd%e5%b7%a5%e4%bd%9c%e5%9d%8a"
+original_path: "/events/花園意識能量卡［i階］工作坊"
+date: "2026-05-10 04:36:21"
+modified: "2026-05-10 04:36:21"
+status: "publish"
+featured_image: ""
+excerpt: ""
+start_date: "2026-07-11 00:00:00"
+end_date: "2026-07-12 23:59:59"
+all_day: true
+venue: ""
+venue_address: ""
+cost: ""
+website: ""
+---
+
+
