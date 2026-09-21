@@ -146,6 +146,7 @@ status: "publish"                                 # draft 不會出現在網站�
    - Protect with Cloudflare Access：關閉（預覽網址才能直接分享）
 3. 完成後得到 `rsg.<帳號>.workers.dev` 預覽網址。本機也可以 `npx wrangler deploy --dry-run` 檢查設定。
 4. 正式切換時在 Worker → 設定 → 網域和路由 加 `rsg.com.tw` 與 `www.rsg.com.tw`，其餘同下方步驟 4、5。
+5. www 轉非 www：Workers 的 `_redirects` 不接受完整網址當來源，所以在 Cloudflare 儀表板該網域 → 規則 → 重新導向規則 → 建立規則：條件「主機名稱 等於 `www.rsg.com.tw`」，動作「動態 301」，運算式 `concat("https://rsg.com.tw", http.request.uri.path)`。
 
 ### 方式 B：Pages
 
