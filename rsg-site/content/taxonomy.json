@@ -1,0 +1,7 @@
+{
+  "categories": [
+    { "id": 1, "name": "學員分享", "slug": "share", "description": "" },
+    { "id": 2, "name": "課程紀錄", "slug": "course-notes", "description": "" }
+  ],
+  "tags": []
+}

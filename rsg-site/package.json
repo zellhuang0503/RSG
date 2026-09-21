@@ -1,0 +1,22 @@
+{
+  "name": "rsg-site",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "關係花園 rsg.com.tw 主站（靜態站，Astro）",
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "import": "node scripts/import-export.mjs"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.3"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.2"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+# 舊站匯入前的暫存
+.import-tmp/

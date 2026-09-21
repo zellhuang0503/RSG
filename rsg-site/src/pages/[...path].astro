@@ -1,0 +1,113 @@
+---
+// 頁面、文章、活動的內容頁。網址就是 front matter 的 original_path，
+// 所以舊站的 /archives/6311、/about-2、/events/xxx 全部維持不變。
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { getRoutable, routeOf, formatDate, formatDateTime, summaryOf, termHref, toIso, type AnyEntry } from '../lib/content';
+import { site } from '../site';
+
+export async function getStaticPaths() {
+  const entries = await getRoutable();
+  return entries.map((entry) => ({ params: { path: routeOf(entry).slice(1) }, props: { entry } }));
+}
+
+interface Props { entry: AnyEntry; }
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const path = routeOf(entry);
+const description = summaryOf(entry, 160);
+const isPost = entry.collection === 'posts';
+const isEvent = entry.collection === 'events';
+const ev = isEvent ? (entry as Extract<AnyEntry, { collection: 'events' }>).data : null;
+
+const jsonLd: Record<string, unknown>[] = [];
+if (isPost) {
+  jsonLd.push({
+    '@type': 'BlogPosting',
+    headline: d.title,
+    description,
+    url: new URL(path, site.url).href,
+    datePublished: toIso(d.date),
+    dateModified: toIso(d.modified || d.date),
+    image: d.featured_image ? new URL(d.featured_image, site.url).href : undefined,
+    author: { '@id': `${site.url}/#organization` },
+    publisher: { '@id': `${site.url}/#organization` },
+    keywords: [...d.categories, ...d.tags].join(', ') || undefined,
+    inLanguage: site.language,
+  });
+}
+if (ev) {
+  jsonLd.push({
+    '@type': 'Event',
+    name: d.title,
+    description,
+    url: new URL(path, site.url).href,
+    startDate: toIso(ev.start_date),
+    endDate: toIso(ev.end_date) || toIso(ev.start_date),
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    image: d.featured_image ? new URL(d.featured_image, site.url).href : undefined,
+    location: ev.venue ? { '@type': 'Place', name: ev.venue, address: ev.venue_address || undefined } : undefined,
+    organizer: { '@id': `${site.url}/#organization` },
+    offers: ev.cost ? { '@type': 'Offer', description: ev.cost, url: ev.website || new URL(path, site.url).href } : undefined,
+  });
+}
+
+const breadcrumbs = isPost
+  ? [{ name: '文章', path: '/posts' }, { name: d.title, path }]
+  : isEvent
+    ? [{ name: '課程活動', path: '/events' }, { name: d.title, path }]
+    : [{ name: d.title, path }];
+---
+<Base
+  title={d.title}
+  description={description}
+  path={path}
+  type={isPost ? 'article' : isEvent ? 'event' : 'website'}
+  image={d.featured_image || undefined}
+  noindex={d.noindex}
+  datePublished={isPost ? toIso(d.date) : undefined}
+  dateModified={isPost ? toIso(d.modified || d.date) : undefined}
+  jsonLd={jsonLd}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="container">
+    <header class="article-head">
+      <h1>{d.title}</h1>
+      {(isPost || isEvent) && (
+        <div class="meta">
+          {isPost && d.date && <time datetime={d.date}>{formatDate(d.date)}</time>}
+          {isPost && d.categories.map((c) => <a href={termHref('category', c)}>{c}</a>)}
+        </div>
+      )}
+    </header>
+
+    {d.featured_image && (
+      <figure class="featured" style="max-width: var(--measure)"><img src={d.featured_image} alt={d.title} /></figure>
+    )}
+
+    {ev && (ev.start_date || ev.venue || ev.cost) && (
+      <dl class="event-info">
+        {ev.start_date && <><dt>時間</dt><dd>
+          <time datetime={ev.start_date}>{ev.all_day ? formatDate(ev.start_date) : formatDateTime(ev.start_date)}</time>
+          {ev.end_date && ev.end_date !== ev.start_date && <> 至 <time datetime={ev.end_date}>{ev.all_day ? formatDate(ev.end_date) : formatDateTime(ev.end_date)}</time></>}
+        </dd></>}
+        {ev.venue && <><dt>地點</dt><dd>{ev.venue}{ev.venue_address && <span class="muted">（{ev.venue_address}）</span>}</dd></>}
+        {ev.cost && <><dt>費用</dt><dd>{ev.cost}</dd></>}
+        {ev.website && <><dt>報名</dt><dd><a href={ev.website} target="_blank" rel="noopener">{ev.website}</a></dd></>}
+      </dl>
+    )}
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {isPost && (d.tags.length > 0 || d.modified) && (
+      <footer class="article-foot">
+        {d.tags.length > 0 && <div class="chips">{d.tags.map((t) => <a class="chip tag" href={termHref('tag', t)}>#{t}</a>)}</div>}
+        {d.modified && <span class="muted" style="font-size:.85rem">最後更新 {formatDate(d.modified)}</span>}
+      </footer>
+    )}
+  </article>
+</Base>

@@ -1,0 +1,33 @@
+name: Build rsg-site
+
+# 只做建置檢查，確認新站在任何變動後都能成功產生。
+# 正式部署由 Cloudflare Pages 接 GitHub 自動進行（見 rsg-site/README.md）。
+on:
+  push:
+    branches: [main]
+    paths: ["rsg-site/**", "rsg-ask/site.config.json", ".github/workflows/build-site.yml"]
+  pull_request:
+    paths: ["rsg-site/**", "rsg-ask/site.config.json", ".github/workflows/build-site.yml"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: rsg-site
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: rsg-site/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - name: 建置摘要
+        run: |
+          echo "HTML 頁數：$(find dist -name '*.html' | wc -l)"
+          echo "sitemap：$(ls dist/sitemap*.xml | tr '\n' ' ')"
+          test -f dist/_redirects && echo "_redirects 規則：$(grep -cvE '^\s*(#|$)' dist/_redirects)"

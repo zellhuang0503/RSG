@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="搜尋" path="/search" noindex={true} searchable={false}>
+  <link slot="head" href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+  <div class="narrow search-box">
+    <h1>搜尋</h1>
+    <p class="muted">輸入關鍵字搜尋全站文章、頁面與活動。</p>
+    <div id="search"></div>
+  </div>
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    // 站內搜尋由 Pagefind 在 build 後產生（npm run build），dev 模式下沒有索引是正常的
+    window.addEventListener('DOMContentLoaded', () => {
+      if (!window.PagefindUI) return;
+      const ui = new PagefindUI({ element: '#search', showSubResults: true, showImages: false, translations: { placeholder: '搜尋…', zero_results: '找不到「[SEARCH_TERM]」的結果', clear_search: '清除', load_more: '載入更多', search_label: '搜尋本站', many_results: '共 [COUNT] 筆結果', one_result: '共 [COUNT] 筆結果', searching: '搜尋中…' } });
+      const q = new URLSearchParams(location.search).get('q');
+      if (q) ui.triggerSearch(q);
+    });
+  </script>
+</Base>

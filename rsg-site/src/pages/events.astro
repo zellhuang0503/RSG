@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import EventCard from '../components/EventCard.astro';
+import { getEvents, isUpcoming } from '../lib/content';
+import { site } from '../site';
+
+const all = await getEvents(); // 依開始日期新→舊
+const upcoming = all.filter((e) => isUpcoming(e)).reverse(); // 即將舉辦：近→遠
+const past = all.filter((e) => !isUpcoming(e));
+---
+<Base title="課程活動" description={`${site.shortName}的工作坊、課程與體驗會時程。`} path="/events" breadcrumbs={[{ name: '課程活動', path: '/events' }]}>
+  <div class="container event-list">
+    <header class="list-head">
+      <h1>課程活動</h1>
+      <p class="muted">工作坊、課程與體驗會。報名與付款請至<a href="https://shop.rsg.com.tw/" target="_blank" rel="noopener">線上商店</a>。</p>
+    </header>
+    <h2>即將舉辦</h2>
+    {upcoming.length ? <div class="grid">{upcoming.map((e) => <EventCard event={e} />)}</div> : <p class="muted">近期活動籌備中，歡迎追蹤 Facebook 粉絲團。</p>}
+    {past.length > 0 && (
+      <>
+        <h2>過往活動</h2>
+        <div class="grid past">{past.map((e) => <EventCard event={e} />)}</div>
+      </>
+    )}
+  </div>
+</Base>

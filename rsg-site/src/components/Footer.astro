@@ -1,0 +1,28 @@
+---
+import { site, org } from '../site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <h3>{site.name}</h3>
+        <p>{org.description}</p>
+      </div>
+      <div>
+        <h3>網站</h3>
+        <ul>
+          {site.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          <li><a href="/feed.xml">RSS 訂閱</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>連結</h3>
+        <ul>
+          {site.footerLinks.map((l) => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
+        </ul>
+      </div>
+    </div>
+    <p class="copy">© {org.foundingDate}–{year} {site.name}. All rights reserved.</p>
+  </div>
+</footer>

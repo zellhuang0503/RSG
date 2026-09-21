@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { routeOf, formatDate, summaryOf, termHref } from '../lib/content';
+interface Props { post: CollectionEntry<'posts'>; }
+const { post } = Astro.props;
+const href = routeOf(post);
+---
+<article class="card">
+  {post.data.featured_image && (
+    <a class="thumb" href={href} tabindex="-1" aria-hidden="true"><img src={post.data.featured_image} alt="" loading="lazy" /></a>
+  )}
+  <div class="body">
+    <div class="meta">
+      {post.data.date && <time datetime={post.data.date}>{formatDate(post.data.date)}</time>}
+    </div>
+    <h3><a href={href}>{post.data.title}</a></h3>
+    <p class="summary">{summaryOf(post)}</p>
+    {post.data.categories.length > 0 && (
+      <div class="chips">{post.data.categories.map((c) => <a class="chip" href={termHref('category', c)}>{c}</a>)}</div>
+    )}
+  </div>
+</article>

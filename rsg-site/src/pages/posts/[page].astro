@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts, paginate } from '../../lib/content';
+import { site } from '../../site';
+
+export async function getStaticPaths() {
+  const total = Math.ceil((await getPosts()).length / site.postsPerPage);
+  return Array.from({ length: Math.max(0, total - 1) }, (_, i) => ({ params: { page: String(i + 2) } }));
+}
+const n = Number(Astro.params.page);
+const page = paginate(await getPosts(), n, site.postsPerPage);
+---
+<Base title={`文章 第 ${n} 頁`} path={`/posts/${n}`} noindex={false} breadcrumbs={[{ name: '文章', path: '/posts' }]}>
+  <PostList title="文章" posts={page.items} current={page.current} totalPages={page.totalPages} total={page.total} base="/posts" />
+</Base>

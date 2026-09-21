@@ -1,0 +1,23 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PostList from '../../../components/PostList.astro';
+import { getPosts, groupByTerm, termSlug, paginate } from '../../../lib/content';
+import { site } from '../../../site';
+
+export async function getStaticPaths() {
+  const groups = groupByTerm(await getPosts(), 'category');
+  const paths = [];
+  for (const [name, posts] of groups) {
+    const total = Math.ceil(posts.length / site.postsPerPage);
+    for (let n = 2; n <= total; n++) paths.push({ params: { slug: termSlug('category', name), page: String(n) }, props: { name, posts } });
+  }
+  return paths;
+}
+const { name, posts } = Astro.props;
+const n = Number(Astro.params.page);
+const page = paginate(posts, n, site.postsPerPage);
+const base = `/category/${encodeURIComponent(Astro.params.slug)}`;
+---
+<Base title={`${name} 第 ${n} 頁`} path={`${base}/${n}`} breadcrumbs={[{ name: '文章', path: '/posts' }, { name, path: base }]}>
+  <PostList title={name} posts={page.items} current={page.current} totalPages={page.totalPages} total={page.total} base={base} />
+</Base>
