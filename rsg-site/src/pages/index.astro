@@ -30,28 +30,40 @@ const home = await getHomePage();
 const HomeContent = home ? (await render(home)).Content : null;
 ---
 <Base title={site.name} path="/" image={slides[0].src}>
-  <section class="hero slider" aria-roledescription="輪播" aria-label="首頁主視覺">
-    {slides.map((sl, i) => (
-      <div class="slide" class:list={[{ active: i === 0 }]} style={`background-image: url('${sl.src}')`} aria-hidden={i === 0 ? 'false' : 'true'}>
-        <div class="container">
-          {i === 0 ? <h1>{sl.title}</h1> : <p class="h1">{sl.title}</p>}
-          {sl.subtitle && <p class="lead">{sl.subtitle}</p>}
-          <div class="cta">
-            {sl.href ? <a class="btn primary" href={sl.href}>了解更多</a> : <a class="btn primary" href="/events">近期課程與工作坊</a>}
-            <a class="btn" href="/about-2">認識關係花園</a>
-            <a class="btn" href="https://shop.rsg.com.tw/" target="_blank" rel="noopener">能量商店</a>
-          </div>
+  {bannerFiles.length ? (
+    <section class="hero slider banners" aria-roledescription="輪播" aria-label="首頁主視覺">
+      {slides.map((sl, i) => (
+        sl.href
+          ? <a class="slide" class:list={[{ active: i === 0 }]} href={sl.href} aria-hidden={i === 0 ? 'false' : 'true'} aria-label={sl.title}><img src={sl.src} alt={sl.title} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} /></a>
+          : <div class="slide" class:list={[{ active: i === 0 }]} aria-hidden={i === 0 ? 'false' : 'true'}><img src={sl.src} alt={sl.title} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} /></div>
+      ))}
+      <h1 class="visually-hidden">{site.name}</h1>
+      {slides.length > 1 && (
+        <>
+          <button class="slider-btn prev" type="button" aria-label="上一張">‹</button>
+          <button class="slider-btn next" type="button" aria-label="下一張">›</button>
+          <div class="dots" role="tablist">{slides.map((_, i) => <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-label={`第 ${i + 1} 張`}></button>)}</div>
+        </>
+      )}
+    </section>
+    <div class="container hero-cta">
+      <a class="btn primary" href="/events">近期課程與工作坊</a>
+      <a class="btn" href="/about-2">認識關係花園</a>
+      <a class="btn" href="https://shop.rsg.com.tw/" target="_blank" rel="noopener">能量商店</a>
+    </div>
+  ) : (
+    <section class="hero with-image" style={`background-image: url('${site.heroImage}')`}>
+      <div class="container">
+        <h1>{site.heroTitle}</h1>
+        <p class="lead">{site.heroSubtitle}</p>
+        <div class="cta">
+          <a class="btn primary" href="/events">近期課程與工作坊</a>
+          <a class="btn" href="/about-2">認識關係花園</a>
+          <a class="btn" href="https://shop.rsg.com.tw/" target="_blank" rel="noopener">能量商店</a>
         </div>
       </div>
-    ))}
-    {slides.length > 1 && (
-      <>
-        <button class="slider-btn prev" type="button" aria-label="上一張">‹</button>
-        <button class="slider-btn next" type="button" aria-label="下一張">›</button>
-        <div class="dots" role="tablist">{slides.map((_, i) => <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-label={`第 ${i + 1} 張`}></button>)}</div>
-      </>
-    )}
-  </section>
+    </section>
+  )}
   {slides.length > 1 && (
     <script is:inline>
       (() => {
