@@ -16,8 +16,8 @@ template: "100-width.php"
 
 ## 最新課程
 
-[![](/media/2026/08/關係花園_課程-115-0810-2-2.png)](https://rsg.com.tw/archives/7586)
+[![](/media/2026/08/關係花園_課程-115-0810-2-2.jpg)](https://rsg.com.tw/archives/7586)
 
-![https://rsg.com.tw/archives/2061](/media/2026/06/關係花園_課程_生命專車-53.png "關係花園_課程_生命專車-53")
+![https://rsg.com.tw/archives/2061](/media/2026/06/關係花園_課程_生命專車-53.jpg "關係花園_課程_生命專車-53")
 
-[![](/media/2026/08/關係花園_課程-115-0810-2-1.png)](https://rsg.com.tw/archives/7586)
+[![](/media/2026/08/關係花園_課程-115-0810-2-1.jpg)](https://rsg.com.tw/archives/7586)

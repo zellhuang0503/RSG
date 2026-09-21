@@ -14,7 +14,7 @@ menu_order: 0
 template: "100-width.php"
 ---
 
-![](/media/2022/08/img關於花園banner.png "img關於花園banner")
+![](/media/2022/08/img關於花園banner.jpg "img關於花園banner")
 
 ## 【關於我們】
 
