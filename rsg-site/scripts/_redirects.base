@@ -2,8 +2,8 @@
 # 這個檔案由 scripts/import-export.mjs 產生：上半部是固定規則，下半部由 urls.csv 產生。
 # 要改固定規則請改 scripts/_redirects.base，不要直接改 public/_redirects。
 
-# www 統一到非 www
-https://www.rsg.com.tw/*  https://rsg.com.tw/:splat  301
+# www 統一到非 www：Workers 靜態資產的 _redirects 不接受完整網址當來源，
+# 切換網域時改在 Cloudflare 儀表板「規則 → 重新導向規則」設定（見 README）。
 
 # 舊 WordPress 的轉址（/about 曾被植入垃圾頁，Google 已收錄，維持 301 到真正的關於頁）
 /about  /about-2  301
