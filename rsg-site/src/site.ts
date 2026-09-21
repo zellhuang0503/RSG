@@ -1,4 +1,4 @@
-export type NavItem = { label: string; href: string; external?: boolean; children?: { label: string; href: string }[] };
+export type NavItem = { label: string; href: string; external?: boolean; children?: NavItem[] };
 
 // 全站設定。機構資料（名稱、描述、創辦人、sameAs）只維護一份，
 // 與 rsg-ask 問答站、rsg-edge Worker 共用 ../rsg-ask/site.config.json。
@@ -35,13 +35,40 @@ export const site = {
       children: [
         { label: '課程行事曆', href: '/events' },
         { label: '最新課程', href: '/latest-courses' },
-        // 舊站這三項的連結目標待確認，先導到課程總覽
-        { label: '向內探索', href: '/課程在這兒' },
-        { label: '向下扎根', href: '/課程在這兒' },
-        { label: '向上擴展', href: '/課程在這兒' },
+        {
+          label: '向內探索',
+          href: '/archives/category/課程介紹',
+          children: [
+            { label: '一對一排列', href: '/arrangement-one-to-one' },
+            { label: '生命專車工作坊', href: '/archives/2061' },
+            { label: '深度轉化工作坊', href: '/archives/2059' },
+            { label: '內在小孩工作坊', href: '/archives/6311' },
+            { label: '咖啡時光 Coffee Time', href: '/archives/7053' },
+            { label: '數字與療癒', href: '/archives/5063' },
+            { label: '開啟感知力工作坊', href: '/archives/7160' },
+            { label: '主題整合系統排列工作坊', href: '/archives/7182' },
+            { label: 'Polish Your Life｜生命整合工作坊', href: '/archives/7529' },
+            { label: '生命藍圖工作坊', href: '/archives/7554' },
+          ],
+        },
+        {
+          label: '向下扎根',
+          href: '/archives/category/課程介紹',
+          children: [
+            { label: '2025 除舊工作坊 × 2026 啟動工作坊', href: '/archives/7493' },
+            { label: '慢活營', href: '/archives/6119' },
+            { label: '招財開運自己來工作坊', href: '/archives/6610' },
+            { label: '意識能量工作坊', href: '/archives/7586' },
+          ],
+        },
+        {
+          label: '向上擴展',
+          href: '/archives/category/課程介紹',
+          children: [{ label: '調頻與顯化工作坊', href: '/archives/6553' }],
+        },
       ],
     },
-    { label: '花園意識能量卡', href: '/events' }, // 舊站連結目標待確認
+    { label: '花園意識能量卡', href: 'https://cards.rsg.com.tw/', external: true },
     { label: '心靈捕夢網', href: '/心靈捕夢網' },
     { label: '能量商店', href: 'https://shop.rsg.com.tw/', external: true },
     {

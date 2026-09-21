@@ -15,9 +15,20 @@ const isActive = (href: string) => href === current || (href !== '/' && current.
       {site.nav.map((item) => (
         item.children ? (
           <div class="nav-item has-children">
-            <a href={item.href} aria-current={isActive(item.href) || item.children.some((c) => isActive(c.href)) ? 'page' : undefined} aria-haspopup="true">{item.label}<span class="caret" aria-hidden="true">▾</span></a>
+            <a href={item.href} aria-current={isActive(item.href) || item.children.some((c) => isActive(c.href) || c.children?.some((g) => isActive(g.href))) ? 'page' : undefined} aria-haspopup="true">{item.label}<span class="caret" aria-hidden="true">▾</span></a>
             <div class="submenu">
-              {item.children.map((c) => <a href={c.href} aria-current={isActive(c.href) ? 'page' : undefined}>{c.label}</a>)}
+              {item.children.map((c) => (
+                c.children ? (
+                  <div class="nav-item sub has-children">
+                    <a href={c.href} aria-haspopup="true">{c.label}<span class="caret" aria-hidden="true">▸</span></a>
+                    <div class="submenu flyout">
+                      {c.children.map((g) => <a href={g.href} aria-current={isActive(g.href) ? 'page' : undefined}>{g.label}</a>)}
+                    </div>
+                  </div>
+                ) : (
+                  <a href={c.href} aria-current={isActive(c.href) ? 'page' : undefined}>{c.label}</a>
+                )
+              ))}
             </div>
           </div>
         ) : (

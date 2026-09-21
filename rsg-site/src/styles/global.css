@@ -63,6 +63,9 @@ p { margin: 0 0 1.1em; }
 .submenu { display: none; position: absolute; top: 100%; left: 0; min-width: 180px; background: var(--bg-elev); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 6px; z-index: 30; }
 .submenu a { display: block; white-space: nowrap; border-radius: 8px; }
 .nav-item:hover > .submenu, .nav-item:focus-within > .submenu { display: block; }
+.nav-item.sub { position: relative; }
+.nav-item.sub > a { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.submenu.flyout { top: -6px; left: 100%; margin-left: 4px; min-width: 240px; }
 .nav-toggle { display: none; }
 .nav-toggle-label { display: none; cursor: pointer; padding: 8px; border-radius: 8px; }
 .nav-toggle-label span { display: block; width: 22px; height: 2px; background: var(--heading); margin: 5px 0; transition: 0.2s; }
@@ -74,6 +77,8 @@ p { margin: 0 0 1.1em; }
   .nav-item > a .caret { display: none; }
   .submenu { display: block; position: static; border: 0; box-shadow: none; background: transparent; padding: 0 0 4px 16px; }
   .submenu a { font-size: 0.9rem; color: var(--text-muted); padding: 8px 8px; }
+  .submenu.flyout { margin-left: 0; padding-left: 16px; }
+  .nav-item.sub > a .caret { display: none; }
 }
 
 /* ---------- 頁尾 ---------- */
