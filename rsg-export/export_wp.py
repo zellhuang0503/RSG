@@ -46,7 +46,7 @@ except ImportError:
 SITE = os.environ.get("SITE_URL", "https://rsg.com.tw").rstrip("/")
 API = SITE + "/wp-json"
 OUT = Path(os.environ.get("OUT_DIR", "out"))
-UA = "rsg-export/1.0 (+梵亞行銷 site migration)"
+UA = "rsg-export/1.0 (vai-marketing.com; site migration; contact zell.huang@gmail.com)"
 DELAY = float(os.environ.get("DELAY", "0.6"))
 PER_PAGE = 50
 
