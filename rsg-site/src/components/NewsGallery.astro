@@ -1,0 +1,108 @@
+---
+import items from '../../content/home-news.json';
+---
+<section class="section news-section" aria-labelledby="home-news-title">
+  <div class="container">
+    <h2 id="home-news-title" class="home-section-title">最新消息</h2>
+    <div class="news-gallery" role="region" aria-roledescription="輪播" aria-label="最新消息海報">
+      <div class="news-stage">
+        {items.map((item, i) => (
+          <div class="news-slide" hidden={i !== 0} role="group" aria-roledescription="投影片" aria-label={`${i + 1} / ${items.length}：${item.title}`}>
+            {item.href ? (
+              <a href={item.href} aria-label={`查看${item.title}`} draggable="false"><img src={item.image} alt={item.title} loading="lazy" draggable="false" /></a>
+            ) : (
+              <img src={item.image} alt={item.title} loading="lazy" draggable="false" />
+            )}
+          </div>
+        ))}
+        <button class="news-arrow news-prev" type="button" aria-label="上一張消息海報">‹</button>
+        <button class="news-arrow news-next" type="button" aria-label="下一張消息海報">›</button>
+      </div>
+      <div class="news-thumbs" role="group" aria-label="選擇消息海報">
+        {items.map((item, i) => (
+          <button class="news-thumb" type="button" aria-label={`顯示第 ${i + 1} 張：${item.title}`} aria-pressed={i === 0 ? 'true' : 'false'}>
+            <img src={item.image} alt="" loading="lazy" draggable="false" />
+          </button>
+        ))}
+      </div>
+      <p class="visually-hidden news-status" aria-live="polite" aria-atomic="true">{`1 / ${items.length}：${items[0].title}`}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.news-gallery').forEach((root) => {
+    const slides = [...root.querySelectorAll<HTMLElement>('.news-slide')];
+    const thumbs = [...root.querySelectorAll<HTMLButtonElement>('.news-thumb')];
+    const strip = root.querySelector<HTMLElement>('.news-thumbs')!;
+    const stage = root.querySelector<HTMLElement>('.news-stage')!;
+    const status = root.querySelector<HTMLElement>('.news-status')!;
+    let current = 0;
+    const show = (index: number) => {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => { slide.hidden = i !== current; });
+      thumbs.forEach((thumb, i) => thumb.setAttribute('aria-pressed', String(i === current)));
+      status.textContent = slides[current].getAttribute('aria-label');
+      const thumb = thumbs[current];
+      strip.scrollTo({ left: thumb.offsetLeft - strip.offsetLeft - (strip.clientWidth - thumb.clientWidth) / 2, behavior: 'auto' });
+    };
+    root.querySelector('.news-prev')!.addEventListener('click', () => show(current - 1));
+    root.querySelector('.news-next')!.addEventListener('click', () => show(current + 1));
+    thumbs.forEach((thumb, i) => thumb.addEventListener('click', () => show(i)));
+    root.addEventListener('keydown', (event) => {
+      const offsets: Record<string, number> = { ArrowLeft: -1, ArrowRight: 1 };
+      if (!(event.key in offsets)) return;
+      event.preventDefault();
+      show(current + offsets[event.key]);
+      thumbs[current].focus({ preventScroll: true });
+    });
+    let touchStart: { x: number; y: number } | null = null;
+    let suppressClick = false;
+    stage.addEventListener('touchstart', (event) => {
+      suppressClick = false;
+      touchStart = event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
+    }, { passive: true });
+    stage.addEventListener('touchend', (event) => {
+      if (!touchStart) return;
+      const dx = event.changedTouches[0].clientX - touchStart.x;
+      const dy = event.changedTouches[0].clientY - touchStart.y;
+      touchStart = null;
+      if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) {
+        suppressClick = true;
+        show(current + (dx < 0 ? 1 : -1));
+      }
+    }, { passive: true });
+    stage.addEventListener('touchcancel', () => { touchStart = null; });
+    stage.addEventListener('click', (event) => {
+      if (!suppressClick) return;
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClick = false;
+    }, true);
+  });
+</script>
+
+<style>
+  .news-section { padding-block: 64px 48px; }
+  .news-stage { position: relative; height: clamp(320px, 45vw, 560px); touch-action: pan-y; }
+  .news-slide { height: 100%; padding-inline: 48px; }
+  .news-slide[hidden] { display: none; }
+  .news-slide a { display: block; height: 100%; }
+  .news-slide img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .news-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border: 0; border-radius: 50%; background: #e4f7fa; color: #2f3a6b; font-size: 2rem; cursor: pointer; }
+  .news-prev { left: 0; }
+  .news-next { right: 0; }
+  .news-thumbs { position: relative; display: flex; gap: 14px; width: max-content; max-width: 100%; margin: 20px auto 0; padding: 4px; overflow-x: auto; scroll-snap-type: x proximity; }
+  .news-thumb { flex: 0 0 120px; width: 120px; height: 72px; padding: 0; border: 2px solid transparent; background: #fff; opacity: .55; cursor: pointer; scroll-snap-align: center; }
+  .news-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .news-thumb[aria-pressed='true'] { border-color: #35b6e8; opacity: 1; }
+  .news-thumb:hover { opacity: 1; }
+  button:focus-visible, .news-slide a:focus-visible { outline: 3px solid #2f3a6b; outline-offset: 3px; }
+  @media (max-width: 640px) {
+    .news-section { padding-block: 48px 32px; }
+    .news-slide { padding-inline: 30px; }
+    .news-arrow { width: 30px; height: 44px; background: transparent; }
+    .news-thumb { flex-basis: 88px; width: 88px; height: 56px; }
+    .news-thumbs { gap: 10px; }
+  }
+</style>

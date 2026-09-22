@@ -1,9 +1,8 @@
 ---
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import PostCard from '../components/PostCard.astro';
-import EventCard from '../components/EventCard.astro';
-import { getPosts, getEvents, getHomePage, isUpcoming } from '../lib/content';
+import NewsGallery from '../components/NewsGallery.astro';
+import { getHomePage } from '../lib/content';
 import { site } from '../site';
 
 import fs from 'node:fs';
@@ -24,8 +23,6 @@ const slides = bannerFiles.length
     })
   : [{ src: site.heroImage, title: site.heroTitle, subtitle: site.heroSubtitle, href: undefined }];
 
-const posts = (await getPosts()).slice(0, site.homeLatestPosts);
-const upcoming = (await getEvents()).filter((e) => isUpcoming(e)).reverse().slice(0, site.homeUpcomingEvents);
 const home = await getHomePage();
 const HomeContent = home ? (await render(home)).Content : null;
 ---
@@ -90,21 +87,7 @@ const HomeContent = home ? (await render(home)).Content : null;
     </script>
   )}
 
-  {upcoming.length > 0 && (
-    <section class="section">
-      <div class="container">
-        <div class="section-head"><h2>即將舉辦</h2><a href="/events">所有課程活動</a></div>
-        <div class="grid">{upcoming.map((e) => <EventCard event={e} />)}</div>
-      </div>
-    </section>
-  )}
-
-  <section class="section">
-    <div class="container">
-      <div class="section-head"><h2>最新消息</h2><a href="/posts">所有文章</a></div>
-      {posts.length ? <div class="grid">{posts.map((p) => <PostCard post={p} />)}</div> : <p class="muted">尚無文章。</p>}
-    </div>
-  </section>
+  <NewsGallery />
 
   {HomeContent && (
     <section class="section home-body">

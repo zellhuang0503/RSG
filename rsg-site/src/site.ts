@@ -89,13 +89,13 @@ export const site = {
   line: 'rsg.garden',
   phone: '02-2735-5500',
   fax: '02-2735-5288',
-  tagline: '落在地球 — 好好做人・好好生活',
+  tagline: '落在地球 — 好好做人，好好生活',
   footerLinks: [
+    { label: '體驗與協談', href: '/negotiate-one-to-one' },
     { label: '學員怎麼說', href: '/share' },
-    { label: '課程行事曆', href: '/events' },
-    { label: '文章', href: '/posts' },
-    { label: '能量商店', href: 'https://shop.rsg.com.tw/' },
-    { label: '學習指南', href: 'https://ask.rsg.com.tw/' },
+    { label: '課程在這兒', href: '/latest-courses' },
+    { label: '音檔課程', href: 'https://shop.rsg.com.tw/courses/' },
+    { label: '會員登入', href: 'https://shop.rsg.com.tw/wp-login.php/?openExternalBrowser=1' },
   ],
   social: [
     { label: 'Facebook', href: 'https://www.facebook.com/rsg.garden/' },
