@@ -1,0 +1,29 @@
+---
+import { todayInTaipei, visibleEvents, eventRange } from '../lib/calendar.mjs';
+import '../styles/calendar.css';
+interface Props { events: { title: string; href: string; start: string; end: string; startsAt: number; endsAt: number; venue: string; time: string; allDay: boolean }[] }
+const upcoming = visibleEvents(Astro.props.events);
+---
+<section class="course-calendar" data-calendar aria-label="課程行事曆">
+  <script type="application/json" data-events set:html={JSON.stringify(upcoming).replace(/</g, '\\u003c')} />
+  <div class="calendar-enhanced" hidden>
+    <div class="calendar-toolbar">
+      <label class="calendar-search">搜尋課程<input type="search" placeholder="課程名稱或地點" data-search /></label>
+      <div class="calendar-views" role="group" aria-label="顯示方式"><button type="button" data-view="month" aria-pressed="true">月曆</button><button type="button" data-view="list" aria-pressed="false">日期清單</button></div>
+    </div>
+    <p class="calendar-today" data-today-label></p>
+    <div class="calendar-navigation">
+      <div class="calendar-steps"><button type="button" data-month-step="-1" aria-label="上一個月">‹</button><button type="button" data-month-step="1" aria-label="下一個月">›</button><button type="button" data-today>本月</button></div>
+      <h2 data-heading></h2>
+      <label><span class="visually-hidden">選擇月份</span><input type="month" data-month aria-label="選擇月份" min={todayInTaipei().slice(0, 7)} /></label>
+    </div>
+    <p class="calendar-status" data-status role="status" aria-live="polite"></p>
+    <p class="calendar-mobile-hint" data-mobile-hint>月曆可左右滑動，也可切換「日期清單」。</p>
+    <div class="calendar-output" data-output></div>
+  </div>
+  <div class="calendar-fallback">
+    <h2>即將舉辦的課程</h2><p>開啟 JavaScript 可使用月曆與月份切換。</p>
+    {upcoming.length ? <ul>{upcoming.map(event => <li><time datetime={event.start}>{eventRange(event)}</time>　<a href={event.href}>{event.title}</a></li>)}</ul> : <p>近期課程籌備中。</p>}
+  </div>
+</section>
+<script>import '../scripts/calendar';</script>

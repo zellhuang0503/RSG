@@ -12,9 +12,19 @@ featured_image: ""
 excerpt: ""
 menu_order: 0
 template: "100-width.php"
+presentation:
+  layout: centered-service
+  hero:
+    src: /media/2023/06/企業1-1教練_網頁主圖.jpg
+    alt: 企業1-1教練：調整方向與企業布局
+    width: 1440
+    height: 522
+  appointment: true
 ---
 
-## 企業1-1教練
+<section class="service-section" data-reveal="left">
+
+# 企業1-1教練
 
 全球關稅讓大環境、消費模式…等，  
 發生迅速且巨大的改變。  
@@ -34,15 +44,8 @@ template: "100-width.php"
 即時檢視&校準方向、修訂計畫或人事布局，  
 用順流又省力的方式行動，讓企業不費力地開展。
 
-1. 校準方向：企業排列周檢  
-2. 改善計畫回饋  
-3. 人事規劃&執行方案建議
+1\. 校準方向：企業排列周檢<br />
+2\. 改善計畫回饋<br />
+3\. 人事規劃&執行方案建議
 
-## 我想預約
-
-### 服務時間／平日週一至週五 10:00 AM-18:00 PM
-
-我想預約或進一步了解，請洽線上客服，  
-將有專人與您聯繫預約時間與費用，謝謝。
-
-[![](/media/2022/08/png_icon_點我預約.png)]( https://m.me/rsg.garden)
+</section>

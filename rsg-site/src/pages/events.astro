@@ -1,38 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
-import EventCard from '../components/EventCard.astro';
-import { getEvents, isUpcoming } from '../lib/content';
+import EventCalendar from '../components/EventCalendar.astro';
+import { getEvents, routeOf } from '../lib/content';
+import { calendarEvent } from '../lib/calendar.mjs';
 import { site } from '../site';
-
-const all = await getEvents(); // 依開始日期新→舊
-const upcoming = all.filter((e) => isUpcoming(e)).reverse(); // 即將舉辦：近→遠
-const past = all.filter((e) => !isUpcoming(e));
-// 過往活動依年份分組（新→舊）
-const pastByYear = new Map<string, typeof past>();
-for (const e of past) {
-  const y = (e.data.start_date || e.data.date).slice(0, 4) || '其他';
-  if (!pastByYear.has(y)) pastByYear.set(y, []);
-  pastByYear.get(y)!.push(e);
-}
+const events = (await getEvents()).map(entry => calendarEvent({
+  title: entry.data.title, href: routeOf(entry), start: entry.data.start_date,
+  end: entry.data.end_date, allDay: entry.data.all_day, venue: entry.data.venue,
+})).filter(Boolean);
 ---
-<Base title="課程活動" description={`${site.shortName}的工作坊、課程與體驗會時程。`} path="/events" breadcrumbs={[{ name: '課程活動', path: '/events' }]}>
-  <div class="container event-list">
-    <header class="list-head">
-      <h1>課程活動</h1>
-      <p class="muted">工作坊、課程與體驗會。報名與付款請至<a href="https://shop.rsg.com.tw/" target="_blank" rel="noopener">線上商店</a>。</p>
-    </header>
-    <h2>即將舉辦</h2>
-    {upcoming.length ? <div class="grid">{upcoming.map((e) => <EventCard event={e} />)}</div> : <p class="muted">近期活動籌備中，歡迎追蹤 Facebook 粉絲團。</p>}
-    {past.length > 0 && (
-      <>
-        <h2>過往活動</h2>
-        {[...pastByYear.entries()].map(([year, list]) => (
-          <details class="year-group" open={year === [...pastByYear.keys()][0]}>
-            <summary><h3>{year} 年（{list.length} 場）</h3></summary>
-            <div class="grid past">{list.map((e) => <EventCard event={e} />)}</div>
-          </details>
-        ))}
-      </>
-    )}
+<Base title="課程行事曆" description={`${site.shortName}的工作坊、課程與體驗會時程。`} path="/events" breadcrumbs={[{ name: '課程行事曆', path: '/events' }]}>
+  <div class="container calendar-page">
+    <header><h1>課程行事曆</h1><p class="muted">查看課程日期與星期，點選課程名稱了解詳細資訊。</p></header>
+    <EventCalendar events={events} />
   </div>
 </Base>
