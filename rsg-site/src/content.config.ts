@@ -31,6 +31,11 @@ const pages = defineCollection({
   schema: base.extend({
     menu_order: z.number().optional(),
     template: z.string().optional(),
+    presentation: z.object({
+      layout: z.literal('centered-service'),
+      hero: z.object({ src: z.string(), alt: z.string(), width: z.number(), height: z.number() }),
+      appointment: z.boolean().default(false),
+    }).optional(),
   }),
 });
 

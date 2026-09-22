@@ -1,0 +1,60 @@
+/* Shared presentation rules. Pages select a layout; never target a page URL. */
+:root {
+  --service-heading: #92b36a;
+  --service-rule: #f7c331;
+  --reveal-duration: 1s;
+  --reveal-distance: 20px;
+}
+.page-banner { display: block; width: 100%; height: auto; }
+.service-page { color: #666; font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif; font-size: 18px; line-height: 1.5; letter-spacing: 0; }
+.service-content { padding: 40px 0 44px; overflow: clip; }
+.service-section { width: min(1200px, 64%); margin-inline: auto; text-align: center; }
+.service-section + .service-section { margin-top: 38px; }
+.service-section h1, .service-section h2 { font-family: inherit; font-weight: 700; color: var(--service-heading); text-align: center; line-height: 1.5; margin: 0 0 30px; }
+.service-section h1 { font-size: 24px; }
+.service-section h2 { font-size: 32px; }
+.service-section h1::after, .service-section h2::after { content: ''; display: block; width: 180px; max-width: 50%; height: 2px; background: var(--service-rule); margin: 22px auto 0; }
+.service-subtitle { color: #bd8e62; font-size: 16px; font-weight: 700; margin: 0 0 36px; }
+.service-section p:last-child { margin-bottom: 0; }
+.service-checklist { list-style: none; padding: 0; margin: 56px 0 0; text-align: left; }
+.service-checklist li { display: flex; align-items: baseline; gap: 10px; margin-block: 10px; }
+.service-checklist li::before { content: '✓'; display: inline-grid; place-items: center; flex: 0 0 24px; height: 24px; border-radius: 50%; color: white; background: #2b2f56; font-size: 15px; font-weight: 700; }
+.appointment-band { padding: 52px var(--gutter); background: #dcedf7; overflow: clip; }
+.appointment-panel { width: min(1480px, 78%); margin: auto; padding: 42px 28px; background: #fff; text-align: center; }
+.appointment-panel h2 { font-family: inherit; font-size: 24px; color: #f7662f; margin: 0 0 24px; }
+.appointment-hours { color: #111; margin: 0 0 20px; }
+.appointment-hours span { color: #af4e00; }
+.appointment-description { font-size: 16px; margin-bottom: 64px; }
+.appointment-link { display: inline-block; }
+.appointment-link img { display: block; width: 230px; max-width: 100%; height: auto; }
+.appointment-link:focus-visible { outline: 2px solid #2b2f56; outline-offset: 6px; }
+body:has(.service-page) .site-footer { margin-top: 20px; }
+
+/* Add data-reveal="left" (or "up") to any shared section; JS runs once per visit. */
+.reveal-pending { opacity: 0; }
+.reveal-enter { animation: reveal-fade var(--reveal-duration) ease both; }
+[data-reveal="left"].reveal-enter { animation-name: reveal-left; }
+[data-reveal="up"].reveal-enter { animation-name: reveal-up; }
+@keyframes reveal-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes reveal-left { from { opacity: 0; transform: translateX(calc(-1 * var(--reveal-distance))); } to { opacity: 1; transform: translateX(0); } }
+@keyframes reveal-up { from { opacity: 0; transform: translateY(var(--reveal-distance)); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 1024px) {
+  .service-section { width: calc(100% - var(--gutter) * 2); }
+  .appointment-panel { width: 100%; }
+}
+@media (max-width: 640px) {
+  .service-page { font-size: 16px; line-height: 1.8; }
+  .service-content { padding-block: 32px; }
+  .service-section h2 { font-size: 28px; }
+  .service-checklist { margin-top: 32px; }
+  .appointment-band { padding-block: 32px; }
+  .appointment-panel { padding: 32px 20px; }
+  .appointment-description { margin-bottom: 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-pending { opacity: 1; }
+  .reveal-enter { animation: none; }
+}
+@media print {
+  .reveal-pending, .reveal-enter { opacity: 1; transform: none; animation: none; }
+}

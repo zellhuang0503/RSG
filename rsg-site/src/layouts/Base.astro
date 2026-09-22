@@ -4,6 +4,8 @@ import Seo from '../components/Seo.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BackToTop from '../components/BackToTop.astro';
+import RevealEffects from '../components/RevealEffects.astro';
+import '../styles/presentation.css';
 import { site } from '../site';
 
 type SeoProps = Parameters<typeof Seo>[0];
@@ -32,5 +34,6 @@ const { searchable = true, ...seo } = Astro.props;
     </main>
     <Footer />
     <BackToTop />
+    <RevealEffects />
   </body>
 </html>
