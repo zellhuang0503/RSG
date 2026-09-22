@@ -16,6 +16,15 @@
 .service-section h1::after, .service-section h2::after { content: ''; display: block; width: 180px; max-width: 50%; height: 2px; background: var(--service-rule); margin: 22px auto 0; }
 .service-subtitle { color: #bd8e62; font-size: 16px; font-weight: 700; margin: 0 0 36px; }
 .service-section p:last-child { margin-bottom: 0; }
+/* Shared poster gallery for image-led course and workshop pages. */
+.service-section--gallery { width: min(1200px, 74%); margin-bottom: 60px; }
+.service-section--gallery h1 { font-size: 32px; margin-bottom: 40px; }
+.service-section--gallery h1::after { width: 300px; }
+.poster-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4%; align-items: start; }
+.poster-gallery-item { display: block; min-width: 0; margin: 0; transition: transform 220ms ease, box-shadow 220ms ease; }
+.poster-gallery-item img { display: block; width: 100%; height: auto; }
+.poster-gallery-item:is(:hover, :focus-visible) { transform: translateY(-5px); box-shadow: 0 12px 20px rgb(0 0 0 / 16%); }
+.poster-gallery-item:focus-visible { outline: 2px solid #2b2f56; outline-offset: 6px; }
 .service-checklist { list-style: none; padding: 0; margin: 56px 0 0; text-align: left; }
 .service-checklist li { display: flex; align-items: baseline; gap: 10px; margin-block: 10px; }
 .service-checklist li::before { content: '✓'; display: inline-grid; place-items: center; flex: 0 0 24px; height: 24px; border-radius: 50%; color: white; background: #2b2f56; font-size: 15px; font-weight: 700; }
@@ -43,6 +52,9 @@ body:has(.service-page) .site-footer { margin-top: 20px; }
   .appointment-panel { width: 100%; }
 }
 @media (max-width: 640px) {
+  .poster-gallery { grid-template-columns: 1fr; gap: 32px; max-width: 420px; margin-inline: auto; }
+  .service-section--gallery { margin-bottom: 20px; }
+  .service-section--gallery h1 { font-size: 28px; }
   .service-page { font-size: 16px; line-height: 1.8; }
   .service-content { padding-block: 32px; }
   .service-section h2 { font-size: 28px; }
@@ -52,6 +64,8 @@ body:has(.service-page) .site-footer { margin-top: 20px; }
   .appointment-description { margin-bottom: 36px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .poster-gallery-item { transition: none; }
+  .poster-gallery-item:is(:hover, :focus-visible) { transform: none; }
   .reveal-pending { opacity: 1; }
   .reveal-enter { animation: none; }
 }
