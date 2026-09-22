@@ -1,0 +1,26 @@
+<button class="back-to-top" type="button" aria-label="回到頂端" title="回到頂端" hidden>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6" /></svg>
+</button>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.back-to-top');
+  if (button) {
+    const update = () => { button.hidden = window.scrollY < 400; };
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('pageshow', update);
+    update();
+    button.addEventListener('click', () => {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'instant' : 'smooth' });
+    });
+  }
+</script>
+
+<style>
+  .back-to-top { position: fixed; right: 24px; bottom: 20px; z-index: 40; width: 48px; height: 48px; display: grid; place-items: center; border: 0; border-radius: 5px; background: rgba(45, 48, 48, .88); color: #fff; cursor: pointer; }
+  .back-to-top[hidden] { display: none; }
+  .back-to-top svg { width: 22px; height: 22px; }
+  .back-to-top:hover { background: #2b2f56; }
+  .back-to-top:focus-visible { outline: 3px solid #37b8c8; outline-offset: 4px; }
+  @media (max-width: 640px) { .back-to-top { right: 16px; bottom: 16px; } }
+</style>
