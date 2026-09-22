@@ -3,6 +3,7 @@
 // 所以舊站的 /archives/6311、/about-2、/events/xxx 全部維持不變。
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import ServicePage from '../layouts/ServicePage.astro';
 import { getRoutable, routeOf, formatDate, formatDateTime, summaryOf, termHref, toIso, type AnyEntry } from '../lib/content';
 import { site } from '../site';
 
@@ -20,6 +21,7 @@ const description = summaryOf(entry, 160);
 const isPost = entry.collection === 'posts';
 const isEvent = entry.collection === 'events';
 const ev = isEvent ? (entry as Extract<AnyEntry, { collection: 'events' }>).data : null;
+const presentation = entry.collection === 'pages' ? entry.data.presentation : undefined;
 
 const jsonLd: Record<string, unknown>[] = [];
 if (isPost) {
@@ -65,13 +67,18 @@ const breadcrumbs = isPost
   description={description}
   path={path}
   type={isPost ? 'article' : isEvent ? 'event' : 'website'}
-  image={d.featured_image || undefined}
+  image={presentation?.hero.src || d.featured_image || undefined}
   noindex={d.noindex}
   datePublished={isPost ? toIso(d.date) : undefined}
   dateModified={isPost ? toIso(d.modified || d.date) : undefined}
   jsonLd={jsonLd}
   breadcrumbs={breadcrumbs}
 >
+  {presentation?.layout === 'centered-service' ? (
+    <ServicePage hero={presentation.hero} appointment={presentation.appointment}>
+      <Content />
+    </ServicePage>
+  ) : (
   <article class="container">
     <header class="article-head">
       <h1>{d.title}</h1>
@@ -110,4 +117,5 @@ const breadcrumbs = isPost
       </footer>
     )}
   </article>
+  )}
 </Base>

@@ -1,0 +1,34 @@
+<!-- Shared opt-in scroll effects. Content remains visible without JavaScript. -->
+<script>
+  const elements = [...document.querySelectorAll<HTMLElement>('[data-reveal]')];
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (elements.length && !reducedMotion.matches && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const element = entry.target as HTMLElement;
+        element.classList.remove('reveal-pending');
+        element.classList.add('reveal-enter');
+        element.addEventListener('animationend', () => element.classList.remove('reveal-enter'), { once: true });
+        observer.unobserve(element);
+      }
+    }, { threshold: 0 });
+    elements.forEach((element) => {
+      element.classList.add('reveal-pending');
+      observer.observe(element);
+    });
+    // Keyboard users must never focus invisible content.
+    document.addEventListener('focusin', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const section = event.target.closest('[data-reveal]');
+      if (!section) return;
+      section.classList.remove('reveal-pending', 'reveal-enter');
+      observer.unobserve(section);
+    });
+    reducedMotion.addEventListener('change', (event) => {
+      if (!event.matches) return;
+      observer.disconnect();
+      elements.forEach((element) => element.classList.remove('reveal-pending', 'reveal-enter'));
+    });
+  }
+</script>
