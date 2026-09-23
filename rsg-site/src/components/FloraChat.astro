@@ -25,7 +25,15 @@
     --dify-chatbot-bubble-button-right: 24px;
     --dify-chatbot-bubble-button-bottom: 84px;
   }
-  #dify-chatbot-bubble-button { background-color: #1c64f2 !important; }
+  #dify-chatbot-bubble-button { background-color: #fff !important; }
+  /* Preserved WordPress Flora artwork; keep Dify's open/close icon switching. */
+  #dify-chatbot-bubble-button #openIcon {
+    width: 100%;
+    height: 100%;
+    background: url('/media/2025/07/FLORA-1-1.png') center / contain no-repeat;
+  }
+  #dify-chatbot-bubble-button #openIcon path { display: none; }
+  #dify-chatbot-bubble-button #closeIcon path { stroke: #2b2f56; }
   #dify-chatbot-bubble-button:focus-visible { outline: 3px solid #37b8c8; outline-offset: 4px; }
   #dify-chatbot-bubble-window {
     position: fixed !important;
