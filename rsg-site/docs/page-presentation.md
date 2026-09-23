@@ -1,5 +1,12 @@
 # 原站頁面還原的共用規則
 
+## 2026-09-23 本輪部署結果
+
+- 使用者確認「Push and deploy」後，三頁排版修正已提交為 `51ba04c9bc646dfacd2bf8d1f635a441bbb58fd4`，並推送至 `origin/codex/rsg-latest-courses`。未合併 main，避免夾帶該分支先前四筆已另行部署的提交。
+- 透過既有 Wrangler 設定部署 Worker `rsg`，版本 `f7ae70f8-161c-4c12-91e5-3bcb1bc529b1`，網址 `https://rsg.cloundflare1.workers.dev`。未切換 rsg.com.tw 網域，也未修改 D1 資料或 secrets。
+- `/about-2`、`/relationship-gardne-20th`、`/share` 均 HTTP 200；線上 HTML 與共用 CSS 的位元組內容均與本次本地建置一致。四個介紹區塊／三個影片來源、14 張週年作品、五篇心得／四種課程均核對完成；三頁已於雲端瀏覽器檢視。
+- 關於花園的前兩個 YouTube 縮圖在雲端已顯示；未實測影片播放，仍不宣稱三支播放皆通過。下方各段「尚未部署」為部署前驗證紀錄，以本節結果為準。
+
 - 每頁只維護 Markdown 文案、圖片與 `presentation` 設定，不建立逐頁 CSS 或 JavaScript。
 - 置中服務頁使用 `presentation.layout: centered-service`。`hero` 指定原媒體庫的 src、alt、width、height，`appointment: true` 加入共用預約區塊。
 - `ServicePage.astro` 負責全寬主圖及內容結構；`Appointment.astro` 集中維護預約文字、時間、客服連結和圖片，必要時以 props 傳入差異。
