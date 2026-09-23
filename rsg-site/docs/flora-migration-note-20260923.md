@@ -1,13 +1,22 @@
 # Flora 聊天機器人：新站遷移待辦
 
-日期：2026-09-23。狀態：使用者補充遷移需求，尚未執行整合或搬機。
+日期：2026-09-23。狀態：已依使用者提供的公開嵌入碼完成新站整合；保留既有 Hetzner / Dify 後端。
 
 ## 已確認資訊
 
 - 使用者確認 `flora.rsg.com.tw` 是 Flora 智能聊天機器人，目前部署在 Hetzner，正透過舊版 WordPress 網站提供服務。
 - 使用者口述平台為「Define.ai」；先前 Cloudflare DNS 備註為 `Dify-Flora on Hetzner`，因此暫記為 Dify，實際版本與部署方式仍待檢查。
 - 新網站上線時必須接續提供 Flora，不能在停用 WordPress 時遺漏此功能。
-- 本次只記錄需求，沒有改動機器人、DNS、Hetzner、知識庫或網站程式。
+- 初次盤點時只記錄需求。後續使用者提供公開嵌入碼，已新增網站共用元件；未變更 DNS、Hetzner、機器人設定或知識庫。
+
+## 新站整合與驗證
+
+- `src/components/FloraChat.astro` 由 `Base.astro` 載入，全站共用官方 `embed.min.js`。腳本與聊天來源皆使用 `https://flora.rsg.com.tw`，避免 HTTPS 頁面混合內容。
+- 沿用使用者提供的公開應用 token；它不是後端 API key。未提供或植入登入帳號、API key、使用者姓名或識別碼。
+- 保留藍色聊天按鈕、24rem × 40rem 視窗；按鈕置於回頂端上方，視窗固定於可視範圍，窄螢幕與低高度限制最大尺寸。補上按鈕名稱、鍵盤 Enter／空白開關與焦點外框，Escape 沿用 Dify 關閉行為。
+- 本機建置通過。390px 版面未溢出，兩個浮動按鈕間隔 16px，鍵盤開啟／Escape 關閉通過。本機內建瀏覽器對遠端 iframe 回報 `net::ERR_BLOCKED_BY_CLIENT`，因此此處不宣稱內嵌對話驗收通過；需繼續在 HTTPS 部署頁驗證。
+- 公開聊天頁已實際送出一則網站串接測試並收到 Flora 回覆；課程連結為 `https://rsg.com.tw/latest-courses` 與 `/events`，新站保留相同路徑。預覽站階段這些連結仍指向原網域，正式域名切換後會落在新站。
+- 觀察到既有 Dify 開場白在未填選填姓名時顯示 `{{您的大名是...}}`；屬後端既有內容問題，本次未改寫機器人設定。
 
 ## 後續整合順序
 

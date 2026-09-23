@@ -1,0 +1,56 @@
+<!-- The token identifies the public Dify embed; it is not a backend API key. -->
+<script is:inline>
+  window.difyChatbotConfig = {
+    token: 'AYa1KmdKGLRKzFqU',
+    baseUrl: 'https://flora.rsg.com.tw',
+    inputs: {},
+    containerProps: {
+      role: 'button',
+      tabIndex: 0,
+      ariaLabel: '開啟或關閉 Flora 聊天',
+      title: 'Flora 聊天',
+      onKeyDown(event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          event.currentTarget.click();
+        }
+      },
+    },
+  };
+</script>
+<script is:inline src="https://flora.rsg.com.tw/embed.min.js" id="AYa1KmdKGLRKzFqU" defer></script>
+
+<style is:global>
+  :root {
+    --dify-chatbot-bubble-button-right: 24px;
+    --dify-chatbot-bubble-button-bottom: 84px;
+  }
+  #dify-chatbot-bubble-button { background-color: #1c64f2 !important; }
+  #dify-chatbot-bubble-button:focus-visible { outline: 3px solid #37b8c8; outline-offset: 4px; }
+  #dify-chatbot-bubble-window {
+    position: fixed !important;
+    top: auto !important;
+    right: 24px !important;
+    bottom: 144px !important;
+    width: 24rem !important;
+    height: 40rem !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: calc(100% - 48px) !important;
+    max-height: calc(100vh - 160px) !important;
+    max-height: calc(100dvh - 160px) !important;
+  }
+  @media (max-width: 640px) {
+    :root {
+      --dify-chatbot-bubble-button-right: 16px;
+      --dify-chatbot-bubble-button-bottom: 80px;
+    }
+    #dify-chatbot-bubble-window {
+      right: 16px !important;
+      bottom: 140px !important;
+      max-width: calc(100% - 32px) !important;
+      max-height: calc(100vh - 156px) !important;
+      max-height: calc(100dvh - 156px) !important;
+    }
+  }
+</style>
