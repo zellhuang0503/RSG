@@ -1,5 +1,6 @@
 import { CONSENT_VERSION, OFFICE_EMAIL, escapeHtml, validateRegistration, sessionStatus, upcomingSessions, mailPayload, renderRegistration, registrationCourseAtPath, mergeRegistrationEvents } from '../src/lib/registration.mjs';
 import { eventRange } from '../src/lib/calendar.mjs';
+import { handleFlora } from './flora.mjs';
 import seedSessions from '../src/data/registration-sessions.json' with { type: 'json' };
 
 const json = (body, status=200) => Response.json(body, {status, headers:{'Cache-Control':'no-store', 'X-Content-Type-Options':'nosniff', 'X-Robots-Tag':'noindex'}});
@@ -133,6 +134,7 @@ export default {
   async fetch(request,env,ctx) {
     const url=new URL(request.url), path=url.pathname.replace(/\/$/,'');
     try {
+      if (path.startsWith('/api/flora/')) return await handleFlora(request, env);
       if (path==='/api/registrations') return request.method==='POST' ? await submitRegistration(request,env,ctx) : fail('不支援此操作。',405);
       if (path==='/api/registration/sessions' && request.method==='GET') {
         const courseId=url.searchParams.get('course');

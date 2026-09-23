@@ -40,6 +40,15 @@
 - 程式提交 `b9d76fa` 已部署，Worker 版本 `f2407d51-b46b-4417-ae36-7acdfafd22f7`。實際點擊 iframe 右上角按鈕，桌面宽度 384 → 640 → 384px，390px 手機高度 512 → 664 → 512px；對話保留且沒有橫向溢出。
 - 品牌顯示仍由 Dify 後端控制；目前自架 1.13.3 的設定頁沒有品牌移除選項。使用者確認採自架方式，尚未提供品牌移除商業授權資訊，未改動品牌設定。官方授權對使用 Dify 前端的品牌移除有額外條件：<https://github.com/langgenius/dify/blob/main/LICENSE>；`remove_webapp_brand` 技術設定存在，不代表自架自動取得品牌移除授權。
 
+## 本站原生聊天介面（2026-09-23）
+
+- 使用者同意建立本站聊天介面，並明確核准建立 Flora 專用 API 金鑰、存入 Cloudflare `rsg` 的 `DIFY_FLORA_API_KEY`。金鑰已透過一次性本機表單驗證 Dify `/v1/parameters`，以標準輸入交給 Wrangler secret put；未寫入 Git、前端或本機檔案。
+- `FloraChat.astro` 與 `flora-chat.ts` 取代 Dify embed/iframe，保留原 Flora 頭像、桌面 80px／手機 72px、呼吸光暈、標籤；提供文字串流、HTTP(S) 連結、新對話、展開／收合及 Escape 關閉。本站不再載入 Dify 前端，後端模型、工作流程及知識庫保持既有設定。
+- `/api/flora/session`、`/api/flora/chat` 由 Worker 代理至既有 HTTPS Dify API。伺服器使用簽章 HttpOnly cookie 決定匿名使用者；檢查同源、訊息長度，限制每 IP 每分鐘 12 次／每天 120 次，過濾內部事件與錯誤細節。API 金鑰不傳送到訪客瀏覽器。
+- 同一分頁透過 sessionStorage 保留最近 40 則訊息與對話 ID，跨頁可延續。舊 iframe 聊天紀錄不會自動匯入；「新對話」只開始新會話，既有後端紀錄仍依 Dify 保存設定處理。第一版不提供檔案上傳或語音功能。
+- `node --test tests/flora.test.mjs tests/registration.test.mjs tests/calendar.test.mjs` 共 36 項通過；涵蓋串流 UTF-8 分段、身份隔離、錯誤／中斷、D1 限流與原報名／行事曆回歸。Astro + Pagefind 建置通過。本機驗證一般／展開尺寸、手機 512 → 664px、失敗提示及保留未送出文字。
+- 本機 `astro preview` 僅服務靜態頁，不提供 Worker API；真實模型串接必須在 Worker 部署後驗證。
+
 ## 後續整合順序
 
 1. 盤點舊站實際嵌入方式、聊天入口樣式與使用頁面，確認 Dify 應用及既有服務設定。

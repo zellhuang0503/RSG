@@ -1,132 +1,86 @@
-<!-- The token identifies the public Dify embed; it is not a backend API key. -->
-<script is:inline>
-  window.difyChatbotConfig = {
-    token: 'AYa1KmdKGLRKzFqU',
-    baseUrl: 'https://flora.rsg.com.tw',
-    inputs: {},
-    containerProps: {
-      role: 'button',
-      tabIndex: 0,
-      ariaLabel: '開啟或關閉 Flora 聊天',
-      title: 'Flora 聊天',
-      onKeyDown(event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          event.currentTarget.click();
-        }
-      },
-    },
-  };
-  // Follow the official embed's expand message without overriding its click logic.
-  window.addEventListener('message', (event) => {
-    const frame = document.getElementById('dify-chatbot-bubble-window');
-    if (event.origin !== 'https://flora.rsg.com.tw' || !frame || event.source !== frame.contentWindow) return;
-    if (event.data?.type === 'dify-chatbot-expand-change') {
-      frame.dataset.expanded = String(frame.dataset.expanded !== 'true');
-    }
-  });
+<aside class="flora" data-flora data-pagefind-ignore>
+  <button class="flora-launcher" aria-label="開啟 Flora 小幫手" aria-expanded="false" aria-controls="flora-panel" type="button">
+    <img src="/media/2025/07/FLORA-1-1.png" alt="" width="80" height="80" />
+    <span class="flora-launcher-label">Flora 小幫手</span>
+  </button>
+  <section id="flora-panel" class="flora-panel" role="dialog" aria-labelledby="flora-title" hidden>
+    <header class="flora-header">
+      <img src="/media/2025/07/FLORA-1-1.png" alt="" width="40" height="40" />
+      <div><h2 id="flora-title">Flora 小幫手</h2><p>關係花園・陪你探索與成長</p></div>
+      <div class="flora-actions">
+        <button type="button" data-expand aria-label="展開聊天視窗" aria-pressed="false" title="展開聊天視窗">⤢</button>
+        <button type="button" data-close aria-label="關閉聊天視窗" title="關閉聊天視窗">×</button>
+      </div>
+    </header>
+    <div class="flora-toolbar"><span>AI 回覆僅供參考</span><button type="button" data-new>新對話</button></div>
+    <div class="flora-messages" aria-label="與 Flora 的對話" tabindex="0">
+      <div class="flora-message flora-message--assistant"><span class="flora-speaker">Flora</span><div class="flora-message-text">您好，我是 Flora。想了解花園課程，或聊聊生活裡的感受，都可以從這裡開始。</div></div>
+    </div>
+    <div class="flora-suggestions" aria-label="試著問 Flora">
+      <button type="button" data-question="請介紹關係花園。">認識關係花園</button>
+      <button type="button" data-question="怎麼選適合我的課程？">尋找適合的課程</button>
+    </div>
+    <form class="flora-form">
+      <label class="flora-sr-only" for="flora-input">想對 Flora 說的話</label>
+      <textarea id="flora-input" placeholder="想對 Flora 說些什麼？" rows="2" maxlength="4000" required></textarea>
+      <button type="submit" aria-label="送出訊息">送出</button>
+    </form>
+    <p class="flora-status" role="status" aria-live="polite"></p>
+    <p class="flora-note">對話由 Flora 服務處理。請勿輸入身分證、密碼等敏感資料。</p>
+  </section>
+</aside>
+<script>
+  import '../scripts/flora-chat';
 </script>
-<script is:inline src="https://flora.rsg.com.tw/embed.min.js" id="AYa1KmdKGLRKzFqU" defer></script>
-
 <style is:global>
-  :root {
-    --dify-chatbot-bubble-button-right: 24px;
-    --dify-chatbot-bubble-button-bottom: 84px;
-    --dify-chatbot-bubble-button-width: 80px;
-    --dify-chatbot-bubble-button-height: 80px;
-    --dify-chatbot-bubble-button-border-radius: 50%;
+  .flora { --flora-size:80px; --flora-right:24px; --flora-bottom:84px; --flora-panel-bottom:176px; color:#2b2f56; font-family:'Noto Sans TC',sans-serif; }
+  .flora * { box-sizing:border-box; }
+  .flora button { font:inherit; cursor:pointer; }
+  .flora button:disabled { cursor:wait; opacity:.55; }
+  .flora button:focus-visible,.flora textarea:focus-visible { outline:3px solid #37b8c8; outline-offset:3px; }
+  .flora-launcher { position:fixed; right:var(--flora-right); bottom:var(--flora-bottom); width:var(--flora-size); height:var(--flora-size); padding:0; border:0; border-radius:50%; background:#fff; box-shadow:0 4px 8px #0003; z-index:101; }
+  .flora-launcher img { display:block; width:100%; height:100%; animation:flora-breathe 4s ease-in-out infinite; }
+  .flora-launcher::before { content:''; position:absolute; inset:-4px; border:2px solid #70cfcf; border-radius:50%; pointer-events:none; animation:flora-halo 4s ease-in-out infinite; }
+  .flora-launcher-label { position:absolute; right:calc(100% + 14px); top:50%; transform:translateY(-50%); padding:7px 12px; border:1px solid #c8e8e7; border-radius:20px; background:#fff; color:#2b2f56; box-shadow:0 2px 8px #0001; font-size:14px; white-space:nowrap; }
+  .flora-launcher:is(:hover,:focus-visible) img,.flora-launcher:is(:hover,:focus-visible)::before { animation-play-state:paused; }
+  .flora-launcher[aria-expanded='true'] img { animation:none; }
+  .flora-launcher[aria-expanded='true']::before,.flora-launcher[aria-expanded='true'] .flora-launcher-label { display:none; }
+  .flora-panel { position:fixed; right:var(--flora-right); bottom:var(--flora-panel-bottom); width:384px; max-width:calc(100% - 48px); height:640px; max-height:calc(100dvh - var(--flora-panel-bottom) - 16px); border:1px solid #c6dfdf; border-radius:20px; background:#f4faf9; box-shadow:0 12px 45px #182d4933; z-index:100; overflow:hidden; display:flex; flex-direction:column; text-align:left; }
+  .flora-panel[hidden] { display:none; }
+  .flora-panel[data-expanded='true'] { width:640px; height:calc(100dvh - var(--flora-panel-bottom) - 16px); }
+  .flora-header { display:flex; align-items:center; gap:9px; padding:13px; background:linear-gradient(120deg,#d7f2f0,#e7e0f8); flex-shrink:0; }
+  .flora-header img { width:40px; height:40px; flex-shrink:0; }
+  .flora-header h2 { font:700 18px/1.4 'Noto Sans TC',sans-serif; margin:0; color:#2b2f56; border:0; padding:0; }
+  .flora-header p { margin:2px 0 0; font-size:11px; line-height:1.5; }
+  .flora-actions { display:flex; margin-left:auto; gap:3px; }
+  .flora-actions button { width:34px; height:34px; border:0; border-radius:8px; color:#2b2f56; background:#ffffff80; font-size:25px; line-height:1; }
+  .flora-actions button:hover { background:#fff; }
+  .flora-toolbar { display:flex; align-items:center; justify-content:space-between; padding:6px 14px; border-bottom:1px solid #dce9e7; font-size:11px; color:#647273; }
+  .flora-toolbar button { border:0; color:#325c63; background:none; font-size:12px; padding:5px; }
+  .flora-messages { overflow-y:auto; overscroll-behavior:contain; flex:1; min-height:0; padding:16px 14px 8px; scroll-behavior:smooth; }
+  .flora-message { max-width:94%; margin:0 0 16px; padding:10px 12px; border-radius:14px; background:#fff; border:1px solid #e0eae8; font-size:14px; line-height:1.75; overflow-wrap:anywhere; }
+  .flora-message--user { margin-left:auto; background:#e0f3f0; border-color:#c5e6e1; }
+  .flora-speaker { display:block; font-size:11px; font-weight:700; color:#587779; margin-bottom:3px; }
+  .flora-message-text { white-space:pre-wrap; }
+  .flora-message-text a { color:#245f82; text-decoration:underline; }
+  .flora-message[data-incomplete='true'] { border-style:dashed; }
+  .flora-suggestions { display:flex; flex-wrap:wrap; gap:6px; padding:5px 14px 10px; }
+  .flora-suggestions[hidden] { display:none; }
+  .flora-suggestions button { border:1px solid #c8e2df; border-radius:14px; background:#fff; padding:5px 9px; color:#3b656c; font-size:12px; }
+  .flora-form { display:flex; align-items:flex-end; gap:8px; padding:10px 12px; background:#fff; border-top:1px solid #dce9e7; margin:0; }
+  .flora-form textarea { min-width:0; flex:1; resize:none; border:1px solid #c8dcda; border-radius:10px; padding:9px; font:400 16px/1.4 'Noto Sans TC',sans-serif; color:#273a44; background:#fff; }
+  .flora-form button { border:0; border-radius:10px; padding:10px 12px; background:#38666f; color:#fff; font-size:14px; }
+  .flora-status { margin:0; padding:0 14px; min-height:18px; background:#fff; color:#5a6c6c; font-size:12px; line-height:1.5; }
+  .flora-status[data-error='true'] { color:#9b3829; }
+  .flora-note { margin:0; padding:4px 14px 9px; background:#fff; font-size:10px; line-height:1.5; color:#748180; }
+  .flora-sr-only { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+  @keyframes flora-breathe { 0%,100%{transform:scale(1)}50%{transform:scale(1.04)} }
+  @keyframes flora-halo { 0%,100%{transform:scale(1);opacity:.25}50%{transform:scale(1.09);opacity:.65} }
+  @media(max-width:640px) {
+    .flora { --flora-size:72px; --flora-right:16px; --flora-bottom:80px; --flora-panel-bottom:164px; }
+    .flora-panel { max-width:calc(100% - 32px); height:512px; }
+    .flora-header { gap:7px; padding:10px; }
+    .flora-header p { font-size:10px; }
   }
-  #dify-chatbot-bubble-button { background-color: #fff !important; }
-  #dify-chatbot-bubble-button::before {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border: 2px solid #70cfcf;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: flora-halo 4s ease-in-out infinite;
-  }
-  #dify-chatbot-bubble-button::after {
-    content: 'Flora 小幫手';
-    position: absolute;
-    right: calc(100% + 14px);
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 7px 12px;
-    border: 1px solid #c8e8e7;
-    border-radius: 20px;
-    background: #fff;
-    color: #2b2f56;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
-    font: 500 14px/1.4 'Noto Sans TC', sans-serif;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-  /* Preserved WordPress Flora artwork; keep Dify's open/close icon switching. */
-  #dify-chatbot-bubble-button #openIcon {
-    width: 100%;
-    height: 100%;
-    background: url('/media/2025/07/FLORA-1-1.png') center / contain no-repeat;
-    animation: flora-breathe 4s ease-in-out infinite;
-  }
-  #dify-chatbot-bubble-button #openIcon path { display: none; }
-  #dify-chatbot-bubble-button #closeIcon { width: 32px; height: 32px; }
-  #dify-chatbot-bubble-button #closeIcon path { stroke: #2b2f56; }
-  #dify-chatbot-bubble-button:focus-visible { outline: 3px solid #37b8c8; outline-offset: 4px; }
-  #dify-chatbot-bubble-button:is(:hover, :focus-visible)::before,
-  #dify-chatbot-bubble-button:is(:hover, :focus-visible) #openIcon { animation-play-state: paused; }
-  /* Dify switches the close icon's inline display when the chat is open. */
-  #dify-chatbot-bubble-button:has(#closeIcon[style*='block'])::before,
-  #dify-chatbot-bubble-button:has(#closeIcon[style*='block'])::after { display: none; }
-  #dify-chatbot-bubble-button:has(#closeIcon[style*='block']) #openIcon { animation: none; }
-  @keyframes flora-breathe {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.04); }
-  }
-  @keyframes flora-halo {
-    0%, 100% { transform: scale(1); opacity: .25; }
-    50% { transform: scale(1.09); opacity: .65; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    #dify-chatbot-bubble-button::before { animation: none; opacity: .35; }
-    #dify-chatbot-bubble-button #openIcon { animation: none; }
-  }
-  #dify-chatbot-bubble-window {
-    position: fixed !important;
-    top: auto !important;
-    right: 24px !important;
-    bottom: 176px !important;
-    width: 24rem !important;
-    height: 40rem !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    max-width: calc(100% - 48px) !important;
-    max-height: calc(100vh - 192px) !important;
-    max-height: calc(100dvh - 192px) !important;
-  }
-  #dify-chatbot-bubble-window[data-expanded='true'] {
-    width: 40rem !important;
-    height: calc(100vh - 192px) !important;
-    height: calc(100dvh - 192px) !important;
-  }
-  @media (max-width: 640px) {
-    :root {
-      --dify-chatbot-bubble-button-right: 16px;
-      --dify-chatbot-bubble-button-bottom: 80px;
-      --dify-chatbot-bubble-button-width: 72px;
-      --dify-chatbot-bubble-button-height: 72px;
-    }
-    #dify-chatbot-bubble-window {
-      right: 16px !important;
-      bottom: 164px !important;
-      height: 32rem !important;
-      max-width: calc(100% - 32px) !important;
-      max-height: calc(100vh - 180px) !important;
-      max-height: calc(100dvh - 180px) !important;
-    }
-    #dify-chatbot-bubble-window[data-expanded='true'] {
-      height: calc(100vh - 180px) !important;
-      height: calc(100dvh - 180px) !important;
-    }
-  }
+  @media(prefers-reduced-motion:reduce) { .flora-launcher img,.flora-launcher::before{animation:none}.flora-launcher::before{opacity:.35}.flora-messages{scroll-behavior:auto} }
 </style>
