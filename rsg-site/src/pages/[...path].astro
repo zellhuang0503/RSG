@@ -5,6 +5,8 @@ import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ServicePage from '../layouts/ServicePage.astro';
 import CoursePage from '../layouts/CoursePage.astro';
+import NativeRegistration from '../components/NativeRegistration.astro';
+import { registrationCourseAtPath } from '../lib/registration.mjs';
 import { getRoutable, routeOf, formatDate, formatDateTime, summaryOf, termHref, toIso, type AnyEntry } from '../lib/content';
 import { site } from '../site';
 
@@ -21,6 +23,7 @@ const path = routeOf(entry);
 const description = summaryOf(entry, 160);
 const isPost = entry.collection === 'posts';
 const isEvent = entry.collection === 'events';
+const eventRegistration = isEvent ? registrationCourseAtPath(path) : undefined;
 // 內文已有同一張開場圖時，不再額外插入封面；列表縮圖與 SEO 圖片仍保留。
 const firstBodyImage = (entry.body ?? '').match(/!\[[^\]]*\]\(\s*<?([^\s)>]+)/)?.[1];
 const showFeaturedImage = d.featured_image && !(isPost && firstBodyImage === d.featured_image);
@@ -102,7 +105,7 @@ const breadcrumbs = isPost
       <figure class="featured" style="max-width: var(--measure)"><img src={d.featured_image} alt={d.title} /></figure>
     )}
 
-    {ev && (ev.start_date || ev.venue || ev.cost) && (
+    {ev && !eventRegistration && (ev.start_date || ev.venue || ev.cost) && (
       <dl class="event-info">
         {ev.start_date && <><dt>時間</dt><dd>
           <time datetime={ev.start_date}>{ev.all_day ? formatDate(ev.start_date) : formatDateTime(ev.start_date)}</time>
@@ -117,6 +120,7 @@ const breadcrumbs = isPost
     <div class="prose">
       <Content />
     </div>
+    {eventRegistration && <NativeRegistration courseId={eventRegistration.id} />}
 
     {isPost && (d.tags.length > 0 || d.modified) && (
       <footer class="article-foot">

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {Miniflare,convertV4MiniflareOptions} from 'miniflare';
 import {submitRegistration,drainNotifications,modeFor} from '../worker/index.mjs';
-import {validateRegistration,CONSENT_VERSION,renderRegistration,mailPayload,sessionStatus,mergeRegistrationEvents} from '../src/lib/registration.mjs';
+import {validateRegistration,CONSENT_VERSION,renderRegistration,mailPayload,sessionStatus,mergeRegistrationEvents,registrationCourseAtPath,money} from '../src/lib/registration.mjs';
 import {calendarEvent} from '../src/lib/calendar.mjs';
 import seedSessions from '../src/data/registration-sessions.json' with {type:'json'};
 
@@ -104,10 +104,38 @@ test('closed, cancelled, full, missing sessions cannot register',async()=>{
   assert.equal((await submitRegistration(request(body({sessionId:'missing'})),env,ctx)).status,409);
   assert.equal(await count('registrations'),0);
 });
-test('Taipei deadline enforced and passed sessions omitted from rendered UI',()=>{
-  assert.equal(sessionStatus({...session,closesAt:'2026-10-17T00:00:00+08:00'},new Date('2026-10-16T16:00:00Z')),'closed');
+test('published dates remain open through the last Taipei day, without a separate deadline',()=>{
+  const s={...session,dates:['2026-10-17','2026-10-18'],closesAt:'2026-10-17T00:00:00+08:00'};
+  assert.equal(sessionStatus(s,new Date('2026-10-17T00:00:00+08:00')),'open');
+  assert.equal(sessionStatus(s,new Date('2026-10-18T23:59:59+08:00')),'open');
+  assert.equal(sessionStatus(s,new Date('2026-10-19T00:00:00+08:00')),'closed');
   const html=renderRegistration('7586',[{...session,dates:['2020-01-01']}],{mode:'local'});
   assert.ok(!html.includes('data-select-session'));assert.ok(html.includes('新一期籌備中'));
+});
+
+test('calendar and date table use the same published sessions; corporate notices have no link',()=>{
+  const now=new Date('2026-09-23T00:00:00+08:00');
+  const notice=calendarEvent({title:'企業外訓',href:'/events/企業外訓-37',start:'2026-11-02',end:'2026-11-04',allDay:true});
+  const events=mergeRegistrationEvents([notice],seedSessions,now);
+  assert.equal(events.find(e=>e.title==='企業外訓').href,'');
+  for(const s of seedSessions){
+    assert.ok(events.some(e=>e.href===s.coursePath+'#course-registration'));
+    assert.ok(renderRegistration(s.courseId,seedSessions,{mode:'local',now}).includes(`data-select-session="${s.id}"`));
+  }
+  for(const status of ['draft','cancelled','full','closed']){
+    assert.equal(mergeRegistrationEvents([],[{...session,status}],now).length,0);
+    assert.doesNotMatch(renderRegistration(session.courseId,[{...session,status}],{mode:'local',now}),/<form|data-select-session=/);
+  }
+  const december=seedSessions.find(s=>s.courseId==='7579');
+  assert.equal(registrationCourseAtPath(encodeURI(december.coursePath)+'.html').id,'7579');
+  assert.equal(money(null),'待課務確認');
+  assert.doesNotMatch(renderRegistration('7579',seedSessions,{mode:'local',now}),/NT\$0/);
+});
+
+test('server rejects past sessions even when an old record says open',async()=>{
+  await db.prepare('UPDATE course_sessions SET data_json=?').bind(JSON.stringify({...session,dates:['2020-01-01']})).run();
+  assert.equal((await submitRegistration(request(body()),env,ctx)).status,409);
+  assert.equal(await count('registrations'),0);
 });
 test('local mode cannot run at public hostname; unknown origin and oversized body rejected',async()=>{
   assert.equal(modeFor(env,request(body(),'https://rsg.com.tw')),'unavailable');

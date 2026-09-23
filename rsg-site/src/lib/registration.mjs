@@ -3,24 +3,30 @@ import registrationCourses from '../data/registration-courses.json' with { type:
 import seedSessions from '../data/registration-sessions.json' with { type: 'json' };
 
 export const registrationCourse = id => registrationCourses.find(course => course.id === id);
+export const registrationCourseAtPath = path => {
+  try { return registrationCourses.find(course => course.path === decodeURI(path).replace(/\/$/, '').replace(/\.html$/, '')); }
+  catch { return undefined; }
+};
 
 export const CONSENT_VERSION = 'registration-2026-09-23';
 export const MAIL_FROM = '關係花園｜課程報名 <registration@notify.rsg.com.tw>';
 export const OFFICE_EMAIL = 'Garden@rsg.com.tw';
 export const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-export const money = value => `NT$${new Intl.NumberFormat('zh-TW', {maximumFractionDigits:0}).format(value)}`;
+export const money = value => typeof value === 'number' && Number.isFinite(value) ? `NT$${new Intl.NumberFormat('zh-TW', {maximumFractionDigits:0}).format(value)}` : '待課務確認';
 export const sessionPrice = session => money(session.price) + (session.priceNote ? `（${session.priceNote}）` : '');
 export const dateText = day => new Intl.DateTimeFormat('zh-TW', {timeZone:'Asia/Taipei', year:'numeric', month:'numeric', day:'numeric', weekday:'short'}).format(new Date(day + 'T00:00:00+08:00'));
 export const datesText = session => session.dates.map(dateText).join('、');
 export function sessionStatus(session, now = new Date()) {
-  if (session.status !== 'open') return session.status;
-  return Date.parse(session.closesAt) <= now.getTime() ? 'closed' : 'open';
+  if (session.status && session.status !== 'open') return session.status;
+  // 公布的課程日期仍有效就可申請；不另設一份提前截止時間。
+  const lastDay = session.dates?.slice().sort().at(-1);
+  return lastDay && lastDay >= todayInTaipei(now) ? 'open' : 'closed';
 }
 export function upcomingSessions(sessions, now = new Date()) {
-  return sessions.filter(s => s.status !== 'cancelled' && s.dates.at(-1) >= todayInTaipei(now)).sort((a,b) => a.dates[0].localeCompare(b.dates[0]));
+  return sessions.filter(s => sessionStatus(s, now) === 'open').sort((a,b) => a.dates[0].localeCompare(b.dates[0]));
 }
-export function registrationEvents(sessions) {
-  return sessions.filter(s => !['cancelled','draft'].includes(s.status)).flatMap(s => s.dates.map(day => calendarEvent({
+export function registrationEvents(sessions, now = new Date()) {
+  return upcomingSessions(sessions, now).flatMap(s => s.dates.map(day => calendarEvent({
     title: `${s.courseTitle}・${s.label}`, href: `${s.coursePath}#course-registration`, start: day, end: day,
     allDay:true, venue:s.venue,
   })));
@@ -31,7 +37,8 @@ export function registrationEvents(sessions) {
 export function mergeRegistrationEvents(events, sessions, now=new Date()) {
   const replaced = new Set([...seedSessions,...sessions].flatMap(s => [s.legacyEventPath,`${s.coursePath}#course-registration`]).filter(Boolean));
   const normalized = href => { try { return decodeURI(href); } catch { return href; } };
-  return visibleEvents([...events.filter(e => e && !replaced.has(normalized(e.href))),...registrationEvents(sessions)],now);
+  const legacy = events.filter(e => e && !replaced.has(normalized(e.href))).map(e => e.title === '企業外訓' ? {...e,href:'',noticeOnly:true} : e);
+  return visibleEvents([...legacy,...registrationEvents(sessions,now)],now);
 }
 
 export function validateRegistration(input) {

@@ -1,4 +1,4 @@
-import { CONSENT_VERSION, OFFICE_EMAIL, escapeHtml, validateRegistration, sessionStatus, upcomingSessions, mailPayload, renderRegistration, registrationCourse, mergeRegistrationEvents } from '../src/lib/registration.mjs';
+import { CONSENT_VERSION, OFFICE_EMAIL, escapeHtml, validateRegistration, sessionStatus, upcomingSessions, mailPayload, renderRegistration, registrationCourseAtPath, mergeRegistrationEvents } from '../src/lib/registration.mjs';
 import { eventRange } from '../src/lib/calendar.mjs';
 import seedSessions from '../src/data/registration-sessions.json' with { type: 'json' };
 
@@ -143,10 +143,10 @@ export default {
       const asset=await env.ASSETS.fetch(request);
       if (!asset.headers.get('content-type')?.includes('text/html')) return asset;
       // Match both clean and .html aliases so static files cannot show stale session data.
-      const course=/^\/archives\/(\d+)(?:\.html)?$/.exec(path);
-      if (course && registrationCourse(course[1])) {
-        const sessions=env.REGISTRATIONS_DB ? await getSessions(env,course[1]) : seedSessions.filter(s=>s.courseId===course[1]);
-        const content=renderRegistration(course[1],sessions,{mode:env.REGISTRATIONS_DB?modeFor(env,request):'unavailable',sitekey:env.TURNSTILE_SITE_KEY || ''});
+      const course=registrationCourseAtPath(path);
+      if (course) {
+        const sessions=env.REGISTRATIONS_DB ? await getSessions(env,course.id) : seedSessions.filter(s=>s.courseId===course.id);
+        const content=renderRegistration(course.id,sessions,{mode:env.REGISTRATIONS_DB?modeFor(env,request):'unavailable',sitekey:env.TURNSTILE_SITE_KEY || ''});
         const response=new HTMLRewriter().on('[data-registration-root]',{element(el){el.setInnerContent(content,{html:true});}}).transform(asset);
         response.headers.set('Cache-Control','no-store'); return response;
       }
@@ -160,7 +160,7 @@ export default {
           events=mergeRegistrationEvents(JSON.parse(buffer),sessions);
           chunk.replace(JSON.stringify(events).replace(/</g,'\\u003c'),{html:true});
         }}).on('.calendar-fallback',{element(el){
-          el.setInnerContent(`<h2>即將舉辦的課程</h2><p>開啟 JavaScript 可使用月曆與月份切換。</p><ul>${events.map(e=>`<li><time datetime="${e.start}">${escapeHtml(eventRange(e))}</time>　<a href="${escapeHtml(e.href)}">${escapeHtml(e.title)}</a></li>`).join('')}</ul>`,{html:true});
+          el.setInnerContent(`<h2>即將舉辦的課程</h2><p>開啟 JavaScript 可使用月曆與月份切換。</p><ul>${events.map(e=>`<li><time datetime="${e.start}">${escapeHtml(eventRange(e))}</time>　${e.href?`<a href="${escapeHtml(e.href)}">${escapeHtml(e.title)}</a>`:escapeHtml(e.title)}</li>`).join('')}</ul>`,{html:true});
         }});
         const response=rewriter.transform(asset);response.headers.set('Cache-Control','no-store');return response;
       }
@@ -171,5 +171,8 @@ export default {
       return new Response('報名服務暫時忙碌，請稍後重試或聯絡 Garden@rsg.com.tw。',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});
     }
   },
-  async scheduled(_event,env,ctx) {ctx.waitUntil(drainNotifications(env));},
+  async scheduled(_event,env,ctx) {
+    ctx.waitUntil(drainNotifications(env));
+    if (env.REGISTRATIONS_DB) ctx.waitUntil(env.REGISTRATIONS_DB.prepare('DELETE FROM registration_rate_limits WHERE expires_at < ?').bind(Date.now()).run());
+  },
 };

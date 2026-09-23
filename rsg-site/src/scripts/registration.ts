@@ -1,6 +1,6 @@
 import { CONSENT_VERSION, datesText, sessionPrice } from '../lib/registration.mjs';
 
-type Session = {id:string; courseTitle:string; label:string; dates:string[]; timeLabel:string; venue:string; price:number; priceNote?:string};
+type Session = {id:string; courseTitle:string; label:string; dates:string[]; timeLabel:string; venue:string; price:number|null; priceNote?:string};
 type Turnstile = {render:(el:HTMLElement,options:Record<string,unknown>)=>string; reset:(id:string)=>void};
 const turnstileApi = () => (window as unknown as {turnstile?:Turnstile}).turnstile;
 

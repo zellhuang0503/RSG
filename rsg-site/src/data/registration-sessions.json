@@ -15,7 +15,6 @@
     "price": 18800,
     "currency": "TWD",
     "status": "open",
-    "closesAt": "2026-10-17T00:00:00+08:00",
     "sourceUrl": "https://rsg.com.tw/archives/7586",
     "sourceChecked": "2026-09-23",
     "legacyEventPath": "/events/花園意識能量卡［i階］工作坊-3"
@@ -37,9 +36,28 @@
     "priceNote": "不含食宿",
     "currency": "TWD",
     "status": "open",
-    "closesAt": "2026-11-21T00:00:00+08:00",
     "sourceUrl": "https://rsg.com.tw/archives/7182",
     "sourceChecked": "2026-09-23",
     "legacyEventPath": "/events/主題整合排列工作坊─事業、工作"
+  },
+  {
+    "id": "rsg-7579-20261219",
+    "courseId": "7579",
+    "courseTitle": "花園意識能量卡［I階］工作坊",
+    "coursePath": "/events/花園意識能量卡［i階］工作坊-4",
+    "label": "2026 年 12 月場次",
+    "level": "I 階",
+    "dates": [
+      "2026-12-19",
+      "2026-12-20"
+    ],
+    "timeLabel": "上課時間由課務通知",
+    "venue": "地點由課務通知",
+    "price": null,
+    "currency": "TWD",
+    "status": "open",
+    "sourceUrl": "https://rsg.com.tw/events/花園意識能量卡［i階］工作坊-4",
+    "sourceChecked": "2026-09-23",
+    "legacyEventPath": "/events/花園意識能量卡［i階］工作坊-4"
   }
 ]

@@ -10,10 +10,15 @@ const events = (await getEvents()).map(entry => calendarEvent({
   title: entry.data.title, href: routeOf(entry), start: entry.data.start_date,
   end: entry.data.end_date, allDay: entry.data.all_day, venue: entry.data.venue,
 })).filter(Boolean);
+const upcoming = mergeRegistrationEvents(events, sessions);
+// 新公布的課程必須先進入共用期別資料，不能只出現在月曆而沒有報名表。
+if (upcoming.some(event => event.href && !event.href.endsWith('#course-registration'))) {
+  throw new Error('請將尚未對應報名的課程活動加入 registration-sessions.json。');
+}
 ---
 <Base title="課程行事曆" description={`${site.shortName}的工作坊、課程與體驗會時程。`} path="/events" breadcrumbs={[{ name: '課程行事曆', path: '/events' }]}>
   <div class="container calendar-page">
     <header><h1>課程行事曆</h1><p class="muted">查看課程日期與星期，點選課程名稱了解詳細資訊。</p></header>
-    <EventCalendar events={mergeRegistrationEvents(events, sessions)} />
+    <EventCalendar events={upcoming} />
   </div>
 </Base>
