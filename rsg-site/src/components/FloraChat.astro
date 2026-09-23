@@ -17,6 +17,14 @@
       },
     },
   };
+  // Follow the official embed's expand message without overriding its click logic.
+  window.addEventListener('message', (event) => {
+    const frame = document.getElementById('dify-chatbot-bubble-window');
+    if (event.origin !== 'https://flora.rsg.com.tw' || !frame || event.source !== frame.contentWindow) return;
+    if (event.data?.type === 'dify-chatbot-expand-change') {
+      frame.dataset.expanded = String(frame.dataset.expanded !== 'true');
+    }
+  });
 </script>
 <script is:inline src="https://flora.rsg.com.tw/embed.min.js" id="AYa1KmdKGLRKzFqU" defer></script>
 
@@ -96,6 +104,11 @@
     max-height: calc(100vh - 192px) !important;
     max-height: calc(100dvh - 192px) !important;
   }
+  #dify-chatbot-bubble-window[data-expanded='true'] {
+    width: 40rem !important;
+    height: calc(100vh - 192px) !important;
+    height: calc(100dvh - 192px) !important;
+  }
   @media (max-width: 640px) {
     :root {
       --dify-chatbot-bubble-button-right: 16px;
@@ -106,9 +119,14 @@
     #dify-chatbot-bubble-window {
       right: 16px !important;
       bottom: 164px !important;
+      height: 32rem !important;
       max-width: calc(100% - 32px) !important;
       max-height: calc(100vh - 180px) !important;
       max-height: calc(100dvh - 180px) !important;
+    }
+    #dify-chatbot-bubble-window[data-expanded='true'] {
+      height: calc(100vh - 180px) !important;
+      height: calc(100dvh - 180px) !important;
     }
   }
 </style>
