@@ -1,0 +1,54 @@
+.registration-sessions { margin: 48px 0 64px; }
+.registration-sessions h2 { color: #92b36a; text-align: center; font-size: 26px; }
+.registration-sessions h2::after, .registration-panel h2::after { content: ''; display: block; width: 150px; height: 2px; background: #85e1ef; margin: 20px auto 32px; }
+.registration-table { width: 100%; border-collapse: collapse; font-size: 16px; color: #2b2f56; }
+.registration-table :is(th,td) { padding: 18px 14px; border-bottom: 1px solid #dde3e8; text-align: left; vertical-align: middle; }
+.registration-table thead { background: #eef8fa; }
+.registration-table time { display: block; white-space: nowrap; }
+.registration-table small { display: block; font-size: 13px; font-weight: 400; margin-top: 6px; color: #626978; }
+.registration-panel { padding: 48px clamp(20px,5vw,64px); margin-bottom: 48px; color: #2b2f56; }
+.registration-panel > p { font-size: 16px; }
+.registration-panel form { text-align: left; max-width: 780px; margin: 32px auto 0; }
+.registration-panel [hidden] { display: none !important; }
+.registration-test { border: 1px solid #caab63; background: #fff9e8; padding: 12px; font-size: 14px !important; }
+.registration-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 24px; }
+.registration-field { margin-bottom: 22px; min-width: 0; }
+.registration-field label { display: block; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.registration-field label span { font-size: 13px; font-weight: 400; color: #505b71; }
+.registration-field :is(input,select,textarea) { width: 100%; min-height: 48px; border: 1px solid #a8bac8; border-radius: 3px; background: #fff; padding: 12px; color: #252a46; font: inherit; font-size: 16px; box-sizing: border-box; }
+.registration-field textarea { resize: vertical; }
+.registration-field :is(input,select,textarea):focus-visible, .registration-button:focus-visible { outline: 3px solid #4a789e; outline-offset: 3px; }
+.registration-field :is(input,select,textarea)[aria-invalid='true'] { border-color: #a32525; }
+.registration-field small { font-size: 13px; display: block; line-height: 1.6; }
+.registration-field-error, .registration-form-error { color: #962626; }
+.registration-form-error:empty { display:none; }
+.registration-summary { background: #fff; border-left: 3px solid #85d8e8; padding: 16px 20px; margin: 0 0 26px; font-size: 15px; line-height: 1.9; }
+.registration-summary p { margin: 0; }
+.registration-button { border: 0; border-radius: 2px; padding: 12px 20px; background: #85e1ef; color: #252c51; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; transition: background .18s; }
+.registration-button:hover { background: #b6f0fb; }
+.registration-button:disabled { cursor: wait; opacity: .65; }
+.registration-submit { display: block; margin: 28px auto 0; min-width: 200px; }
+.registration-consent { font-size: 14px; line-height: 1.9; margin-block: 12px 24px; }
+.registration-consent input { width: 19px; height: 19px; margin-right: 10px; vertical-align: middle; accent-color: #2b2f56; }
+.registration-help { font-size: 14px; text-align: center; margin-top: 24px; }
+.registration-help a { color: inherit; }
+.registration-success { text-align: left; padding: 28px; background: #fff; border-top: 3px solid #85e1ef; margin: 32px auto 0; max-width: 720px; }
+.registration-success h3 { color: #2b2f56; margin-top: 0; font-size: 23px; }
+.registration-reference { font-size: 20px; font-weight: 700; overflow-wrap: anywhere; }
+.registration-success p { font-size: 16px; }
+.registration-honey { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+@media(max-width: 1100px) { .registration-table :is(th,td) { padding: 14px 8px; } }
+@media(max-width: 650px) {
+  .registration-fields { grid-template-columns: 1fr; }
+  .registration-table thead { display: none; }
+  .registration-table, .registration-table tbody, .registration-table tr { display: block; }
+  .registration-table tr { border-block: 1px solid #dde3e8; padding: 12px 0; }
+  .registration-table :is(td,th) { display: grid; grid-template-columns: 80px minmax(0,1fr); column-gap: 12px; border: 0; padding: 9px 10px; }
+  .registration-table :is(td,th)::before { content: attr(data-label); grid-column: 1; font-weight: 700; color: #505b71; }
+  .registration-table :is(time,small,button) { grid-column: 2; }
+  .registration-table time { white-space: normal; }
+  .registration-table .registration-button { justify-self: start; }
+  .registration-panel { padding: 32px 20px; }
+  .registration-success { padding: 22px 16px; }
+}
+@media(prefers-reduced-motion: reduce) { .registration-button { transition:none; } }

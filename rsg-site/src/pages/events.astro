@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import EventCalendar from '../components/EventCalendar.astro';
 import { getEvents, routeOf } from '../lib/content';
 import { calendarEvent } from '../lib/calendar.mjs';
+import { mergeRegistrationEvents } from '../lib/registration.mjs';
+import sessions from '../data/registration-sessions.json';
 import { site } from '../site';
 const events = (await getEvents()).map(entry => calendarEvent({
   title: entry.data.title, href: routeOf(entry), start: entry.data.start_date,
@@ -12,6 +14,6 @@ const events = (await getEvents()).map(entry => calendarEvent({
 <Base title="課程行事曆" description={`${site.shortName}的工作坊、課程與體驗會時程。`} path="/events" breadcrumbs={[{ name: '課程行事曆', path: '/events' }]}>
   <div class="container calendar-page">
     <header><h1>課程行事曆</h1><p class="muted">查看課程日期與星期，點選課程名稱了解詳細資訊。</p></header>
-    <EventCalendar events={events} />
+    <EventCalendar events={mergeRegistrationEvents(events, sessions)} />
   </div>
 </Base>

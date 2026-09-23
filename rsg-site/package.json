@@ -11,6 +11,10 @@
     "dev": "astro dev",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
+    "test:registration": "node --test tests/registration.test.mjs",
+    "registration:seed": "node scripts/seed-registration.mjs",
+    "registration:migrate:local": "wrangler d1 migrations apply rsg-registration-local --local --config wrangler.registration-local.jsonc",
+    "registration:preview": "wrangler dev --config wrangler.registration-local.jsonc --ip 127.0.0.1 --port 4324 --test-scheduled",
     "import": "node scripts/import-export.mjs",
     "redirects": "node scripts/import-export.mjs --redirects-only"
   },
@@ -20,6 +24,7 @@
     "astro": "^7.3.3"
   },
   "devDependencies": {
+    "miniflare": "5.20260918.0-alpha",
     "pagefind": "^1.5.2",
     "wrangler": "^4.135.0"
   }

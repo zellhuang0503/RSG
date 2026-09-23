@@ -1,0 +1,45 @@
+[
+  {
+    "id": "rsg-7586-20261017",
+    "courseId": "7586",
+    "courseTitle": "意識能量工作坊",
+    "coursePath": "/archives/7586",
+    "label": "第三期",
+    "level": "不需基礎",
+    "dates": [
+      "2026-10-17",
+      "2026-10-18"
+    ],
+    "timeLabel": "上課時間由課務通知",
+    "venue": "關係花園",
+    "price": 18800,
+    "currency": "TWD",
+    "status": "open",
+    "closesAt": "2026-10-17T00:00:00+08:00",
+    "sourceUrl": "https://rsg.com.tw/archives/7586",
+    "sourceChecked": "2026-09-23",
+    "legacyEventPath": "/events/花園意識能量卡［i階］工作坊-3"
+  },
+  {
+    "id": "rsg-7182-20261121",
+    "courseId": "7182",
+    "courseTitle": "主題整合系統排列工作坊",
+    "coursePath": "/archives/7182",
+    "label": "第五期（工作事業）",
+    "level": "二日工作坊",
+    "dates": [
+      "2026-11-21",
+      "2026-11-22"
+    ],
+    "timeLabel": "09:30–17:00",
+    "venue": "關係花園",
+    "price": 14400,
+    "priceNote": "不含食宿",
+    "currency": "TWD",
+    "status": "open",
+    "closesAt": "2026-11-21T00:00:00+08:00",
+    "sourceUrl": "https://rsg.com.tw/archives/7182",
+    "sourceChecked": "2026-09-23",
+    "legacyEventPath": "/events/主題整合排列工作坊─事業、工作"
+  }
+]

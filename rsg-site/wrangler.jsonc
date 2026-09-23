@@ -3,10 +3,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "rsg",
+  "main": "worker/index.mjs",
   "compatibility_date": "2026-09-01",
   "assets": {
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/archives/*", "/events", "/events/", "/events.html"],
     "directory": "./dist",
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
-  }
+  },
+  "vars": { "REGISTRATION_MODE": "disabled", "ALLOWED_ORIGINS": "https://rsg.com.tw,https://www.rsg.com.tw,https://rsg.cloundflare1.workers.dev" }
 }

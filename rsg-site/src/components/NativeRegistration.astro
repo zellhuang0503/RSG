@@ -1,0 +1,9 @@
+---
+import sessions from '../data/registration-sessions.json';
+import { renderRegistration } from '../lib/registration.mjs';
+import '../styles/registration.css';
+interface Props { courseId: string; }
+const { courseId } = Astro.props;
+---
+<div data-registration-root set:html={renderRegistration(courseId, sessions)} />
+<script>import '../scripts/registration';</script>

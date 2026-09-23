@@ -1,0 +1,18 @@
+---
+import Appointment from '../components/Appointment.astro';
+import CourseSidebar from '../components/CourseSidebar.astro';
+import NativeRegistration from '../components/NativeRegistration.astro';
+interface Props {
+  appointment?: boolean;
+  registrationCourseId?: string;
+}
+const { appointment = true, registrationCourseId } = Astro.props;
+---
+<div class="course-layout">
+  <CourseSidebar />
+  <article class="course-page">
+    <slot />
+    {registrationCourseId && <NativeRegistration courseId={registrationCourseId} />}
+    {appointment && <Appointment />}
+  </article>
+</div>

@@ -41,7 +41,13 @@ const pages = defineCollection({
 
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './content/posts' }),
-  schema: base,
+  schema: base.extend({
+    presentation: z.object({
+      layout: z.literal('course-detail'),
+      appointment: z.boolean().default(true),
+      registrationCourseId: z.string().regex(/^\d+$/).optional(),
+    }).optional(),
+  }),
 });
 
 const events = defineCollection({
