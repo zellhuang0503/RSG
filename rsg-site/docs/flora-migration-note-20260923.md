@@ -14,9 +14,17 @@
 - `src/components/FloraChat.astro` 由 `Base.astro` 載入，全站共用官方 `embed.min.js`。腳本與聊天來源皆使用 `https://flora.rsg.com.tw`，避免 HTTPS 頁面混合內容。
 - 沿用使用者提供的公開應用 token；它不是後端 API key。未提供或植入登入帳號、API key、使用者姓名或識別碼。
 - 保留藍色聊天按鈕、24rem × 40rem 視窗；按鈕置於回頂端上方，視窗固定於可視範圍，窄螢幕與低高度限制最大尺寸。補上按鈕名稱、鍵盤 Enter／空白開關與焦點外框，Escape 沿用 Dify 關閉行為。
-- 本機建置通過。390px 版面未溢出，兩個浮動按鈕間隔 16px，鍵盤開啟／Escape 關閉通過。本機內建瀏覽器對遠端 iframe 回報 `net::ERR_BLOCKED_BY_CLIENT`，因此此處不宣稱內嵌對話驗收通過；需繼續在 HTTPS 部署頁驗證。
+- 本機建置通過。390px 版面未溢出，兩個浮動按鈕間隔 16px，鍵盤開啟／Escape 關閉通過。本機內建瀏覽器對遠端 iframe 回報 `net::ERR_BLOCKED_BY_CLIENT`；HTTPS 部署頁後續已確認可以正常顯示與對話。
 - 公開聊天頁已實際送出一則網站串接測試並收到 Flora 回覆；課程連結為 `https://rsg.com.tw/latest-courses` 與 `/events`，新站保留相同路徑。預覽站階段這些連結仍指向原網域，正式域名切換後會落在新站。
-- 觀察到既有 Dify 開場白在未填選填姓名時顯示 `{{您的大名是...}}`；屬後端既有內容問題，本次未改寫機器人設定。
+- 首次測試曾看到未替換的選填姓名變數；最終線上回讀已呈現「Hi，您好，有什麼我可以協助的?」。本次未改寫 Dify 後端設定。
+
+## 部署結果
+
+- 網站程式提交：`9feeb03`，推送至 `codex/rsg-latest-courses`。
+- Cloudflare Worker `rsg` 版本：`72130585-9822-4e1f-9bb0-cd30c9752e17`，網址 `https://rsg.cloundflare1.workers.dev`。部署頁 HTML 與本機建置逐字一致，回應 HTTP 200。
+- 在部署頁的內嵌 Flora 送出「你好，這是新版網站內嵌測試，請簡短回覆確認已連線。」；收到「您好，連線確認沒問題！」及 Flora 服務介紹，確認非僅顯示空框。
+- 桌面與實測 CSS 視窗寬 390px 的手機版均可顯示；手機聊天框左邊界約 16px、無橫向溢出、關閉按鈕可操作。保持原有 Dify 對話服務與跨頁對話延續。
+- 原網域 `rsg.com.tw` 尚未切换；Flora 回覆中的原網域課程連結已核對新站對應路徑皆 HTTP 200。
 
 ## 後續整合順序
 
