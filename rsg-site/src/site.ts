@@ -69,7 +69,7 @@ export const site = {
       ],
     },
     { label: '花園意識能量卡', href: 'https://cards.rsg.com.tw/', external: true },
-    { label: '心靈捕夢網', href: '/心靈捕夢網' },
+    { label: '心靈捕夢網', href: '/archives/category/心靈捕夢網' },
     { label: '能量商店', href: 'https://shop.rsg.com.tw/', external: true },
     {
       label: '關於花園',

@@ -6,7 +6,7 @@ export type AnyEntry = CollectionEntry<'pages'> | CollectionEntry<'posts'> | Col
 
 // 這些路徑由專屬頁面產生（首頁、清單、搜尋…），舊站若有同路徑的內容會被跳過並在建置時提示。
 // 注意 /events/xxx 與 /posts/xxx 是內容頁的合法路徑，只有清單頁本身與分頁（/posts/2）保留。
-export const RESERVED_EXACT = ['/', '/posts', '/events', '/search', '/404', '/feed.xml', '/llms.txt', '/robots.txt'];
+export const RESERVED_EXACT = ['/', '/posts', '/events', '/search', '/404', '/feed.xml', '/llms.txt', '/robots.txt', '/心靈捕夢網'];
 export const RESERVED_PREFIXES = ['/archives/category/', '/archives/tag/', '/pagefind/', '/_astro/'];
 
 export function isReserved(path: string) {

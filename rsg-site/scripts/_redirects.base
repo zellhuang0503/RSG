@@ -8,6 +8,11 @@
 # 舊 WordPress 的轉址（/about 曾被植入垃圾頁，Google 已收錄，維持 301 到真正的關於頁）
 /about  /about-2  301
 
+# 心靈捕夢網直接開啟文章列表，保留舊中介頁網址的相容性。
+/心靈捕夢網  /archives/category/心靈捕夢網  301
+/心靈捕夢網/  /archives/category/心靈捕夢網  301
+/心靈捕夢網.html  /archives/category/心靈捕夢網  301
+
 # WordPress 的 feed 網址
 /feed  /feed.xml  301
 /feed/  /feed.xml  301

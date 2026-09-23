@@ -236,6 +236,14 @@ p { margin: 0 0 1.1em; }
 /* ---------- 文章 / 頁面內文 ---------- */
 .article-head { padding: 40px 0 16px; }
 .article-head .meta { color: var(--text-muted); font-size: 0.9rem; display: flex; flex-wrap: wrap; gap: 8px 16px; }
+
+/* 心靈捕夢網共用閱讀版型：標題與內文共用置中的欄寬，左右留白一致。 */
+.dream-article { max-width: 760px; }
+.dream-article .article-head { text-align: center; }
+.dream-article .article-head .meta { justify-content: center; }
+.dream-article .prose, .dream-article .article-foot { max-width: none; }
+.dream-article .featured, .dream-article .prose img { margin-inline: auto; }
+.dream-article .prose img { display: block; }
 .featured { margin: 8px 0 24px; border-radius: var(--radius); overflow: hidden; }
 .featured img { width: 100%; display: block; }
 .prose { max-width: var(--measure); font-size: 1.05rem; }
