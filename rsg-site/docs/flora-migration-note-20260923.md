@@ -48,6 +48,8 @@
 - 同一分頁透過 sessionStorage 保留最近 40 則訊息與對話 ID，跨頁可延續。舊 iframe 聊天紀錄不會自動匯入；「新對話」只開始新會話，既有後端紀錄仍依 Dify 保存設定處理。第一版不提供檔案上傳或語音功能。
 - `node --test tests/flora.test.mjs tests/registration.test.mjs tests/calendar.test.mjs` 共 36 項通過；涵蓋串流 UTF-8 分段、身份隔離、錯誤／中斷、D1 限流與原報名／行事曆回歸。Astro + Pagefind 建置通過。本機驗證一般／展開尺寸、手機 512 → 664px、失敗提示及保留未送出文字。
 - 本機 `astro preview` 僅服務靜態頁，不提供 Worker API；真實模型串接必須在 Worker 部署後驗證。
+- 程式提交 `c312632` 已推送；Worker 版本 `ed8e556f-8432-4e77-acb7-a88654c0e348` 已部署至 `https://rsg.cloundflare1.workers.dev`。頁面 HTTP 200，存在原生 UI，未載入舊 `embed.min.js`。
+- 雲端實測：第一輪要求記住測試花名「紫色鳶尾」，第二輪正確回答花名；切換 `/share` 後保留同段對話。按「新對話」後重新詢問服務介紹，取得完整真實模型回答。桌面展開寬 640px；手機 CSS 視窗 390×844、一般高 512px，視窗邊界沒有溢出，輸入／送出與內文捲動可見。
 
 ## 後續整合順序
 
