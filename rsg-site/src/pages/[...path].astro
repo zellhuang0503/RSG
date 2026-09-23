@@ -74,7 +74,7 @@ const breadcrumbs = isPost
   description={description}
   path={path}
   type={isPost ? 'article' : isEvent ? 'event' : 'website'}
-  image={(presentation?.layout === 'centered-service' ? presentation.hero.src : d.featured_image) || undefined}
+  image={(presentation?.layout === 'centered-service' ? presentation.hero?.src : d.featured_image) || undefined}
   noindex={d.noindex}
   datePublished={isPost ? toIso(d.date) : undefined}
   dateModified={isPost ? toIso(d.modified || d.date) : undefined}

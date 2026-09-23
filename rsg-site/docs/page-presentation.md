@@ -11,6 +11,20 @@
 
 參考範本：`content/pages/one-on-one-hypnosis.md`。
 
+## 全寬介紹與團隊區塊
+
+- `content/pages/about-2.md` 沿用 `centered-service` 的全寬主圖與 `ServicePage`，以共用 `.content-band`、`.content-band-inner` 排列介紹；`.content-band--blue` 提供原站淡藍底。文字留在 Markdown，不增加頁面專屬 CSS／JavaScript。
+- `.icon-feature-grid--five` 保留原站上二下三的特色排列；`.profile-grid` 排列照片與完整講師介紹；`.media-video-grid`、`.media-poster`、`.media-platforms` 排列影片、播放清單海報與 Podcast 按鈕。800px 以下改為單欄，圖片維持原始比例。
+- 2026-09-23 依原站 `/about-2` 核對 40 段文字、8 張本地圖片與 3 個 YouTube 影片 ID，均完整保留。原站文字中的星號亦未自行改寫。全站標頭、頁尾及其他服務頁不變。
+- 本機建置成功，桌面與 390px 手機版無整頁橫向溢出。影片 iframe 已補回且來源與原站一致，但內建瀏覽器本機預覽仍顯示空白，影片播放尚未驗證；不能將來源核對視為播放通過。本輪未推送或部署。
+
+## 二十週年與學員心得（2026-09-23）
+
+- `relationship-gardne-20th.md` 沿用 `ServicePage`，恢復原站 1440:600 的全寬氣球主圖、綠色標題／金色分隔線、66% 閱讀寬度與 14 張直式作品。`.service-section--reading`、`.poster-stack` 集中在共用 CSS。
+- `ServicePage` 的 `hero` 可省略；有主圖時可指定 `fit`，未指定時維持原本圖片比例。`share.md` 依原站不增加主圖，使用 `.story-section`、`.story-list` 與 `.course-topic-grid`，五篇心得沿用原站順序、文案與本站文章路徑。清除原 WordPress 隱藏作者／時間的匯出殘留。
+- 使用者明確選擇移除原站重複六次的「靜心觀照」及「測試標前群組1／Sample Group B／C」；保留關係工作坊、角色工作坊、內在小孩排列、靜心觀照四項。分類依原站為圖示標籤，未自行新增分類連結。
+- 已核對週年頁的 15 張本地圖片（主圖＋14 張作品）及兩頁原文；五篇心得目標頁均存在，首篇已實際點擊確認。桌面／390px 手機版已渲染檢查，無橫向溢出；`npm run build` 通過。改動仍僅在本地，尚未推送或部署。
+
 ## 有左側目錄的課程說明頁
 
 - 文章設定 `presentation.layout: course-detail`，由 `CoursePage.astro` 統一排列左側目錄、右侧內文與共用預約區。第一個範本為 `content/posts/一對一排列.md`（原站 `/archives/6968`，不同於無側欄的同名 `/arrangement-one-to-one`）。

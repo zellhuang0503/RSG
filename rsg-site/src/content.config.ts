@@ -33,7 +33,7 @@ const pages = defineCollection({
     template: z.string().optional(),
     presentation: z.object({
       layout: z.literal('centered-service'),
-      hero: z.object({ src: z.string(), alt: z.string(), width: z.number(), height: z.number() }),
+      hero: z.object({ src: z.string(), alt: z.string(), width: z.number(), height: z.number(), fit: z.enum(['cover', 'contain']).optional() }).optional(),
       appointment: z.boolean().default(false),
     }).optional(),
   }),

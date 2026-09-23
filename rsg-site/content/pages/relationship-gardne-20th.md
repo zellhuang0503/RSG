@@ -12,50 +12,46 @@ featured_image: ""
 excerpt: ""
 menu_order: 0
 template: ""
+presentation:
+  layout: centered-service
+  hero:
+    src: /media/2025/12/共創展頁面-主圖.jpg
+    alt: 關係花園20歲生日快樂
+    width: 1440
+    height: 600
+    fit: cover
+  appointment: false
 ---
 
-## **老師感謝的話語**
+<section class="service-section service-section--reading">
+<h1>老師感謝的話語</h1>
+<p>二十年前，關係花園在未知中萌芽。那時，我只是帶著一顆真誠、服務、熱情的心，開始這段探索關係與生命的旅程。二十年來，我遇見許許多多的生命，看著他們勇敢地面對自己，一步步地走進自己的內心，並慢慢地由內而外在生活中實踐。過程中，有淚水，也有接納與轉化後的輕鬆與釋然。</p>
+<p>這二十年，不只是花園的成長，更是我們每一位走進花園的朋友與夥伴，用生命故事共同編織出的篇章。謝謝你們的信任，讓「關係花園」不僅是一個名字，而是成為彼此心靈停靠的地方。</p>
+<p>感恩所有的夥伴與學員，你們的分享、支持與真心，讓這片花園綻放出「生命覺醒之花」──與天、地、人、環境的連結，與自我的對話。每一次的探索，就像花瓣一樣展開；每個當下的覺知，都成為自己的光。</p>
+<p>二十年是一個里程碑，更是新的起點。願我們繼續在這片花園裡，相互滋養、相互照亮，讓這朵生命覺醒之花持續盛放，帶領我們回到自己，走向幸福與自由。</p>
+</section>
 
-二十年前，關係花園在未知中萌芽。那時，我只是帶著一顆真誠、服務、熱情的心，開始這段探索關係與生命的旅程。二十年來，我遇見許許多多的生命，看著他們勇敢地面對自己，一步步地走進自己的內心，並慢慢地由內而外在生活中實踐。過程中，有淚水，也有接納與轉化後的輕鬆與釋然。
-
-這二十年，不只是花園的成長，更是我們每一位走進花園的朋友與夥伴，用生命故事共同編織出的篇章。謝謝你們的信任，讓「關係花園」不僅是一個名字，而是成為彼此心靈停靠的地方。
-
-感恩所有的夥伴與學員，你們的分享、支持與真心，讓這片花園綻放出「生命覺醒之花」──與天、地、人、環境的連結，與自我的對話。每一次的探索，就像花瓣一樣展開；每個當下的覺知，都成為自己的光。
-
-二十年是一個里程碑，更是新的起點。願我們繼續在這片花園裡，相互滋養、相互照亮，讓這朵生命覺醒之花持續盛放，帶領我們回到自己，走向幸福與自由。
-
-## **來自夥伴的生命覺醒之花**
-
-精選關係花園的學員與夥伴，
-
-他們在花園的學習中，留下許多生命的蛻變，
-
-製作成生命覺醒之花。
-
-![](/media/2025/12/1-1.jpg "1-1")
-
-![](/media/2025/12/2-1.jpg "2-1")
-
-![](/media/2025/12/3-1.jpg "3-1")
-
-![](/media/2025/12/4-1.jpg "4-1")
-
-![](/media/2025/12/5-1.jpg "5-1")
-
-![](/media/2025/12/6-1.jpg "6-1")
-
-![](/media/2025/12/7-2.jpg "7-2")
-
-![](/media/2025/12/8-1.jpg "8-1")
-
-![](/media/2025/12/10-1.jpg "10-1")
-
-![](/media/2025/12/11-1.jpg "11-1")
-
-![](/media/2025/12/12-1.jpg "12-1")
-
-![](/media/2025/12/13-1.jpg "13-1")
-
-![](/media/2025/12/14-1.jpg "14-1")
-
-![](/media/2025/12/15-1.jpg "15-1")
+<section class="service-section service-section--reading">
+<h2>來自夥伴的生命覺醒之花</h2>
+<div class="reading-intro">
+<p>精選關係花園的學員與夥伴，</p>
+<p>他們在花園的學習中，留下許多生命的蛻變，</p>
+<p>製作成生命覺醒之花。</p>
+</div>
+<div class="poster-stack">
+<figure><img src="/media/2025/12/1-1.jpg" alt="生命覺醒之花：學員與夥伴作品 1" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/2-1.jpg" alt="生命覺醒之花：學員與夥伴作品 2" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/3-1.jpg" alt="生命覺醒之花：學員與夥伴作品 3" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/4-1.jpg" alt="生命覺醒之花：學員與夥伴作品 4" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/5-1.jpg" alt="生命覺醒之花：學員與夥伴作品 5" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/6-1.jpg" alt="生命覺醒之花：學員與夥伴作品 6" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/7-2.jpg" alt="生命覺醒之花：學員與夥伴作品 7" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/8-1.jpg" alt="生命覺醒之花：學員與夥伴作品 8" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/10-1.jpg" alt="生命覺醒之花：學員與夥伴作品 9" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/11-1.jpg" alt="生命覺醒之花：學員與夥伴作品 10" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/12-1.jpg" alt="生命覺醒之花：學員與夥伴作品 11" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/13-1.jpg" alt="生命覺醒之花：學員與夥伴作品 12" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/14-1.jpg" alt="生命覺醒之花：學員與夥伴作品 13" width="1080" height="1350" loading="lazy" /></figure>
+<figure><img src="/media/2025/12/15-1.jpg" alt="生命覺醒之花：學員與夥伴作品 14" width="1080" height="1350" loading="lazy" /></figure>
+</div>
+</section>
