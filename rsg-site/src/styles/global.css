@@ -75,6 +75,7 @@ p { margin: 0 0 1.1em; }
 .submenu.flyout { top: -2px; left: 100%; margin: 0; }
 .nav a:focus-visible, .nav summary:focus-visible, .nav button:focus-visible, .nav-toggle-label:focus-visible { outline: 2px solid #2b2f56; outline-offset: -3px; }
 .nav-toggle-label { display: none; border: 0; background: transparent; cursor: pointer; padding: 10px; }
+.submenu-toggle { display: none; }
 .nav-toggle-label span { display: block; width: 22px; height: 2px; background: var(--heading); margin: 5px 0; }
 .nav-search { position: relative; flex: 0 0 24px; }
 .nav-search summary { display: flex; align-items: center; justify-content: center; height: 100%; min-height: 80px; color: #2b2f56; cursor: pointer; list-style: none; }
@@ -86,19 +87,34 @@ p { margin: 0 0 1.1em; }
 .nav-search input { width: 100%; min-width: 0; padding: 10px 12px; border: 1px solid #dcdadb; border-radius: 0; background: white; font: inherit; font-size: .9rem; }
 .nav-search button { flex: 0 0 42px; display: grid; place-items: center; border: 0; border-radius: 0; background: #222; color: #fff; cursor: pointer; }
 @media (max-width: 1024px) {
+  .site-header.classic { position: sticky; top: 0; }
+  .site-header.nav-open { z-index: 102; }
   .brand-row { justify-content: space-between; padding: 10px 0; }
   .brand img { height: 52px; }
   .nav-toggle-label { display: block; }
-  .nav { display: none; flex-direction: column; align-items: stretch; gap: 0; min-height: 0; max-height: calc(100dvh - 76px); overflow-y: auto; padding-block: 8px 16px; }
+  /* Keep the scrolling panel below the actual logo row, including after resize. */
+  .menubar { position: absolute; top: 100%; inset-inline: 0; }
+  .menubar > .container { width: 100%; }
+  .nav { display: none; flex-direction: column; justify-content: flex-start; align-items: stretch; gap: 0; min-height: 0; max-height: calc(100dvh - var(--mobile-header-height, 72px)); overflow-y: auto; overscroll-behavior-y: contain; padding: 0 0 env(safe-area-inset-bottom); }
+  .nav > * { flex-shrink: 0; }
   .site-header.nav-open .nav { display: flex; }
-  .nav > a, .nav > .nav-item > a { min-height: 48px; padding: 8px 12px; white-space: normal; }
+  .nav > a, .nav > .nav-item > a { min-height: 48px; padding: 10px var(--gutter); white-space: normal; }
+  .nav .has-children > a { display: none; }
+  .nav .submenu-toggle { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 48px; padding: 10px var(--gutter); border: 0; border-radius: 0; background: transparent; color: #2b2f56; text-align: left; font: inherit; font-size: 1rem; cursor: pointer; }
   .nav > a::after, .nav > .nav-item > a::after { display: none; }
-  .submenu, .submenu.flyout { visibility: visible; opacity: 1; position: static; width: auto; margin: 0; padding-left: 16px; border: 0; box-shadow: none; background: transparent; transition: none; }
-  .submenu a { padding: 8px 12px; border: 0; }
+  /* Indent text, never the colored rows: every level spans the same panel. */
+  .submenu, .submenu.flyout { display: none; visibility: visible; opacity: 1; position: static; width: 100%; margin: 0; padding: 0; border: 0; box-shadow: none; background: #f2efef; transition: none; }
+  .nav-item.is-expanded > .submenu { display: block; }
+  .submenu a { min-height: 44px; padding: 10px var(--gutter) 10px calc(var(--gutter) + 16px); border: 0; overflow-wrap: anywhere; }
+  .submenu .submenu-toggle { min-height: 44px; padding-left: calc(var(--gutter) + 16px); border-top: 1px solid #dcdadb; font-size: .9rem; font-weight: 700; color: #333; }
+  .submenu .submenu-toggle:is(:hover, :focus-visible, :active, [aria-expanded="true"]), .submenu .nav-item:has([aria-current="page"]) > .submenu-toggle { background: #fff; }
+  .submenu.flyout a { padding-left: calc(var(--gutter) + 32px); }
   .caret { display: none; }
+  .nav .submenu-toggle .caret { display: block; flex: 0 0 6px; margin: 0 4px 4px 0; transform: rotate(45deg); }
+  .nav .submenu-toggle[aria-expanded="true"] .caret { transform: rotate(225deg); margin-bottom: 0; }
   .nav-search { flex-basis: auto; }
-  .nav-search summary { justify-content: flex-start; min-height: 44px; padding: 12px; }
-  .nav-search-panel { position: static; width: 100%; padding: 12px; border: 0; box-shadow: none; background: transparent; }
+  .nav-search summary { justify-content: flex-start; min-height: 44px; padding: 12px var(--gutter); }
+  .nav-search-panel { position: static; width: 100%; padding: 12px var(--gutter); border: 0; box-shadow: none; background: transparent; }
 }
 @media (prefers-reduced-motion: reduce) {
   .submenu { transition: none; }
