@@ -68,7 +68,7 @@ Cloudflare 邊緣（Worker：rsg-edge）
 | ~~完整外掛清單~~ | 已取得（2026-09-20），見 rsg-edge/README.md | 30 個外掛全部啟用，無 WooCommerce，無專用快取外掛（僅 SiteGround 遺留的 Speed Optimizer） |
 | ~~安全外掛~~ | 已確認：Wordfence + Kadence Security Basic | Wordfence 需改 IP 來源為 CF-Connecting-IP |
 | SEO 外掛 schema 設定 | validator.schema.org 貼首頁網址，看是否出現兩個 Organization | Rank Math 與 Schema & Structured Data 二擇一 |
-| WP Mail SMTP 設定 | 後台 → WP Mail SMTP → 設定 第一頁截圖 | 決定 SPF 要 include 哪個服務；**2026-10-05 仍未取得**，改以 §8 的主動測試代替 |
+| ~~WP Mail SMTP 設定~~ | 不再需要（2026-10-05） | 舊站切換後退役，SPF 不補舊主機 include，見 §8 |
 | 當年切灰雲的具體症狀 | 直接問管理員 | 對照 §3 表格 |
 | 固定網址設定 | 後台 → 設定 → 固定網址 截圖 | 確認 `/ask/` 路徑沒有被 WordPress 占用 |
 
@@ -132,11 +132,11 @@ Cloudflare 提示的 DMARC 與 GEO 無關，但影響 @rsg.com.tw 寄信是否�
 
 Cloudflare DMARC 管理兩週報告（9/22–10/5）：共 4 封，來源「Cloudflare, Inc.」2 封、「Amazon.com, Inc.」2 封，皆為 Cloudflare Email Routing 的轉寄基礎設施；SPF 與 DKIM 對齊 100%，0 封失敗。**沒有任何一封來自人工信箱或 WordPress（WP Mail SMTP / A2 主機）**，表示這兩個真正有風險的來源在觀察期內根本沒有寄信，報告無法證明它們安全。
 
-決定：
+決定（2026-10-05 與業主確認後修訂）：
 
-1. **SPF 暫不補 include。** 目前觀察到的來源都已涵蓋；「非封鎖性失敗」警告只是 Cloudflare 提醒結尾是 `~all`，照原規劃保留。只有在下方主動測試失敗時，才依 cPanel「電子郵件送達能力」頁面顯示的紀錄補上主機的 include。
-2. **升級 `p=quarantine` 前先做一次主動測試**（約 10 分鐘）：在 rsg.com.tw 送出一次聯絡表單；從實際用來寄 @rsg.com.tw 的信箱寄一封到 Gmail。兩封信在 Gmail「顯示原始郵件」看 SPF、DKIM、DMARC 三項是否都 PASS，或寄件者根本不是 @rsg.com.tw。
-3. 測試通過後，把 `_dmarc` 改為 `v=DMARC1; p=quarantine; rua=mailto:<原本的 Cloudflare 回報信箱>`，其餘不動。
-4. 再觀察兩週（2026-10-19 複查），仍為 0 失敗即升 `p=reject`。
+1. **SPF 不補舊主機的 include。** 舊 WordPress 站（A2 主機、WP Mail SMTP）在切換到新站後就會退役，現在補進 SPF 只是替一條即將消失的路徑開門；§4 的 WP Mail SMTP 截圖也不再需要。「非封鎖性失敗」警告只是 Cloudflare 提醒結尾是 `~all`，照原規劃保留。
+2. **升級 DMARC 延到新站切換之後。** 新站的聯絡表單會改走新的寄信服務（Web3Forms 或 Cloudflare Functions），是全新的寄件來源，SPF / DKIM 要為它重設。切換前測舊站表單沒有意義。
+3. 切換當天做一次主動測試（約 10 分鐘）：在新站送出一次聯絡表單；從實際用來寄 @rsg.com.tw 的信箱寄一封到 Gmail。兩封信在 Gmail「顯示原始郵件」看 SPF、DKIM、DMARC 三項是否都 PASS。新表單服務若需要，先依該服務文件補 SPF include 與 DKIM。
+4. 測試通過後，把 `_dmarc` 改為 `v=DMARC1; p=quarantine; rua=mailto:<原本的 Cloudflare 回報信箱>`，其餘不動。再觀察兩週，仍為 0 失敗即升 `p=reject`。
 5. **BIMI 不做**：需要註冊商標的 logo 加上 VMC 憑證，年費逾千美元，對關係花園沒有效益；Cloudflare 的「失敗」標示可忽略。
 
