@@ -9,6 +9,9 @@ export default defineConfig({
   site: 'https://rsg.com.tw',
   trailingSlash: 'never',
   build: { format: 'file' },
+  redirects: {
+    '/心靈捕夢網': '/archives/category/心靈捕夢網',
+  },
   integrations: [
     sitemap({
       filter: (page) => !/\/(search|404)(\.html)?$/.test(page),

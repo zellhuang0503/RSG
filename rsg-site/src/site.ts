@@ -39,7 +39,7 @@ export const site = {
           label: '向內探索',
           href: '/archives/category/課程介紹',
           children: [
-            { label: '一對一排列', href: '/arrangement-one-to-one' },
+            { label: '一對一排列', href: '/archives/6968' },
             { label: '生命專車工作坊', href: '/archives/2061' },
             { label: '深度轉化工作坊', href: '/archives/2059' },
             { label: '內在小孩工作坊', href: '/archives/6311' },
@@ -69,7 +69,7 @@ export const site = {
       ],
     },
     { label: '花園意識能量卡', href: 'https://cards.rsg.com.tw/', external: true },
-    { label: '心靈捕夢網', href: '/心靈捕夢網' },
+    { label: '心靈捕夢網', href: '/archives/category/心靈捕夢網' },
     { label: '能量商店', href: 'https://shop.rsg.com.tw/', external: true },
     {
       label: '關於花園',

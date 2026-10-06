@@ -1,0 +1,27 @@
+---
+import { site } from '../site';
+// The header and course directory always use the same course hierarchy.
+const groups = site.nav.find(item => item.href === '/events')?.children?.filter(item => item.children?.length) ?? [];
+const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
+---
+<aside class="course-sidebar" aria-label="所有課程目錄" data-pagefind-ignore>
+  <details class="course-directory" open>
+    <summary>所有課程目錄</summary>
+    <nav aria-label="課程分類">
+      <a class="course-calendar-link" href="/events">課程行事曆</a>
+      {groups.map(group => (
+        <section class="course-directory-group">
+          <h2>{group.label}</h2>
+          <ul>{group.children!.map(item => <li><a href={item.href} aria-current={item.href === current ? 'page' : undefined}>{item.label}</a></li>)}</ul>
+        </section>
+      ))}
+    </nav>
+  </details>
+</aside>
+<script>
+  const mobile = window.matchMedia('(max-width: 900px)');
+  const directories = document.querySelectorAll<HTMLDetailsElement>('.course-directory');
+  const adapt = () => directories.forEach(directory => { directory.open = !mobile.matches; });
+  adapt();
+  mobile.addEventListener('change', adapt);
+</script>

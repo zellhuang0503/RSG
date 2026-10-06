@@ -33,7 +33,7 @@ const pages = defineCollection({
     template: z.string().optional(),
     presentation: z.object({
       layout: z.literal('centered-service'),
-      hero: z.object({ src: z.string(), alt: z.string(), width: z.number(), height: z.number() }),
+      hero: z.object({ src: z.string(), alt: z.string(), width: z.number(), height: z.number(), fit: z.enum(['cover', 'contain']).optional() }).optional(),
       appointment: z.boolean().default(false),
     }).optional(),
   }),
@@ -41,7 +41,13 @@ const pages = defineCollection({
 
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './content/posts' }),
-  schema: base,
+  schema: base.extend({
+    presentation: z.object({
+      layout: z.literal('course-detail'),
+      appointment: z.boolean().default(true),
+      registrationCourseId: z.string().regex(/^\d+$/).optional(),
+    }).optional(),
+  }),
 });
 
 const events = defineCollection({

@@ -1,13 +1,13 @@
 ---
 import Appointment from '../components/Appointment.astro';
 interface Props {
-  hero: { src: string; alt: string; width: number; height: number };
+  hero?: { src: string; alt: string; width: number; height: number; fit?: 'cover' | 'contain' };
   appointment?: boolean;
 }
 const { hero, appointment = false } = Astro.props;
 ---
 <article class="service-page">
-  <img class="page-banner" src={hero.src} alt={hero.alt} width={hero.width} height={hero.height} fetchpriority="high" />
+  {hero && <img class="page-banner" src={hero.src} alt={hero.alt} width={hero.width} height={hero.height} style={hero.fit ? `aspect-ratio: ${hero.width} / ${hero.height}; object-fit: ${hero.fit};` : undefined} fetchpriority="high" />}
   <div class="service-content"><slot /></div>
   {appointment && <Appointment />}
 </article>

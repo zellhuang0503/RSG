@@ -14,16 +14,18 @@ const isActive = (href: string) => href === current || (href !== '/' && current.
   <div class="menubar">
     <div class="container">
     <nav id="primary-nav" class="nav" aria-label="主選單">
-      {site.nav.map((item) => (
+      {site.nav.map((item, index) => (
         item.children ? (
           <div class="nav-item has-children">
             <a href={item.href} aria-current={isActive(item.href) || item.children.some((c) => isActive(c.href) || c.children?.some((g) => isActive(g.href))) ? 'page' : undefined} aria-haspopup="true">{item.label}<span class="caret" aria-hidden="true">▾</span></a>
-            <div class="submenu">
-              {item.children.map((c) => (
+            <button type="button" class="submenu-toggle" aria-expanded="false" aria-controls={`nav-submenu-${index}`}>{item.label}<span class="caret" aria-hidden="true"></span></button>
+            <div class="submenu" id={`nav-submenu-${index}`}>
+              {item.children.map((c, childIndex) => (
                 c.children ? (
                   <div class="nav-item sub has-children">
                     <a href={c.href} aria-haspopup="true">{c.label}<span class="caret" aria-hidden="true">▸</span></a>
-                    <div class="submenu flyout">
+                    <button type="button" class="submenu-toggle" aria-expanded="false" aria-controls={`nav-submenu-${index}-${childIndex}`}>{c.label}<span class="caret" aria-hidden="true"></span></button>
+                    <div class="submenu flyout" id={`nav-submenu-${index}-${childIndex}`}>
                       {c.children.map((g) => <a href={g.href} aria-current={isActive(g.href) ? 'page' : undefined}>{g.label}</a>)}
                     </div>
                   </div>
@@ -68,11 +70,39 @@ const isActive = (href: string) => href === current || (href !== '/' && current.
   const search = header?.querySelector<HTMLDetailsElement>('.nav-search');
   const summary = search?.querySelector('summary');
   const query = search?.querySelector<HTMLInputElement>('input');
+  const mobile = window.matchMedia('(max-width: 1024px)');
+  const submenuToggles = header?.querySelectorAll<HTMLButtonElement>('.submenu-toggle');
+  const collapseSubmenus = (container: Element) => {
+    container.querySelectorAll<HTMLButtonElement>('.submenu-toggle').forEach(button => {
+      button.setAttribute('aria-expanded', 'false');
+      button.parentElement?.classList.remove('is-expanded');
+    });
+  };
+  submenuToggles?.forEach(button => button.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(open));
+    button.parentElement?.classList.toggle('is-expanded', open);
+    const panel = document.getElementById(button.getAttribute('aria-controls')!);
+    if (!open && panel) collapseSubmenus(panel);
+  }));
+  const brandRow = header?.querySelector<HTMLElement>('.brand-row');
+  if (header && brandRow) {
+    const updateHeaderHeight = () => header.style.setProperty('--mobile-header-height', `${brandRow.getBoundingClientRect().height}px`);
+    updateHeaderHeight();
+    new ResizeObserver(updateHeaderHeight).observe(brandRow);
+  }
   toggle?.addEventListener('click', () => {
     const open = toggle.getAttribute('aria-expanded') !== 'true';
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
     header?.classList.toggle('nav-open', open);
+    if (!open && header) {
+      collapseSubmenus(header);
+      if (search) search.open = false;
+    }
+  });
+  mobile.addEventListener('change', () => {
+    if (!mobile.matches && toggle?.getAttribute('aria-expanded') === 'true') toggle.click();
   });
   search?.addEventListener('toggle', () => {
     summary?.setAttribute('aria-label', search.open ? '關閉搜尋' : '開啟搜尋');
@@ -80,6 +110,7 @@ const isActive = (href: string) => href === current || (href !== '/' && current.
   });
   document.addEventListener('click', (event) => {
     if (search?.open && event.target instanceof Node && !search.contains(event.target)) search.open = false;
+    if (mobile.matches && toggle?.getAttribute('aria-expanded') === 'true' && event.target instanceof Node && !header?.contains(event.target)) toggle.click();
   });
   search?.addEventListener('focusout', (event) => {
     if (event.relatedTarget instanceof Node && !search.contains(event.relatedTarget)) search.open = false;
