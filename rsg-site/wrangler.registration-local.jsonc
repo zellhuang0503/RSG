@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rsg-registration-local",
+  "main": "worker/index.mjs",
+  "compatibility_date": "2026-09-01",
+  "assets": {"directory":"./dist", "binding":"ASSETS", "run_worker_first":true, "html_handling":"auto-trailing-slash", "not_found_handling":"404-page"},
+  "vars": {"REGISTRATION_MODE":"local"},
+  "d1_databases": [{"binding":"REGISTRATIONS_DB", "database_name":"rsg-registration-local", "database_id":"00000000-0000-0000-0000-000000000001", "migrations_dir":"migrations"}],
+  "triggers": {"crons":["*/2 * * * *"]}
+}

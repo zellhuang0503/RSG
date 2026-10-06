@@ -23,7 +23,7 @@ const upcoming = visibleEvents(Astro.props.events);
   </div>
   <div class="calendar-fallback">
     <h2>即將舉辦的課程</h2><p>開啟 JavaScript 可使用月曆與月份切換。</p>
-    {upcoming.length ? <ul>{upcoming.map(event => <li><time datetime={event.start}>{eventRange(event)}</time>　<a href={event.href}>{event.title}</a></li>)}</ul> : <p>近期課程籌備中。</p>}
+    {upcoming.length ? <ul>{upcoming.map(event => <li><time datetime={event.start}>{eventRange(event)}</time>　{event.href ? <a href={event.href}>{event.title}</a> : <span>{event.title}</span>}</li>)}</ul> : <p>近期課程籌備中。</p>}
   </div>
 </section>
 <script>import '../scripts/calendar';</script>

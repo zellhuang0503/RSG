@@ -16,7 +16,8 @@ document.querySelectorAll<HTMLElement>('[data-calendar]').forEach(root => {
     return element;
   };
   const eventLink = (event: CalendarEvent, day?: string) => {
-    const link = node('a', '', 'calendar-event'); link.href = event.href;
+    const link = event.href ? node('a', '', 'calendar-event') : node('div', '', 'calendar-event calendar-notice');
+    if (link instanceof HTMLAnchorElement) link.href = event.href;
     link.append(node('span', event.title, 'calendar-event-title'));
     link.append(node('span', day && day > event.start ? '續 · ' + event.time : event.time, 'calendar-event-time'));
     link.title = eventRange(event) + ' · ' + event.time + (event.venue ? ' · ' + event.venue : '');
