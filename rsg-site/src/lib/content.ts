@@ -134,6 +134,9 @@ export function toIso(s?: string) {
 
 export function stripMarkdown(md: string) {
   return md
+    // 還原舊站版面的頁面內文是 HTML 區塊，先去掉標籤，避免摘要出現原始碼
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
     .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
     .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
     .replace(/[#>*_`~\-]+/g, ' ')
