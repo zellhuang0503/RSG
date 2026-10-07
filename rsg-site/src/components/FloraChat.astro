@@ -45,34 +45,34 @@
   .flora-launcher:is(:hover,:focus-visible) img,.flora-launcher:is(:hover,:focus-visible)::before { animation-play-state:paused; }
   .flora-launcher[aria-expanded='true'] img { animation:none; }
   .flora-launcher[aria-expanded='true']::before,.flora-launcher[aria-expanded='true'] .flora-launcher-label { display:none; }
-  .flora-panel { position:fixed; right:var(--flora-right); bottom:var(--flora-panel-bottom); width:384px; max-width:calc(100% - 48px); height:640px; max-height:calc(100dvh - var(--flora-panel-bottom) - 16px); border:1px solid #c6dfdf; border-radius:20px; background:#f4faf9; box-shadow:0 12px 45px #182d4933; z-index:100; overflow:hidden; display:flex; flex-direction:column; text-align:left; }
+  .flora-panel { position:fixed; right:var(--flora-right); bottom:var(--flora-panel-bottom); width:420px; max-width:calc(100% - 48px); height:640px; max-height:calc(100dvh - var(--flora-panel-bottom) - 16px); border:1px solid #c6dfdf; border-radius:20px; background:#f4faf9; box-shadow:0 12px 45px #182d4933; z-index:100; overflow:hidden; display:flex; flex-direction:column; text-align:left; }
   .flora-panel[hidden] { display:none; }
   .flora-panel[data-expanded='true'] { width:640px; height:calc(100dvh - var(--flora-panel-bottom) - 16px); }
   .flora-header { display:flex; align-items:center; gap:9px; padding:13px; background:linear-gradient(120deg,#d7f2f0,#e7e0f8); flex-shrink:0; }
   .flora-header img { width:40px; height:40px; flex-shrink:0; }
   .flora-header h2 { font:700 18px/1.4 'Noto Sans TC',sans-serif; margin:0; color:#2b2f56; border:0; padding:0; }
-  .flora-header p { margin:2px 0 0; font-size:11px; line-height:1.5; }
+  .flora-header p { margin:2px 0 0; font-size:13px; line-height:1.5; }
   .flora-actions { display:flex; margin-left:auto; gap:3px; }
   .flora-actions button { width:34px; height:34px; border:0; border-radius:8px; color:#2b2f56; background:#ffffff80; font-size:25px; line-height:1; }
   .flora-actions button:hover { background:#fff; }
-  .flora-toolbar { display:flex; align-items:center; justify-content:space-between; padding:6px 14px; border-bottom:1px solid #dce9e7; font-size:11px; color:#647273; }
-  .flora-toolbar button { border:0; color:#325c63; background:none; font-size:12px; padding:5px; }
+  .flora-toolbar { display:flex; align-items:center; justify-content:space-between; padding:6px 14px; border-bottom:1px solid #dce9e7; font-size:13px; color:#647273; }
+  .flora-toolbar button { border:0; color:#325c63; background:none; font-size:14px; padding:5px; }
   .flora-messages { overflow-y:auto; overscroll-behavior:contain; flex:1; min-height:0; padding:16px 14px 8px; scroll-behavior:smooth; }
-  .flora-message { max-width:94%; margin:0 0 16px; padding:10px 12px; border-radius:14px; background:#fff; border:1px solid #e0eae8; font-size:14px; line-height:1.75; overflow-wrap:anywhere; }
+  .flora-message { max-width:94%; margin:0 0 16px; padding:10px 12px; border-radius:14px; background:#fff; border:1px solid #e0eae8; font-size:17px; line-height:1.8; overflow-wrap:anywhere; }
   .flora-message--user { margin-left:auto; background:#e0f3f0; border-color:#c5e6e1; }
-  .flora-speaker { display:block; font-size:11px; font-weight:700; color:#587779; margin-bottom:3px; }
+  .flora-speaker { display:block; font-size:13px; font-weight:700; color:#587779; margin-bottom:3px; }
   .flora-message-text { white-space:pre-wrap; }
   .flora-message-text a { color:#245f82; text-decoration:underline; }
   .flora-message[data-incomplete='true'] { border-style:dashed; }
   .flora-suggestions { display:flex; flex-wrap:wrap; gap:6px; padding:5px 14px 10px; }
   .flora-suggestions[hidden] { display:none; }
-  .flora-suggestions button { border:1px solid #c8e2df; border-radius:14px; background:#fff; padding:5px 9px; color:#3b656c; font-size:12px; }
+  .flora-suggestions button { border:1px solid #c8e2df; border-radius:14px; background:#fff; padding:5px 9px; color:#3b656c; font-size:15px; }
   .flora-form { display:flex; align-items:flex-end; gap:8px; padding:10px 12px; background:#fff; border-top:1px solid #dce9e7; margin:0; }
-  .flora-form textarea { min-width:0; flex:1; resize:none; border:1px solid #c8dcda; border-radius:10px; padding:9px; font:400 16px/1.4 'Noto Sans TC',sans-serif; color:#273a44; background:#fff; }
-  .flora-form button { border:0; border-radius:10px; padding:10px 12px; background:#38666f; color:#fff; font-size:14px; }
-  .flora-status { margin:0; padding:0 14px; min-height:18px; background:#fff; color:#5a6c6c; font-size:12px; line-height:1.5; }
+  .flora-form textarea { min-width:0; flex:1; resize:none; border:1px solid #c8dcda; border-radius:10px; padding:9px; font:400 17px/1.5 'Noto Sans TC',sans-serif; color:#273a44; background:#fff; }
+  .flora-form button { border:0; border-radius:10px; padding:10px 12px; background:#38666f; color:#fff; font-size:16px; }
+  .flora-status { margin:0; padding:0 14px; min-height:18px; background:#fff; color:#5a6c6c; font-size:14px; line-height:1.5; }
   .flora-status[data-error='true'] { color:#9b3829; }
-  .flora-note { margin:0; padding:4px 14px 9px; background:#fff; font-size:10px; line-height:1.5; color:#748180; }
+  .flora-note { margin:0; padding:4px 14px 9px; background:#fff; font-size:12px; line-height:1.5; color:#748180; }
   .flora-sr-only { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
   @keyframes flora-breathe { 0%,100%{transform:scale(1)}50%{transform:scale(1.04)} }
   @keyframes flora-halo { 0%,100%{transform:scale(1);opacity:.25}50%{transform:scale(1.09);opacity:.65} }
@@ -80,7 +80,8 @@
     .flora { --flora-size:72px; --flora-right:16px; --flora-bottom:80px; --flora-panel-bottom:164px; }
     .flora-panel { max-width:calc(100% - 32px); height:512px; }
     .flora-header { gap:7px; padding:10px; }
-    .flora-header p { font-size:10px; }
+    .flora-header p { font-size:12px; }
+    .flora-message { font-size:16px; }
   }
   @media(prefers-reduced-motion:reduce) { .flora-launcher img,.flora-launcher::before{animation:none}.flora-launcher::before{opacity:.35}.flora-messages{scroll-behavior:auto} }
 </style>
