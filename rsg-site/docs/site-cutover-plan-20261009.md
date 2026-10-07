@@ -61,10 +61,10 @@ Worker → 網域和路由移除兩個自訂網域，DNS 把 D-1 記錄的原 A 
 1. 切換時段：10/9 白天，由我們自行安排。
 2. 10/8 起內容凍結：可行，舊站目前已停止更新。
 3. 舊站無其他需保留的功能。
-4. GA4：新站目前沒有追蹤碼，10/9 切換當天一起安裝（見下方）。
+4. GA4：沿用舊站既有的 GA4 評估 ID，10/9 切換當天裝到新站（見下方）。
 
 ## 10/9 加裝 GA4
-1. GA4 管理 → 資料串流：確認是否已有 `rsg.com.tw` 網站串流；沒有就新增，取得評估 ID（`G-XXXXXXXXXX`）。
+1. **沿用舊站既有的 GA4 資源與評估 ID（`G-XXXXXXXXXX`），不新建**，讓新舊流量數據連續。GA4 管理 → 資料串流確認串流網址為 `https://rsg.com.tw`。
 2. 在 `src/layouts/Base.astro` 的 `<head>` 加入 gtag 程式碼，push 到 `main` 自動部署。
 3. `public/_headers` 若有 Content-Security-Policy，需允許 `googletagmanager.com` 與 `google-analytics.com`。
 4. 用 GA4「即時」報表確認有收到瀏覽；Search Console 與 GA4 互相連結。
