@@ -16,8 +16,8 @@
 ## 時程
 
 ### D-2（10/7，今天）
-- [ ] 業主確認切換時段（建議 10/9 上午 9:00–10:00 之前或晚上 22:00 後的離峰時段）與當天聯絡窗口。
-- [ ] 通知業主：**10/8 起舊站後台停止新增／修改內容**（內容凍結），否則改動不會出現在新站。
+- [x] 切換時段：10/9 白天。
+- [x] 10/8 起舊站內容凍結（已確認）。
 
 ### D-1（10/8）準備
 1. **補抓最新內容**：重跑 `rsg-export/export_wp.py` → `npm run import`，比對自上次匯入後舊站新增的文章、活動、頁面；有差異就合併進 `main`。
@@ -39,8 +39,9 @@
    - 在 `rsg.com.tw` 上開 Flora 對話一輪（驗證新網域在 `ALLOWED_ORIGINS` 內）。
    - 從 `shop.rsg.com.tw`、`cards.rsg.com.tw` 點回主站的連結正常。
 4. 郵件檢查（約 10 分鐘，依 `docs/RSG_GEO_AEO_執行方案.md` §8）：新站寄一封報名確認信、業主信箱寄一封到 Gmail，「顯示原始郵件」確認 SPF／DKIM／DMARC 都 PASS。
-5. Google Search Console：提交 `https://rsg.com.tw/sitemap-index.xml`，移除舊的 `sitemap_index.xml`／`sitemap.xml`；用「網址審查」對首頁要求建立索引。
-6. 通知業主切換完成，附上要請他們自己點一遍的頁面清單。
+5. **加裝 GA4**（見下方「10/9 加裝 GA4」）。
+6. Google Search Console：提交 `https://rsg.com.tw/sitemap-index.xml`，移除舊的 `sitemap_index.xml`／`sitemap.xml`；用「網址審查」對首頁要求建立索引。
+7. 通知業主切換完成，附上要請他們自己點一遍的頁面清單。
 
 ### 回退（任何時候發現重大問題）
 Worker → 網域和路由移除兩個自訂網域，DNS 把 D-1 記錄的原 A 記錄加回去即可，約 5 分鐘生效。舊 WordPress 在回退期間仍完整可用。**判斷標準**：首頁或報名無法使用、大量舊網址 404、寄信失敗，三者任一即回退後再處理。
@@ -56,8 +57,14 @@ Worker → 網域和路由移除兩個自訂網域，DNS 把 D-1 記錄的原 A 
 - 評估把 `ask.rsg.com.tw` 改為 `rsg.com.tw/ask/`（rsg-edge 模式一）。
 - 根網域 TTL 改回 Auto。
 
-## 待業主確認
-1. 切換時段與當天聯絡人。
-2. 10/8 起內容凍結是否可行。
-3. 舊站是否有我們沒盤點到、需要保留的功能（例如表單外掛、會員專區、嵌入的第三方工具）。
-4. Google Analytics／GTM：新站目前**沒有**埋追蹤碼。若業主需要延續流量數據，需在切換前提供 GA4 評估 ID 一併加入。
+## 已確認事項（2026-10-07）
+1. 切換時段：10/9 白天，由我們自行安排。
+2. 10/8 起內容凍結：可行，舊站目前已停止更新。
+3. 舊站無其他需保留的功能。
+4. GA4：新站目前沒有追蹤碼，10/9 切換當天一起安裝（見下方）。
+
+## 10/9 加裝 GA4
+1. GA4 管理 → 資料串流：確認是否已有 `rsg.com.tw` 網站串流；沒有就新增，取得評估 ID（`G-XXXXXXXXXX`）。
+2. 在 `src/layouts/Base.astro` 的 `<head>` 加入 gtag 程式碼，push 到 `main` 自動部署。
+3. `public/_headers` 若有 Content-Security-Policy，需允許 `googletagmanager.com` 與 `google-analytics.com`。
+4. 用 GA4「即時」報表確認有收到瀏覽；Search Console 與 GA4 互相連結。
