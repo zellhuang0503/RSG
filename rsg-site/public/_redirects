@@ -198,3 +198,7 @@
 /membership-login  https://shop.rsg.com.tw/  301
 /membership-join/membership-registration  https://shop.rsg.com.tw/  301
 /membership-join  https://shop.rsg.com.tw/  301
+
+# ---- 萬用規則（必須在檔案最後）----
+# 舊 WordPress 圖片路徑：外部連結與 Google 圖片搜尋仍指向 /wp-content/uploads/…
+/wp-content/uploads/*  /media/:splat  301

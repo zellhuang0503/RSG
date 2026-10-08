@@ -121,7 +121,13 @@ stats.redirects = generated.length;
 stats.unmatched = unmatched.length;
 
 const base = fs.readFileSync(path.join(root, 'scripts', '_redirects.base'), 'utf8').trimEnd();
-const out = [base, '', '# ---- 以下由 scripts/import-export.mjs 依 content/urls.csv 的 new_path 產生 ----', ...generated, ''].join('\n');
+// 含 * 的規則必須放最後：Cloudflare 把萬用規則之後的固定規則都算成動態規則，動態規則上限 100 條，超過的整段被略過。
+const tail = [
+  '# ---- 萬用規則（必須在檔案最後）----',
+  '# 舊 WordPress 圖片路徑：外部連結與 Google 圖片搜尋仍指向 /wp-content/uploads/…',
+  '/wp-content/uploads/*  /media/:splat  301',
+];
+const out = [base, '', '# ---- 以下由 scripts/import-export.mjs 依 content/urls.csv 的 new_path 產生 ----', ...generated, '', ...tail, ''].join('\n');
 fs.writeFileSync(path.join(root, 'public', '_redirects'), out);
 fs.writeFileSync(path.join(root, 'content', 'unmatched-paths.txt'),
   ['# 舊站 sitemap 有、新站目前沒有對應頁面的網址（多半是分類/標籤/分頁/作者頁）。', '# 要保留的，在 content/urls.csv 的 new_path 填新路徑後重跑 npm run import；不管它們就會 404。', ...unmatched, ''].join('\n'));
