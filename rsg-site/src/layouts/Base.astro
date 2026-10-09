@@ -26,6 +26,14 @@ const { searchable = true, ...seo } = Astro.props;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet" />
     <Seo {...seo} />
+    <!-- GA4：沿用舊站既有的評估 ID，讓新舊站流量數據連續（2026-10-09 切換） -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-EGHGM6DDMS"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EGHGM6DDMS');
+    </script>
     <slot name="head" />
   </head>
   <body>
