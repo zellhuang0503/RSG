@@ -82,7 +82,7 @@ export function renderRegistration(courseId, sessions, {mode='unavailable', site
     <div data-session-summary class="registration-summary" hidden></div>
     <div class="registration-fields">${field('name','姓名','text',true,80,'name')}${field('phone','手機／聯絡電話','tel',true,30,'tel')}${field('email','Email','email',true,254,'email')}${field('line','LINE ID')}${field('referral','推薦人')}</div>
     <div class="registration-field"><label for="reg-note">備註 <span>（選填）</span></label><textarea id="reg-note" name="note" rows="3" maxlength="800" aria-describedby="reg-note-help error-note"></textarea><small id="reg-note-help">可填聯絡時間等事項，請勿填寫健康、療癒議題或其他私密資料。</small><small id="error-note" data-error="note" class="registration-field-error"></small></div>
-    <div class="registration-honey" aria-hidden="true"><label>公司網站<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+    <div class="registration-honey" aria-hidden="true"><label>請留空<input name="rg_extra" data-honeypot tabindex="-1" autocomplete="off" /></label></div>
     <div class="registration-consent"><label><input name="consent" type="checkbox" required aria-describedby="error-consent" />我已閱讀並同意：以上資料僅供課程報名、聯絡及通知使用。送出代表提出申請，名額、付款方式與正式報名結果由課務另行確認。</label><small id="error-consent" data-error="consent" class="registration-field-error"></small></div>
     <div data-turnstile></div><p data-form-error class="registration-form-error" role="alert" tabindex="-1"></p>
     <button class="registration-button registration-submit" type="submit">送出報名申請 <span aria-hidden="true">→</span></button><p class="registration-help">需要協助？<a href="mailto:${OFFICE_EMAIL}">${OFFICE_EMAIL}</a> · <a href="tel:0227355500">02-2735-5500</a></p>

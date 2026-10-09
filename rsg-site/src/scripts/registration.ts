@@ -42,6 +42,9 @@ document.querySelectorAll<HTMLElement>('[data-registration]').forEach(root=>{
     };
     script.onerror=()=>{error.textContent='驗證服務無法載入，請稍後再試或聯絡課務。';};document.head.append(script);
   }
+  // 蜜罐欄位只算「真人鍵盤輸入」；瀏覽器自動填入不觸發 isTrusted 的 input 事件，避免誤判真人為機器人。
+  const honey=form.querySelector<HTMLInputElement>('[data-honeypot]');let honeyTyped=false;
+  honey?.addEventListener('input',e=>{if(e.isTrusted)honeyTyped=true;});
   form.addEventListener('submit',async event=>{
     event.preventDefault();if(pending)return;
     error.textContent='';
@@ -50,7 +53,8 @@ document.querySelectorAll<HTMLElement>('[data-registration]').forEach(root=>{
     if (!form.reportValidity()) return;
     if (root.dataset.sitekey && !token) {error.textContent='請先完成人機驗證。';error.focus();return;}
     const input=new FormData(form);
-    const payload={...Object.fromEntries(input),requestId,consent:input.get('consent')==='on',consentVersion:CONSENT_VERSION,turnstileToken:token};
+    input.delete('rg_extra');
+    const payload={...Object.fromEntries(input),website:honeyTyped?(honey?.value||''):'',requestId,consent:input.get('consent')==='on',consentVersion:CONSENT_VERSION,turnstileToken:token};
     pending=true;submit.disabled=true;submit.textContent='正在送出…';form.setAttribute('aria-busy','true');
     // Lock edited fields during submission so the result always matches the saved payload.
     const controls=[...form.querySelectorAll<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>('input,select,textarea')];
