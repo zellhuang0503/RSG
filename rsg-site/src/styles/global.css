@@ -283,6 +283,14 @@ p { margin: 0 0 1.1em; }
 .event-info dd a { word-break: break-all; }
 .event-list h2 { margin: 32px 0 12px; }
 .event-list .past .card { opacity: 0.85; }
+
+/* ---------- 常見問題（內容頁 front matter faq） ---------- */
+.faq { max-width: var(--measure); margin: 2.4em auto 1em; padding-top: 1.4em; border-top: 1px solid var(--line); }
+.faq h2 { margin: 0 0 0.8em; font-size: 1.35rem; }
+.faq-item { margin: 0 0 1.2em; }
+.faq-item h3 { margin: 0 0 0.3em; font-size: 1.05rem; color: var(--heading); }
+.faq-item p { margin: 0; }
+.course-page .faq, .service-content .faq { margin-inline: auto; }
 .year-group { margin: 12px 0; }
 .year-group > summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; padding: 8px 0; }
 .year-group > summary::-webkit-details-marker { display: none; }

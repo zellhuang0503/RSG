@@ -94,6 +94,8 @@ export const site = {
     { label: '體驗與協談', href: '/negotiate-one-to-one' },
     { label: '學員怎麼說', href: '/share' },
     { label: '課程在這兒', href: '/latest-courses' },
+    // 學習指南問答站：之前主站沒有任何連結指到它，AI 與 Google 難以發現（2026-11-05 GEO 檢測）
+    { label: '學習指南（常見問題）', href: 'https://ask.rsg.com.tw/' },
     { label: '音檔課程', href: 'https://shop.rsg.com.tw/courses/' },
     { label: '會員登入', href: 'https://shop.rsg.com.tw/wp-login.php/?openExternalBrowser=1' },
   ],
