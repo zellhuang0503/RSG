@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>關係花園 AI 搜尋能見度（GEO）優化提案（2026-11-09 提案版）</title>
+<style>
+  :root { --ink:#222; --muted:#666; --line:#ddd; --soft:#f6f4fa; --brand:#6b4fa0; --ok:#1f7a4d; --warn:#b3261e; --todo:#fff4d6; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif; color:var(--ink); line-height:1.75; font-size:17px; background:#fff; }
+  main { max-width:860px; margin:0 auto; padding:24px 16px 80px; }
+  h1 { font-size:1.7rem; line-height:1.3; margin:0 0 4px; }
+  h2 { font-size:1.3rem; margin:2.2em 0 .6em; padding-bottom:.25em; border-bottom:2px solid var(--brand); }
+  h3 { font-size:1.08rem; margin:1.6em 0 .4em; }
+  p { margin:.5em 0 .9em; }
+  .meta { color:var(--muted); font-size:.95rem; margin-bottom:1.5em; }
+  .box { background:var(--soft); border-left:5px solid var(--brand); padding:14px 18px; margin:1em 0; border-radius:0 8px 8px 0; }
+  .box.warn { border-left-color:var(--warn); }
+  .box.ok { border-left-color:var(--ok); }
+  .todo { background:var(--todo); border:1px dashed #c89b2a; padding:10px 14px; border-radius:8px; }
+  table { border-collapse:collapse; width:100%; margin:.8em 0 1.4em; font-size:.95rem; display:block; overflow-x:auto; }
+  th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:#f0edf5; white-space:nowrap; }
+  ul, ol { padding-left:1.4em; }
+  li { margin:.3em 0; }
+  .small { font-size:.9rem; color:var(--muted); }
+  .who { font-size:.85rem; color:var(--muted); white-space:nowrap; }
+  .toc a { text-decoration:none; color:var(--brand); }
+  details { margin:.6em 0; }
+  summary { cursor:pointer; font-weight:600; }
+  @media print { body { font-size:12pt; } h2 { break-after:avoid; } table, .box { break-inside:avoid; } details:not([open]) > *:not(summary) { display:block; } }
+</style>
+</head>
+<body>
+<main>
+
+<h1>關係花園 AI 搜尋能見度（GEO）優化提案</h1>
+<p class="meta">提案日：2026 年 11 月 9 日（週一）｜提案人：梵亞行銷總監 黃志宏｜給：關係花園 林老師、高老師｜搭配文件：《AI 搜尋能見度檢測報告 2026-11-05》</p>
+
+<div class="box">
+<strong>我們建議做什麼：</strong>用三個月，讓 AI（ChatGPT、Gemini、Perplexity、Google 的 AI 摘要）在回答「系統排列、內在小孩、意識覺醒課程」相關問題時，更常提到關係花園、更常引用 rsg.com.tw。做法分三步：<strong>先把門打開 → 把答案寫在網站上 → 讓站外也有人替你說話</strong>。每週用同樣的 50 題重測一次，每月給老師一封白話結論，三個月後給一張成績單，對照 10 月 27 日的起點。
+</div>
+
+<h2>目錄</h2>
+<ol class="toc">
+  <li><a href="#why">為什麼現在做</a></li>
+  <li><a href="#plan">三個月怎麼做</a></li>
+  <li><a href="#tasks">工作清單：誰做什麼</a></li>
+  <li><a href="#teacher">老師需要花的時間</a></li>
+  <li><a href="#measure">怎麼知道有沒有效</a></li>
+  <li><a href="#done">我們已經先動手的</a></li>
+  <li><a href="#cost">費用與條件（牌價）</a></li>
+  <li><a href="#risk">風險與誠實的話</a></li>
+  <li><a href="#next">會後下一步</a></li>
+</ol>
+
+<h2 id="why">1. 為什麼現在做</h2>
+<ul>
+  <li><strong>現況：</strong>50 題問 AI，平均只有 2 到 4 個回答提到關係花園；AI 把 rsg.com.tw 當資料來源的比例約 3%。AI 講到你時都是正面的，問題只是「太少想到你」。</li>
+  <li><strong>現在是好時機：</strong>新網站 10 月 9 日剛上線，體質很好（速度快、有機構身分證、有 968 頁網站地圖、有問答站）。要修的都是「補一塊、開一扇門」，不是重做。</li>
+  <li><strong>競爭還不激烈：</strong>同業裡 AI 最常推薦的是渥盛集團（17 次），其餘零星。這個領域還沒有人把「AI 問答」做好，先做的人會被 AI 記住。</li>
+  <li><strong>越來越多人用 AI 找課程：</strong>台灣使用者問 ChatGPT「哪裡可以上系統排列」已經是日常。沒在 AI 的答案裡，就是沒在那位學員的選項裡。</li>
+</ul>
+
+<h2 id="plan">2. 三個月怎麼做</h2>
+<table>
+<thead><tr><th>階段</th><th>時間</th><th>做什麼</th><th>做完會看到什麼</th></tr></thead>
+<tbody>
+<tr><td><strong>第 0 步：把門打開</strong></td><td>11/10 當週</td><td>Cloudflare 後台放行 AI 機器人（主站＋問答站）；主站頁尾加上「學習指南」連結；網站身分證補上 Instagram、YouTube、LINE、Podcast。</td><td>ChatGPT、Claude 的機器人能讀到網站；問答站被 Google 和 AI 發現。</td></tr>
+<tr><td><strong>第 1 步：把答案寫在網站上</strong></td><td>11 月中到 12 月中</td><td>先做 AI 沒推薦你的 5 題，再做 3 個主要服務頁（一對一排列、一對一催眠、主題整合系統排列工作坊）各 3 到 5 題「常見問題」；每個課程頁開頭加 3 句「這是什麼課、適合誰、怎麼上」；小標題改成問句。問答站從 21 題加到 40 題以上。</td><td>每頁有 AI 可以整段引用的「問題＋直接答案」；網站總評從 C 升到 B。</td></tr>
+<tr><td><strong>第 2 步：站外替你說話</strong></td><td>12 月到 1 月</td><td>Google 商家檔案建立或認領；Facebook、Instagram、YouTube 的「關於」改成同一段介紹（同名、同址、同電話、同成立年）；兩位老師的講師頁（簡歷、資歷、著作、受訪）；活動通等第三方平台至少放一場課程；在內容裡加上對外佐證連結。</td><td>AI 比對得到「這些都是同一個關係花園」；第三方網站開始出現關係花園。</td></tr>
+<tr><td><strong>第 3 步：驗證與成績單</strong></td><td>每週；2 月初總結</td><td>每週一用同樣 50 題重測，寄短信給老師（這週 AI 提到你幾次、比上週多或少、該做哪一件事）；每月第一個週一寄白話結論；三個月後出成績單，對照 10/27 起點。</td><td>看得到趨勢線，決定要不要續做。</td></tr>
+</tbody>
+</table>
+
+<h2 id="tasks">3. 工作清單：誰做什麼</h2>
+<table>
+<thead><tr><th>#</th><th>工作</th><th>我們（梵亞）</th><th>老師</th><th>預計</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Cloudflare 放行 AI 機器人（主站、問答站）</td><td>後台設定、測試確認</td><td>不用做</td><td>11/10</td></tr>
+<tr><td>2</td><td>主站頁尾加「學習指南（常見問題）」連結到 ask.rsg.com.tw</td><td>程式已改好，等上線</td><td>不用做</td><td>11/10</td></tr>
+<tr><td>3</td><td>網站身分證補齊社群連結（IG、YouTube、LINE、Podcast）</td><td>改設定檔</td><td>確認帳號網址正確</td><td>11/10</td></tr>
+<tr><td>4</td><td>「常見問題」區塊的程式架構（每頁可放問答，並自動產生 AI 讀的問答格式）</td><td>程式已改好</td><td>不用做</td><td>已完成</td></tr>
+<tr><td>5</td><td>3 個服務頁的常見問題草稿（各 4 題，共 12 題）</td><td>草稿已寫好</td><td><strong>看事實對不對、改語氣</strong>（約 30 分鐘）</td><td>11/14 前回覆</td></tr>
+<tr><td>6</td><td>AI 沒推薦你的 5 題，寫成問答放上問答站</td><td>系統已有草稿，我們潤稿</td><td>確認事實（約 20 分鐘）</td><td>11/21</td></tr>
+<tr><td>7</td><td>課程頁開頭「三句話講重點」（先做 10 個主要課程頁）</td><td>寫草稿</td><td>確認（每頁 2 分鐘）</td><td>11/28</td></tr>
+<tr><td>8</td><td>小標題改問句（同 10 頁）</td><td>建議版本</td><td>定稿</td><td>12/5</td></tr>
+<tr><td>9</td><td>Google 商家檔案建立或認領</td><td>準備資料、代操作</td><td><strong>用 Google 帳號授權或驗證</strong>（10 分鐘）</td><td>12/12</td></tr>
+<tr><td>10</td><td>Facebook、IG、YouTube「關於」統一介紹</td><td>寫好文字</td><td>貼上（或給我們後台權限）</td><td>12/12</td></tr>
+<tr><td>11</td><td>兩位老師的講師介紹頁（簡歷、資歷、著作、受訪、照片）</td><td>排版、結構化</td><td><strong>提供資料與照片</strong>（約 1 小時）</td><td>12/19</td></tr>
+<tr><td>12</td><td>第三方平台露出：活動通或類似平台放 1 到 2 場課程</td><td>上架、同步</td><td>同意哪些課可以放</td><td>12/26</td></tr>
+<tr><td>13</td><td>內容加對外佐證連結（海寧格介紹、書籍、報導）</td><td>補連結</td><td>不用做</td><td>1/9</td></tr>
+<tr><td>14</td><td>學員分享頁的「1,000 場、10,000 人、20,000 人」加上統計日期</td><td>改文字</td><td>確認數字與截止日期</td><td>1/9</td></tr>
+<tr><td>15</td><td>GA4 加「AI 來的訪客」分類（從 chatgpt.com、perplexity.ai、gemini 來的）</td><td>設定</td><td>不用做</td><td>11/14</td></tr>
+<tr><td>16</td><td>每週重測、每月結論、三個月成績單</td><td>系統自動＋人工解讀</td><td>讀信（每週 3 分鐘）</td><td>每週一</td></tr>
+</tbody>
+</table>
+
+<h2 id="teacher">4. 老師需要花的時間</h2>
+<div class="box ok">
+三個月加起來<strong>大約 3 到 4 小時</strong>，而且都是「看對不對」，不是「寫」。最花時間的是講師介紹頁的資料（約 1 小時）和每批問答草稿的確認（每批 20 到 30 分鐘）。我們不會自己決定老師的課程事實；每一句話放上網站前都會給老師看。
+</div>
+
+<h2 id="measure">5. 怎麼知道有沒有效</h2>
+<table>
+<thead><tr><th>看什麼</th><th>10/27 起點</th><th>三個月目標</th><th>怎麼看</th></tr></thead>
+<tbody>
+<tr><td>50 題裡，平均幾個回答提到關係花園</td><td>3.7 個（第一週掉到 1.7）</td><td>穩定在 8 個以上</td><td>每週一的信</td></tr>
+<tr><td>AI 引用 rsg.com.tw 當來源的比例</td><td>3%</td><td>10% 以上</td><td>每月結論</td></tr>
+<tr><td>AI 常引用網站的排名</td><td>第 64 名</td><td>前 20 名</td><td>每月結論</td></tr>
+<tr><td>網站準備度總評</td><td>C（55 分）</td><td>B（70 分以上）</td><td>每月重新健檢</td></tr>
+<tr><td>「AI 沒推薦你」的題數</td><td>5 題</td><td>2 題以下</td><td>每月結論</td></tr>
+<tr><td>從 AI 來的網站訪客</td><td>尚未分開統計</td><td>開始有數字、逐月上升</td><td>GA4</td></tr>
+</tbody>
+</table>
+<p class="small">目標是我們依經驗訂的，不是保證。AI 每次回答會變，所以看三個月趨勢，不看單週。</p>
+
+<h2 id="done">6. 我們已經先動手的（11 月 5 日）</h2>
+<ul>
+  <li><strong>完整版檢測已做完：</strong>三個 AI、50 題、每題 3 次，加上 11/5 的手動技術複檢（見檢測報告）。</li>
+  <li><strong>網站「常見問題」架構已寫好：</strong>之後任何一頁只要填上問答，網站會自動顯示在內文底下，並同時產生 AI 專用的問答格式（FAQPage 結構化資料）。</li>
+  <li><strong>3 個服務頁的問答草稿已寫好（共 12 題）：</strong>一對一排列、一對一催眠、主題整合系統排列工作坊。只用網站上已經寫的事實，沒有加任何老師沒說過的內容。<strong>還沒上線</strong>，等老師確認。</li>
+  <li><strong>主站頁尾加了「學習指南（常見問題）」連結：</strong>讓問答站被看見。<strong>還沒上線</strong>，與上面一起發布。</li>
+  <li><strong>Cloudflare 放行的操作步驟已確認：</strong>在 Cloudflare 後台「安全性 → 機器人／AI 爬蟲控制」把「封鎖 AI 機器人」關掉或改為允許，主站與問答站各做一次，10 分鐘。會後老師點頭就做。</li>
+</ul>
+
+<h2 id="cost">7. 費用與條件</h2>
+<div class="box">三個月一期，<strong>NT$75,000</strong>（每月 25,000，未稅），已包含每週重測與每月結論。老師只付這一筆，沒有其他項目。</div>
+<table>
+<thead><tr><th>項目</th><th>內容</th><th>費用（未稅）</th></tr></thead>
+<tbody>
+<tr><td><strong>GEO 月優化</strong></td><td>第 2 節的全部工作：每月一輪健檢、改寫、驗證；第 3 節工作清單 1 到 15 項；每一句改稿都經老師批准才上線。</td><td>NT$25,000／月<br>3 個月一期，共 NT$75,000</td></tr>
+<tr><td><strong>AI 能見度月監測</strong></td><td>每週一重測 50 題、每月第一個週一白話結論、三個月成績單（第 3 節第 16 項）。</td><td>優化期間<strong>包含在上面</strong>，不另收<br>（單獨購買牌價 NT$3,900／月）</td></tr>
+<tr><td>優化結束後想繼續看數字</td><td>只留監測，每週信、每月結論照寄。</td><td>NT$3,900／月，隨時可停</td></tr>
+</tbody>
+</table>
+<p><strong>付款方式：</strong>報價單加銀行轉帳，開統一發票。每一期付款前都會先給報價單，不會自動扣款。</p>
+<p><strong>條件：</strong>三個月為一期；每一句放上網站的文字都先給老師看；期末成績單對照 10/27 起點，不滿意就停，報告資料保留 90 天讓你下載。</p>
+<p class="small">以上為梵亞行銷 2026 年 11 月牌價（官網 vae.marketing「AI 能見度監測」頁同價）。關係花園自 10/27 起已以測試戶身分免費跑監測，目前累積的數據會直接延續，不用重新起算。</p>
+
+<h2 id="risk">8. 風險與誠實的話</h2>
+<ul>
+  <li><strong>AI 的回答會變。</strong>同一題今天提到你、明天可能不提。所以我們每週測、看三個月，不拿單次數字當成績。</li>
+  <li><strong>Google 的 AI 摘要沒有官方資料可查，</strong>我們只能用第三方工具抽查，數字會比較粗。</li>
+  <li><strong>站外的部分不全在我們手上。</strong>Google 商家、第三方平台、別人的網站願不願意提到關係花園，我們能推、不能保證。</li>
+  <li><strong>內容的靈魂還是老師的。</strong>我們寫的是「AI 讀得懂的版本」，不會改老師課程的意義。如果老師覺得某段太直白、不像關係花園，就改回來，我們再找平衡。</li>
+  <li><strong>Perplexity 這週 23 次連不上，原因還沒確定。</strong>先把 Cloudflare 放行做掉，再觀察一週，不猜。</li>
+</ul>
+
+<h2 id="next">9. 會後下一步</h2>
+<ol>
+  <li>老師點頭 → 當天做第 0 步（Cloudflare 放行、頁尾連結、身分證補社群連結）。</li>
+  <li>11/14 前：老師看完 12 題問答草稿，回覆「對／要改哪裡」。</li>
+  <li>11/17（週一）：第一批問答上線；當週的重測開始反映。</li>
+  <li>12 月初：Google 商家、社群介紹統一；老師提供講師頁資料。</li>
+  <li>2026 年 2 月第一個週一：三個月成績單，決定續做與否。</li>
+</ol>
+
+<p class="small" style="margin-top:3em">梵亞行銷總監 黃志宏｜2026-11-05 草擬、11-09 提案｜本文件為提案用途，內容數字取自《AI 搜尋能見度檢測報告 2026-11-05》。</p>
+</main>
+</body>
+</html>
