@@ -27,7 +27,7 @@ presentation:
 
 <div class="poster-gallery" data-reveal="up">
   <a class="poster-gallery-item" href="/archives/7630" aria-label="舊的不去，新的不來 一日工作坊，2027 年 1 月 9 日，查看課程介紹">
-    <img src="/media/2026/11/舊的不去新的不來_EDM.webp" alt="舊的不去，新的不來 一日工作坊：2027 年 1 月 9 日 09:30–16:30，關係花園，課程費用 NT$7,777" width="1080" height="1528" loading="lazy" />
+    <img src="/media/2026/11/舊的不去新的不來_海報.webp" alt="舊的不去，新的不來 一日工作坊：2027 年 1 月 9 日，關係花園" width="1080" height="1350" loading="lazy" />
   </a>
   <a class="poster-gallery-item" href="/archives/7586" aria-label="意識能量工作坊，2026 年 8 月 29 至 30 日，查看課程介紹">
     <img src="/media/2026/08/關係花園_課程-115-0810-2-2.jpg" alt="意識能量工作坊：2026 年 8 月 29 至 30 日，關係花園" width="1080" height="1350" loading="lazy" />
