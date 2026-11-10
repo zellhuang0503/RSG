@@ -1,13 +1,27 @@
 ---
 import Appointment from '../components/Appointment.astro';
+import { todayInTaipei } from '../lib/calendar.mjs';
+import { removeExpiredPosters } from '../lib/news.mjs';
 interface Props {
   hero?: { src: string; alt: string; width: number; height: number; fit?: 'cover' | 'contain' };
   appointment?: boolean;
 }
 const { hero, appointment = false } = Astro.props;
+// 「最新課程」頁的課程海報開課滿三個月就拿掉；規則見 src/lib/news.mjs。
+const body = removeExpiredPosters(await Astro.slots.render('default'), todayInTaipei());
 ---
 <article class="service-page">
   {hero && <img class="page-banner" src={hero.src} alt={hero.alt} width={hero.width} height={hero.height} style={hero.fit ? `aspect-ratio: ${hero.width} / ${hero.height}; object-fit: ${hero.fit};` : undefined} fetchpriority="high" />}
-  <div class="service-content"><slot /></div>
+  <div class="service-content" set:html={body} />
   {appointment && <Appointment />}
 </article>
+
+<script>
+  import { todayInTaipei } from '../lib/calendar.mjs';
+  import { isNewsActive } from '../lib/news.mjs';
+  // 頁面是部署時產生的；開啟時再依今天日期拿掉開課超過三個月的海報。
+  const today = todayInTaipei();
+  document.querySelectorAll<HTMLElement>('.poster-gallery [data-start]').forEach((el) => {
+    if (!isNewsActive({ startDate: el.dataset.start }, today)) el.remove();
+  });
+</script>
