@@ -1,16 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { isNewsActive } from '../src/lib/news.mjs';
+import { isNewsActive, newsLastDay } from '../src/lib/news.mjs';
 import items from '../content/home-news.json' with { type: 'json' };
 
-test('課程海報在最後一天當天仍顯示，隔天自動下架', () => {
-  const item = { title: '課程', endDate: '2026-11-22' };
-  assert.equal(isNewsActive(item, '2026-11-22'), true);
-  assert.equal(isNewsActive(item, '2026-11-23'), false);
+test('課程海報開課後留三個月，隔天自動下架', () => {
+  const item = { title: '課程', startDate: '2026-10-17' };
+  assert.equal(isNewsActive(item, '2027-01-17'), true);
+  assert.equal(isNewsActive(item, '2027-01-18'), false);
 });
-test('沒有 endDate 的常駐項目一直顯示', () => {
+test('月底開課遇到短月份，取那個月最後一天', () => {
+  assert.equal(newsLastDay('2026-11-30'), '2027-02-28');
+  assert.equal(newsLastDay('2026-08-29'), '2026-11-29');
+});
+test('沒有 startDate 的常駐項目一直顯示', () => {
   assert.equal(isNewsActive({ title: '推薦好友上課' }, '2099-01-01'), true);
 });
-test('home-news.json 的 endDate 都是 YYYY-MM-DD', () => {
-  for (const item of items) if (item.endDate) assert.match(item.endDate, /^\d{4}-\d{2}-\d{2}$/, item.title);
+test('home-news.json 的 startDate 都是 YYYY-MM-DD，且不再用 endDate', () => {
+  for (const item of items) {
+    assert.equal(item.endDate, undefined, item.title);
+    if (item.startDate) assert.match(item.startDate, /^\d{4}-\d{2}-\d{2}$/, item.title);
+  }
 });
