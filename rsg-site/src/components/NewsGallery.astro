@@ -1,13 +1,17 @@
 ---
-import items from '../../content/home-news.json';
+import allItems from '../../content/home-news.json';
+import { todayInTaipei } from '../lib/calendar.mjs';
+import { isNewsActive } from '../lib/news.mjs';
+// 課程上完（過了 endDate）就自動下架；規則見 src/lib/news.mjs。
+const items = (allItems as { title: string; image: string; href?: string; endDate?: string }[]).filter(item => isNewsActive(item, todayInTaipei()));
 ---
-<section class="section news-section" aria-labelledby="home-news-title">
+{items.length > 0 && <section class="section news-section" aria-labelledby="home-news-title">
   <div class="container">
     <h2 id="home-news-title" class="home-section-title">最新消息</h2>
     <div class="news-gallery" role="region" aria-roledescription="輪播" aria-label="最新消息海報">
       <div class="news-stage">
         {items.map((item, i) => (
-          <div class="news-slide" hidden={i !== 0} role="group" aria-roledescription="投影片" aria-label={`${i + 1} / ${items.length}：${item.title}`}>
+          <div class="news-slide" hidden={i !== 0} data-end={item.endDate} data-title={item.title} role="group" aria-roledescription="投影片" aria-label={`${i + 1} / ${items.length}：${item.title}`}>
             {item.href ? (
               <a href={item.href} aria-label={`查看${item.title}`} draggable="false"><img src={item.image} alt={item.title} loading="lazy" draggable="false" /></a>
             ) : (
@@ -20,7 +24,7 @@ import items from '../../content/home-news.json';
       </div>
       <div class="news-thumbs" role="group" aria-label="選擇消息海報">
         {items.map((item, i) => (
-          <button class="news-thumb" type="button" aria-label={`顯示第 ${i + 1} 張：${item.title}`} aria-pressed={i === 0 ? 'true' : 'false'}>
+          <button class="news-thumb" type="button" data-end={item.endDate} aria-label={`顯示第 ${i + 1} 張：${item.title}`} aria-pressed={i === 0 ? 'true' : 'false'}>
             <img src={item.image} alt="" loading="lazy" draggable="false" />
           </button>
         ))}
@@ -28,15 +32,24 @@ import items from '../../content/home-news.json';
       <p class="visually-hidden news-status" aria-live="polite" aria-atomic="true">{`1 / ${items.length}：${items[0].title}`}</p>
     </div>
   </div>
-</section>
+</section>}
 
 <script>
+  import { todayInTaipei } from '../lib/calendar.mjs';
+  import { isNewsActive } from '../lib/news.mjs';
   document.querySelectorAll<HTMLElement>('.news-gallery').forEach((root) => {
+    // 頁面是部署時產生的；開啟時再依今天日期拿掉已上完的課程海報。
+    const today = todayInTaipei();
+    root.querySelectorAll<HTMLElement>('[data-end]').forEach((el) => { if (!isNewsActive({ endDate: el.dataset.end }, today)) el.remove(); });
     const slides = [...root.querySelectorAll<HTMLElement>('.news-slide')];
     const thumbs = [...root.querySelectorAll<HTMLButtonElement>('.news-thumb')];
     const strip = root.querySelector<HTMLElement>('.news-thumbs')!;
     const stage = root.querySelector<HTMLElement>('.news-stage')!;
     const status = root.querySelector<HTMLElement>('.news-status')!;
+    if (!slides.length) { root.closest('section')!.hidden = true; return; }
+    slides.forEach((slide, i) => slide.setAttribute('aria-label', `${i + 1} / ${slides.length}：${slide.dataset.title}`));
+    thumbs.forEach((thumb, i) => thumb.setAttribute('aria-label', `顯示第 ${i + 1} 張：${slides[i].dataset.title}`));
+    status.textContent = slides[0].getAttribute('aria-label');
     let current = 0;
     const show = (index: number) => {
       current = (index + slides.length) % slides.length;
@@ -72,6 +85,7 @@ import items from '../../content/home-news.json';
         show(current + (dx < 0 ? 1 : -1));
       }
     }, { passive: true });
+    if (slides[0].hidden) show(0);
     stage.addEventListener('touchcancel', () => { touchStart = null; });
     stage.addEventListener('click', (event) => {
       if (!suppressClick) return;
