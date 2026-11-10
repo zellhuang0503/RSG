@@ -59,5 +59,23 @@
     "sourceUrl": "https://rsg.com.tw/events/花園意識能量卡［i階］工作坊-4",
     "sourceChecked": "2026-09-23",
     "legacyEventPath": "/events/花園意識能量卡［i階］工作坊-4"
+  },
+  {
+    "id": "rsg-7630-20270109",
+    "courseId": "7630",
+    "courseTitle": "舊的不去，新的不來 一日工作坊",
+    "coursePath": "/archives/7630",
+    "label": "2027 年 1 月場次",
+    "level": "一日工作坊",
+    "dates": [
+      "2027-01-09"
+    ],
+    "timeLabel": "09:30–16:30",
+    "venue": "關係花園",
+    "price": 7777,
+    "currency": "TWD",
+    "status": "open",
+    "sourceUrl": "https://rsg.com.tw/archives/7630",
+    "sourceChecked": "2026-11-10"
   }
 ]

@@ -59,6 +59,7 @@ export const site = {
             { label: '慢活營', href: '/archives/6119' },
             { label: '招財開運自己來工作坊', href: '/archives/6610' },
             { label: '意識能量工作坊', href: '/archives/7586' },
+            { label: '舊的不去，新的不來 一日工作坊', href: '/archives/7630' },
           ],
         },
         {
