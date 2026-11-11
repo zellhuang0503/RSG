@@ -1,0 +1,21 @@
+---
+// 常見問題區塊：內容頁 front matter 的 faq 陣列（q／a）會顯示在內文之後，
+// 並由 [...path].astro 同步輸出 FAQPage JSON-LD，讓 AI 搜尋引擎可直接引用問答。
+// 用一般的 h3 + p，不用 details 收合，避免 AI 爬蟲讀不到答案。
+interface Props {
+  items?: { q: string; a: string }[];
+  title?: string;
+}
+const { items = [], title = '常見問題' } = Astro.props;
+---
+{items.length > 0 && (
+  <section class="faq" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">{title}</h2>
+    {items.map((item) => (
+      <div class="faq-item">
+        <h3>{item.q}</h3>
+        <p>{item.a}</p>
+      </div>
+    ))}
+  </section>
+)}
