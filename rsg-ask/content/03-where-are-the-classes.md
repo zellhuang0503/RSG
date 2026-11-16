@@ -23,7 +23,7 @@ related:
 
 (近公館捷運站 2號出口)
 
-[在 Google 地圖上查看](https://www.google.com/maps/search/?api=1&query=台北市大安區羅斯福路四段119巷34號)
+[在 Google 地圖上查看「關係花園」](https://www.google.com/maps?cid=17307310947243161177)
 
 ## 海外
 

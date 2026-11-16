@@ -15,7 +15,7 @@ export async function GET(_ctx: APIContext) {
     '',
     `> ${org.description}`,
     '',
-    `成立於 ${org.foundingDate} 年。創辦講師：${org.founders.map((f) => f.name).join('、')}。服務地區：${org.areaServed.join('、')}。`,
+    `成立於 ${org.foundingDate} 年。講師：${org.founders.map((f) => f.name).join('、')}。服務地區：${org.areaServed.join('、')}。`,
     `線上商店：https://shop.rsg.com.tw/ ｜ 學習指南：https://ask.rsg.com.tw/`,
     '',
     '## 主要頁面',
