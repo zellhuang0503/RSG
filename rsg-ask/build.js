@@ -346,7 +346,7 @@ function renderLlmsTxt(pages) {
     ``,
     `官方網站：${o.url}`,
     `成立年份：${o.foundingDate}`,
-    `創辦講師：${o.founders.map((f) => f.name).join("、")}`,
+    `講師：${o.founders.map((f) => f.name).join("、")}`,
     `服務地區：台灣、馬來西亞、新加坡、中國`,
     `課程音檔商店：https://shop.rsg.com.tw/`,
     ``,
