@@ -94,7 +94,7 @@ presentation:
 </div>
 </div>
 <div class="profile-grid">
-<img class="profile-portrait" src="/media/2026/11/teacher-vivian.jpg" alt="講師 Vivian 高曉瑩老師" width="1086" height="1448" loading="lazy" />
+<img class="profile-portrait" src="/media/2026/11/teacher-vivian.jpg" alt="講師 Vivian 高曉瑩老師" width="760" height="1013" loading="lazy" />
 <div class="profile-copy">
 <h3>講師：Vivian 高曉瑩老師</h3>
 <p>曉瑩老師 曾任職外商公司人力資源處處長，長期投入人才培育與組織發展。關心每個人的特質與潛能，透過適才適任、教育訓練與團隊合作，支持每個人發揮所長，與企業共同成長。這份對「人」的關心，也慢慢地延伸至自我、關係與對生命的探索。</p>
