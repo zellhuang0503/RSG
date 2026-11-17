@@ -77,5 +77,24 @@
     "status": "open",
     "sourceUrl": "https://rsg.com.tw/archives/7630",
     "sourceChecked": "2026-11-10"
+  },
+  {
+    "id": "rsg-2061-20270324",
+    "courseId": "2061",
+    "courseTitle": "生命專車工作坊",
+    "coursePath": "/archives/2061",
+    "label": "第 55 期",
+    "level": "二日工作坊",
+    "dates": [
+      "2027-03-24",
+      "2027-03-25"
+    ],
+    "timeLabel": "上課時間由課務通知",
+    "venue": "地點由課務通知",
+    "price": null,
+    "currency": "TWD",
+    "status": "open",
+    "sourceUrl": "https://rsg.com.tw/archives/2061",
+    "sourceChecked": "2026-11-17"
   }
 ]
