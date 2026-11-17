@@ -89,9 +89,10 @@
       "2027-03-24",
       "2027-03-25"
     ],
-    "timeLabel": "上課時間由課務通知",
+    "timeLabel": "09:30–16:30",
     "venue": "中部民宿",
-    "price": null,
+    "price": 18800,
+    "priceNote": "不含食宿",
     "currency": "TWD",
     "status": "open",
     "sourceUrl": "https://rsg.com.tw/archives/2061",
