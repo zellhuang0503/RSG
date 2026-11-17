@@ -66,6 +66,7 @@
 .icon-feature h3 { text-align: center; }
 .icon-feature p { color: #000; text-align: justify; margin-bottom: 0; }
 .profile-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4%; align-items: start; }
+.profile-grid + .profile-grid { margin-top: 72px; }
 .profile-portrait { display: block; width: 100%; height: auto; }
 .profile-copy { min-width: 0; color: #666; }
 .profile-copy h3 + p { color: #2b2f56; }
