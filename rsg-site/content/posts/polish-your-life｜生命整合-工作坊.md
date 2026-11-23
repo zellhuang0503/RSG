@@ -24,6 +24,10 @@ presentation:
 <section class="course-section course-section--wide">
 <div class="course-section-inner" data-reveal="left">
 <h1 class="course-heading-large"><strong>Polish Your Life｜生命整合 工作坊</strong></h1>
+<div class="course-summary">
+<p>Polish Your Life｜生命整合工作坊，是從關係、生活，到與自己和生命的關係，一層層整理與回歸的系列工作坊。適合想要深度整理生活、整合與自己、他人、生命、宇宙整體的夥伴。</p>
+<p>課程共三場，每場二日，可以單場參加，也可以三場完整六日。時間 09:30–17:00，在關係花園教室進行，由林慧卿與高曉瑩兩位老師共同帶領。</p>
+</div>
 <p class="course-align-center">—— 重啟生命的「拋光」計畫</p>
 <p class="course-align-center">生命，是一場從「無」到「有」，再回歸於「無」的循環 ——<br />
 成、住、壞、空。</p>
@@ -40,7 +44,7 @@ presentation:
 <p class="course-align-center">這不是一門教你變得更好的課，<br />
 而是一場關於整合與回歸的旅程。</p>
 <p class="course-align-center">———</p>
-<p class="course-align-center">第一場｜從關係開始</p>
+<p class="course-align-center">第一場：怎麼從父母、家族與伴侶的關係開始整理？</p>
 <p class="course-align-center">我們從關係來，也從關係開始。</p>
 <p class="course-align-center">父母與家族，是生命最初的源頭；<br />
 伴侶與手足，是現世最直接的鏡子。</p>
@@ -57,7 +61,7 @@ presentation:
 關係便不再糾纏，<br />
 而是力量的來源。</p>
 <p class="course-align-center">———</p>
-<p class="course-align-center">第二場｜生活的整合</p>
+<p class="course-align-center">第二場：工作、金錢和身體，怎麼一起整合？</p>
 <p class="course-align-center">工作事業、金錢、健康 (身體)⋯<br />
 並非個別、分開，<br />
 它們共同反映著：<br />
@@ -71,7 +75,7 @@ presentation:
 不需用力、費力、撐著，<br />
 而是自然流動，水到渠成。</p>
 <p class="course-align-center">———</p>
-<p class="course-align-center">第三場｜與自己、與生命、與宇宙</p>
+<p class="course-align-center">第三場：怎麼回到與自己、與生命、與宇宙的關係？</p>
 <p class="course-align-center">當外在關係與生活整理&amp;校準之後，<br />
 我們回到更深的層面 ——</p>
 <p class="course-align-center">🌸與自己的關係：<br />
@@ -88,7 +92,7 @@ presentation:
 而是帶著清明重新站回世界——<br />
 頂天立地 (天地人 三位一體)</p>
 <p class="course-align-center">———</p>
-<p class="course-align-center">🔑單場與整體</p>
+<p class="course-align-center">🔑可以只上其中一場嗎？三場要上幾天？</p>
 <p class="course-align-center">🌸每一場皆為兩天深度工作坊：<br />
 可單獨參與，針對目前最需要的部份，進行整理。</p>
 <p class="course-align-center">🌸三場完整參與：<br />

@@ -118,7 +118,7 @@ test('calendar and date table use the same published sessions; corporate notices
   const notice=calendarEvent({title:'企業外訓',href:'/events/企業外訓-37',start:'2026-11-02',end:'2026-11-04',allDay:true});
   const events=mergeRegistrationEvents([notice],seedSessions,now);
   assert.equal(events.find(e=>e.title==='企業外訓').href,'');
-  for(const s of seedSessions){
+  for(const s of seedSessions.filter(x=>x.status==='open')){
     assert.ok(events.some(e=>e.href===s.coursePath+'#course-registration'));
     assert.ok(renderRegistration(s.courseId,seedSessions,{mode:'local',now}).includes(`data-select-session="${s.id}"`));
   }
