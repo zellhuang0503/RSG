@@ -6,6 +6,7 @@ import Base from '../layouts/Base.astro';
 import ServicePage from '../layouts/ServicePage.astro';
 import CoursePage from '../layouts/CoursePage.astro';
 import NativeRegistration from '../components/NativeRegistration.astro';
+import Faq from '../components/Faq.astro';
 import { registrationCourseAtPath } from '../lib/registration.mjs';
 import { getRoutable, routeOf, formatDate, formatDateTime, summaryOf, termHref, toIso, type AnyEntry } from '../lib/content';
 import { site } from '../site';
@@ -62,6 +63,17 @@ if (ev) {
     offers: ev.cost ? { '@type': 'Offer', description: ev.cost, url: ev.website || new URL(path, site.url).href } : undefined,
   });
 }
+// 常見問題 → FAQPage，讓 AI 搜尋引擎能整段引用「問題＋直答」
+if (d.faq.length > 0) {
+  jsonLd.push({
+    '@type': 'FAQPage',
+    mainEntity: d.faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  });
+}
 
 const breadcrumbs = isPost
   ? [{ name: '文章', path: '/posts' }, { name: d.title, path }]
@@ -84,10 +96,12 @@ const breadcrumbs = isPost
   {presentation?.layout === 'centered-service' ? (
     <ServicePage hero={presentation.hero} appointment={presentation.appointment}>
       <Content />
+      <Faq items={d.faq} />
     </ServicePage>
   ) : presentation?.layout === 'course-detail' ? (
     <CoursePage appointment={presentation.appointment} registrationCourseId={presentation.registrationCourseId}>
       <Content />
+      <Faq items={d.faq} />
     </CoursePage>
   ) : (
   <article class:list={['container', { 'dream-article': isPost && d.categories.includes('心靈捕夢網') }]}>
@@ -120,6 +134,7 @@ const breadcrumbs = isPost
     <div class="prose">
       <Content />
     </div>
+    <Faq items={d.faq} />
     {eventRegistration && <NativeRegistration courseId={eventRegistration.id} />}
 
     {isPost && (d.tags.length > 0 || d.modified) && (

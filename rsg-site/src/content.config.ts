@@ -24,6 +24,9 @@ const base = z.object({
   tags: z.array(z.string()).default([]),
   parent_id: z.number().optional(),
   noindex: z.boolean().default(false),
+  // 常見問題：顯示在內文之後，並輸出 FAQPage 結構化資料給 AI 搜尋引擎。
+  // 每題答案 100～150 字、直接回答，只寫網站上已確認的事實。
+  faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
 });
 
 const pages = defineCollection({
