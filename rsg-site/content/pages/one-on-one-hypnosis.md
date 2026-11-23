@@ -55,6 +55,7 @@ presentation:
 ## 服務說明
 
 <ul class="service-checklist">
+  <li>帶領老師：高曉瑩老師</li>
   <li>進行時間：每次大約 1.5 小時</li>
   <li>進行方式：線上或實體，皆可</li>
   <li>費用：請洽詢關係花園</li>
