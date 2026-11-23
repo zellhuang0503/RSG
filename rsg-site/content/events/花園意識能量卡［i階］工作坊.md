@@ -7,7 +7,7 @@ original_url: "https://rsg.com.tw/events/%e8%8a%b1%e5%9c%92%e6%84%8f%e8%ad%98%e8
 original_path: "/events/花園意識能量卡［i階］工作坊"
 date: "2026-05-10 04:36:21"
 modified: "2026-05-10 04:36:21"
-status: "publish"
+status: "draft"
 featured_image: ""
 excerpt: ""
 start_date: "2026-07-11 00:00:00"

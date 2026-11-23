@@ -26,6 +26,11 @@ presentation:
 
 # 一對一催眠
 
+<div class="course-summary">
+<p>一對一催眠，是透過催眠進入潛意識，認識平常頭腦看不到的那個自己。適合想放鬆、想整理自己的人生、想和潛意識對話，或單純對催眠感到好奇的人。</p>
+<p>採一對一預約進行，過程是你與引導師一起合作，不是被別人操控；每次大約 1.5 小時，可實體或線上進行，由高曉瑩老師引導帶領。</p>
+</div>
+
 <p class="service-subtitle">潛意識就是自己最棒的導師！</p>
 
 人生有很多的答案不在頭腦裡，而是在心靈層次(潛意識)裡。  
@@ -39,7 +44,7 @@ presentation:
 
 <section class="service-section" data-reveal="left">
 
-## 適合對象
+## 哪些人適合來做一對一催眠？
 
 <ul class="service-checklist">
   <li>想放鬆 &lt;輕輕鬆鬆萬事通&gt;</li>

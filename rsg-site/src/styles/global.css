@@ -304,3 +304,8 @@ p { margin: 0 0 1.1em; }
 .search-box { padding: 40px 0; }
 .search-box .pagefind-ui { --pagefind-ui-primary: var(--brand); --pagefind-ui-text: var(--text); --pagefind-ui-background: var(--bg-elev); --pagefind-ui-border: var(--line); --pagefind-ui-font: var(--font-sans); }
 .notfound { padding: 80px 0; text-align: center; }
+
+/* 課程頁開頭的三句話介紹（這是什麼課／適合誰／怎麼上），給讀者與 AI 先看到重點 */
+.course-summary { max-width: 46em; margin: 0 auto 1.75em; padding: 16px 20px; background: var(--bg-soft); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; text-align: left; }
+.course-summary p { margin: 0 0 0.6em; text-align: left; }
+.course-summary p:last-child { margin-bottom: 0; }
