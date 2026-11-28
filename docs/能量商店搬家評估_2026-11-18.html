@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>能量商店搬家評估</title>
+<style>
+  :root { --ink:#22302a; --soft:#5d6b64; --line:#d9e0db; --bg:#f7f8f5; --card:#fff; --go:#2f6b4f; --warn:#9a5b12; --stop:#9b2c2c; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:17px/1.75 "Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 30px; line-height:1.3; margin: 0 0 4px; }
+  h2 { font-size: 22px; margin: 44px 0 12px; padding-top: 20px; border-top: 2px solid var(--line); }
+  h3 { font-size: 18px; margin: 24px 0 6px; }
+  p { margin: 8px 0; }
+  .meta { color: var(--soft); font-size: 14px; }
+  .box { background: var(--card); border:1px solid var(--line); border-left: 6px solid var(--go); border-radius: 8px; padding: 14px 18px; margin: 16px 0; }
+  .box.warn { border-left-color: var(--warn); }
+  .box.stop { border-left-color: var(--stop); }
+  .scroll { overflow-x: auto; margin: 12px 0; }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; background: var(--card); font-size: 15px; }
+  th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #eaf0ec; }
+  .tag { display:inline-block; font-size: 13px; padding: 1px 8px; border-radius: 999px; border:1px solid currentColor; white-space: nowrap; }
+  .ok { color: var(--go); } .mid { color: var(--warn); } .no { color: var(--stop); }
+  ul, ol { padding-left: 22px; margin: 8px 0; }
+  li { margin: 4px 0; }
+  a { color: #1f5a8a; word-break: break-word; }
+  .small { font-size: 14px; color: var(--soft); }
+  @media print { body { background:#fff; } h2 { break-after: avoid; } }
+</style>
+</head>
+<body>
+<main>
+
+<h1>能量商店搬家評估</h1>
+<p class="meta">2026-11-18｜梵亞行銷總監 黃志宏｜對象：shop.rsg.com.tw（能量商店＋課程音檔）</p>
+
+<div class="box">
+  <strong>一句話結論（看完 A2 後台後更新）：</strong>
+  A2 上所有網站擠在同一個帳號，一個被駭全部遭殃，而且檔案額度已用到 99%。
+  建議：<strong>介紹型網站全部搬到 Cloudflare Worker</strong>；
+  <strong>有購物車的網站，共用一套蓋在 Worker 上的小商店系統，付款交給綠界的付款頁</strong>。
+  想要快、不想等開發的商店，改用 Shopify。細節見第 7、8 節。
+</div>
+<p class="small">第 3–5 節是看後台之前寫的（只看能量商店一家時，推薦 Shopify）。知道有好幾家商店之後，建議改成第 8 節。</p>
+
+<div class="box stop">
+  <strong>今天（11/18 晚上 7:47）實測：商店正在壞。（當晚已修好，見第 1 節）</strong><br>
+  首頁、購物車、結帳、會員登入、後台登入都回「HTTP 500」（意思是：伺服器自己出錯了）。<br>
+  只有商品列表和課程列表打得開。也就是說：<strong>客人現在看得到商品，但買不了。</strong>
+</div>
+
+<h2>1. 現在的商店長什麼樣</h2>
+<div class="scroll">
+<table>
+  <tr><th>項目</th><th>實際看到的（已核對）</th></tr>
+  <tr><td>系統</td><td>WordPress 6.8.3、WooCommerce 10.3.5（購物車）、Elementor 3.33.0（排版）、LearnPress（課程音檔）</td></tr>
+  <tr><td>商品</td><td>公開列表 96 項。分類：Aura-Soma、手環、聖木、精油與其他能量產品、DVD</td></tr>
+  <tr><td>課程音檔</td><td>在同一個站裡，有「45 天」和「永久」兩種期限</td></tr>
+  <tr><td>金流</td><td>綠界（你告知；後台設定未看）</td></tr>
+  <tr><td>主機</td><td>LiteSpeed 伺服器，IP 103.227.176.129（哪一家主機商未確認）</td></tr>
+</table>
+</div>
+
+<h3>今天各頁面的狀況</h3>
+<div class="scroll">
+<table>
+  <tr><th>頁面</th><th>結果</th></tr>
+  <tr><td>首頁 /</td><td><span class="tag no">500 壞</span></td></tr>
+  <tr><td>購物車 /cart/、結帳 /checkout/</td><td><span class="tag no">500 壞</span></td></tr>
+  <tr><td>會員 /my-account/、課程個人頁 /lp-profile/</td><td><span class="tag no">500 壞</span></td></tr>
+  <tr><td>後台登入 /wp-login.php</td><td><span class="tag no">500 壞</span></td></tr>
+  <tr><td>商品列表 /shop/、課程列表 /courses/</td><td><span class="tag ok">200 正常</span></td></tr>
+</table>
+</div>
+<p><strong>進後台後確認：</strong>打得開的那兩頁不是真的商店。它們是 2025 年 11 月存下來的「靜態照片」（<code>shop/indexbc.html</code>、<code>courses/indexbc.html</code>）。
+所以「96 項商品」是一年前的數字。真正的 WordPress 整個都在 500。</p>
+<div class="box warn"><strong>11/18 晚間更新：原因抓到了。</strong>Elementor（排版外掛）在 11/17 凌晨 2:29 自動更新到 4.4.1，但沒裝完整，少了檔案 <code>modules/wp-rest/module.php</code>。WordPress 一啟動就找不到它，整站就 500。為什麼沒裝完整還沒證實，最可疑的是下面的檔案額度。</div>
+<div class="box"><strong>已修好（11/18 晚間）：</strong>重裝同版本的 Elementor 後，首頁、購物車、會員、後台登入都恢復正常（回 200）。設定檔已還原，除錯紀錄已關。沒有下測試訂單，也沒有逐頁看版面。<strong>病根還在：</strong>檔案額度只剩 3,872 個，下次外掛自動更新可能再壞一次。</div>
+<div class="box"><strong>額度已騰出（11/18 20:09）：</strong>A2 上舊的 rsg.com.tw WordPress（59,119 個檔案、4.1 GB）已打包成一個壓縮檔 <code>~/rsg.com.tw-wordpress-archive-20261118.tar.gz</code>（1.6 GB），原資料夾內容已刪。預計檔案數從 59.6 萬降到約 53.7 萬。後台的額度數字更新比較慢，當下還沒變，要晚點再確認。舊站資料庫沒有動。</div>
+<p>以下是抓到原因之前的紀錄：錯誤紀錄最後一筆是 11/6（LearnPress 外掛缺檔），之後沒有新紀錄。兩個最可疑的原因：</p>
+<ul>
+  <li><strong>檔案額度快爆了。</strong>整個帳號上限 60 萬個檔案，已用 595,161 個（99%）。外掛更新到一半沒位子放檔案，就會壞。</li>
+  <li><strong>11/17–11/18 有外掛自動更新。</strong>這個站裝了 31 個外掛，光會員系統就 3 套、備份 3 套、防護 2 套，互相打架的機會很高。</li>
+</ul>
+<p>要確定是誰，得打開 WordPress 的除錯紀錄。那會改到設定檔，所以我沒動，等你點頭。</p>
+
+<h2>2. 為什麼會一直壞</h2>
+<p>WordPress 商店像一台自己組的車。引擎、輪胎、方向盤來自不同廠商（外掛）。任何一個更新，都可能跟別的零件不合，車就拋錨。</p>
+<p>這個站至少有四個大零件疊在一起。零件越多，拋錨機會越高。而且要有人一直顧主機、更新、備份。</p>
+<p>搬到「租用型商店平台」就像改搭捷運：車子是別人顧的，你只管賣東西。</p>
+
+<h2>3. 所有選項比一比</h2>
+<p class="small">「AI 好不好管」＝有沒有正式的管道，讓 Claude 這類 AI 助手直接改商品、查訂單。價格為 2026-11-18 查到的數字，來源見文末。</p>
+<div class="scroll">
+<table>
+  <tr><th>選項</th><th>賣實體商品</th><th>課程音檔</th><th>綠界</th><th>AI 好不好管</th><th>固定費用</th><th>評語</th></tr>
+  <tr>
+    <td><strong>A. Shopify</strong><br><span class="tag ok">推薦</span></td>
+    <td>可以</td>
+    <td>要加裝課程外掛</td>
+    <td>有綠界官方外掛，但只有刷卡</td>
+    <td>最好。官方有給 AI 用的工具包</td>
+    <td>NT$690／月（年繳）＋課程外掛約 US$20–30／月＋營業額 2%</td>
+    <td>最穩、最快上線</td>
+  </tr>
+  <tr>
+    <td><strong>B. 自己蓋在 Cloudflare</strong><br><span class="tag mid">備案</span></td>
+    <td>要自己寫</td>
+    <td>要自己寫</td>
+    <td>可以，直接接</td>
+    <td>很好。跟新官網同一套</td>
+    <td>每月接近 0；但要先花 25–40 個工作天開發</td>
+    <td>月費最省，但收錢的程式出錯要自己扛</td>
+  </tr>
+  <tr>
+    <td><strong>C. 留在 WordPress，修好加固</strong><br><span class="tag mid">過渡</span></td>
+    <td>現成</td>
+    <td>現成</td>
+    <td>現成</td>
+    <td>普通。新版 WooCommerce 據說內建 AI 接口，要先升級</td>
+    <td>維持現有主機費（金額未知）</td>
+    <td>最省事，但「零件打架」的病根還在</td>
+  </tr>
+  <tr>
+    <td>D. SHOPLINE</td>
+    <td>可以</td>
+    <td>沒找到這功能</td>
+    <td>綠界曾公開宣布停止合作，現況未確認</td>
+    <td>未確認</td>
+    <td>NT$40,000／年起＋開辦費 5,000＋營業額 1.5–2%</td>
+    <td>太貴，又沒課程</td>
+  </tr>
+  <tr>
+    <td>E. CYBERBIZ</td>
+    <td>可以</td>
+    <td>官方價格頁沒提</td>
+    <td>價格頁沒寫</td>
+    <td>未確認</td>
+    <td>NT$28,350／年起</td>
+    <td>偏貴，課程不明</td>
+  </tr>
+  <tr>
+    <td>F. Teachify（開課快手）</td>
+    <td>沒看到實體商品功能</td>
+    <td>很強（本業）</td>
+    <td>不支援，用藍新或統一金流</td>
+    <td>弱。對外接口還寫「即將推出」</td>
+    <td>NT$840／月起</td>
+    <td>課程好，但 96 項實體商品放不進去</td>
+  </tr>
+  <tr>
+    <td>G. Wix</td>
+    <td>可以</td>
+    <td>有內建課程功能</td>
+    <td>只有第三方外掛，有人反映接不起來</td>
+    <td>好。你這邊已經連著 Wix 工具</td>
+    <td>約 US$39／月（第三方網站數字）</td>
+    <td>卡在綠界不穩</td>
+  </tr>
+</table>
+</div>
+
+<h2>4. 我的建議：分兩步</h2>
+
+<h3>第一步（現在）：先把店修好</h3>
+<ul>
+  <li>商店今天就不能結帳。不管以後搬不搬，這個都要先救。</li>
+  <li>需要：主機後台帳號，或 WordPress 的檔案存取權。我看了錯誤紀錄才知道是誰壞的。</li>
+  <li>修好後順便做完整備份。搬家時也要用這份資料。</li>
+</ul>
+
+<h3>第二步：搬到 Shopify</h3>
+<p><strong>為什麼選它：</strong></p>
+<ul>
+  <li><strong>不會再自己當機。</strong>機器、更新、資安都是 Shopify 顧。</li>
+  <li><strong>AI 最好接手。</strong>Shopify 在 2026 年 4 月公開了給 AI 用的工具包，Claude 可以直接改商品、查訂單。</li>
+  <li><strong>綠界可以留著。</strong>綠界自己在 Shopify 上架了刷卡外掛，免寫程式。</li>
+  <li><strong>月費在好位置。</strong>比台灣本土平台便宜一大截。</li>
+</ul>
+
+<p><strong>要知道的缺點：</strong></p>
+<ul>
+  <li><strong>多抽 2%。</strong>用綠界（不是 Shopify 自己的金流）時，Shopify 基本方案會多收營業額 2%。例：月營業額 10 萬 → 多付 2,000。綠界自己的手續費照舊。</li>
+  <li><strong>綠界外掛只有刷卡</strong>（Visa、Master、JCB、Apple Pay）。ATM 轉帳、超商繳費沒有寫。</li>
+  <li><strong>綠界外掛有門檻：</strong>你們綠界合約的刷卡費率要 2.2% 以上才能裝。一般費率是 2.75%，應該沒問題，但要看合約。</li>
+  <li><strong>課程要靠外掛。</strong>音檔能不能放、45 天期限能不能設，我還沒實測。</li>
+  <li><strong>會員要重設密碼。</strong>舊密碼搬不過去。已買的課程權限要手動對回去。</li>
+</ul>
+
+<h3>如果 Shopify 測試沒過 → 改走 B（自己蓋）</h3>
+<p>新官網已經在 Cloudflare 上，AI 每天都在維護它。把商店也蓋在那裡，月費幾乎是零，綠界直接接。
+代價是要開發 25–40 個工作天（這是 9/23 的舊估算），而且「收錢」的程式出錯沒有平台幫你擋。</p>
+
+<h2>5. 決定前先測這三件事</h2>
+<p>Shopify 有免費試用。開一個試用店，測完再決定：</p>
+<ol>
+  <li><strong>綠界刷卡能不能走完。</strong>裝綠界外掛，下一張測試單。</li>
+  <li><strong>課程外掛能不能放音檔、能不能設 45 天到期。</strong>試 Tevello 或 Courses Plus。</li>
+  <li><strong>電子發票和超商取貨怎麼接。</strong>現在店裡有沒有在用，要先看後台。</li>
+</ol>
+
+<h2>6. 還缺的資料</h2>
+<ul>
+  <li>每月營業額和訂單數（算 2% 划不划算要用）。</li>
+  <li>現在主機一年多少錢、是哪一家。</li>
+  <li>會員數、音檔總共多大、有多少人還在有效期內。</li>
+  <li>綠界合約費率，以及現在開了哪些付款方式。</li>
+  <li>有沒有在用電子發票、超商取貨。</li>
+</ul>
+
+<h2>7. A2 Hosting 後台盤點（11/18 只看不改）</h2>
+
+<div class="box stop">
+  <strong>請你先確認一件事：</strong>帳號裡有一個叫 <code>pengelola</code> 的子帳號資料夾（印尼文「管理員」）。
+  建立於 2025-10-05，<strong>最後登入是 2026-10-23</strong>。同一天還多了一個 <code>page.html</code>。
+  如果這不是你開的，就是當初博弈垃圾頁那批人留的後門，到上個月還在用。我沒有動它。
+</div>
+<div class="box stop">
+  <strong>11/18 晚間確認：不是你開的，是入侵。</strong>
+  <ul>
+    <li>它是 cPanel「Manage Team」裡的團隊帳號，有<strong>管理員權限</strong>，能看到所有網站的檔案和資料庫。</li>
+    <li>登入 15 次，從 2025-12-20 到 2026-10-23，來自 6 個外部 IP。</li>
+    <li>聯絡信箱是用完即丟的那種信箱。</li>
+    <li>沒找到：可疑排程、API 金鑰、SSH 金鑰。</li>
+    <li>要你判斷的帳號：團隊帳號 <code>horse</code>；noodle1895.com 的 WordPress 管理員 <code>test55688</code>（2026-07-09 建立）。</li>
+  </ul>
+  <strong>要你親手做（我不能代做）：</strong>刪掉 pengelola → 換 cPanel 和 A2 客戶專區密碼 → 開兩步驟驗證 → 請 A2 客服掃毒。
+  三家商店的訂單和會員資料可能被看過，要不要通知客戶由你判斷。
+</div>
+
+<div class="scroll">
+<table>
+  <tr><th>項目</th><th>數字</th><th>意思</th></tr>
+  <tr><td>檔案數</td><td>595,161／600,000</td><td>99%，快滿了。滿了所有網站都會開始出錯</td></tr>
+  <tr><td>磁碟</td><td>約 39 GB</td><td>—</td></tr>
+  <tr><td>網域</td><td>21 個主要網域＋2 個子網域</td><td>全部在同一個帳號 <code>vaemarke</code></td></tr>
+  <tr><td>資料庫</td><td>31 個</td><td>比正在用的網站多，有舊的沒清</td></tr>
+  <tr><td>信箱</td><td>2 個，幾乎是空的</td><td>搬家不用擔心郵件</td></tr>
+  <tr><td>備份資料夾</td><td>至少 6 處</td><td>吃掉很多檔案額度</td></tr>
+</table>
+</div>
+
+<h3>每個網站搬出來有多難</h3>
+<p class="small">「難度」是我看外掛清單推估的，還沒打開每個網站前台核對。</p>
+<div class="scroll">
+<table>
+  <tr><th>難度</th><th>網站</th><th>為什麼</th></tr>
+  <tr>
+    <td><span class="tag ok">不用搬</span></td>
+    <td>rsg.com.tw（舊 WordPress 還留著）、youngcar.life、rich-kitchens.com.tw、aquaskypumplus.com 系列、mdc14134.com、twamla.com.BAK、custom01／deco／temporary／text 測試站、3 個 cpanel.site</td>
+    <td>空的、測試用，或已經搬走。確認後可以直接關掉，還能釋放檔案額度</td>
+  </tr>
+  <tr>
+    <td><span class="tag ok">很簡單</span></td>
+    <td>vae-marketing.com（梵亞官網）</td>
+    <td>本來就是純網頁，沒有 WordPress。整包搬到 Worker 就好</td>
+  </tr>
+  <tr>
+    <td><span class="tag ok">簡單</span></td>
+    <td>dingyuan.life、simonfkm.com、jphotographer.com.tw、scwoodtools.com、deco-masters.com.tw</td>
+    <td>介紹型網站＋聯絡表單。把頁面轉成純網頁，表單改用 Worker 收</td>
+  </tr>
+  <tr>
+    <td><span class="tag mid">中等</span></td>
+    <td>flygons.com、chungho.com.tw、shan-hong.com.tw</td>
+    <td>介紹型，但有多國語言（每種語言都要搬一份）。flygons 裝了 38 個外掛，要先看哪些真的有用</td>
+  </tr>
+  <tr>
+    <td><span class="tag mid">要先確認</span></td>
+    <td>hanjila.com.tw、twamla.com、avantiuniversal.com、buytoolstore.com</td>
+    <td>裝了購物車，但沒看到台灣金流。可能只是商品型錄。如果沒在收錢，就算「簡單」</td>
+  </tr>
+  <tr>
+    <td><span class="tag no">難</span></td>
+    <td>noodle1895.com、course.ctust.edu.tw、shop.rsg.com.tw</td>
+    <td>真的在收錢。有綠界、訂單、會員。noodle1895 還有超商取貨；另外兩家有付費課程權限</td>
+  </tr>
+</table>
+</div>
+
+<h3>搬家共通的難處</h3>
+<ul>
+  <li><strong>客戶不能再自己登入後台改內容。</strong>以後改字、換圖要請你或 AI 改。這要先跟每位客戶講好。</li>
+  <li><strong>表單要重接。</strong>聯絡表單現在靠 WordPress 外掛寄信，搬走後要改用 Worker 收件。</li>
+  <li><strong>網址不能變。</strong>舊網址要一條一條對到新頁面，不然 Google 排名會掉。</li>
+  <li><strong>網域要一個一個切。</strong>每個網域的 DNS（網址指到哪台機器的設定）在誰手上，要先查。</li>
+  <li><strong>商店的舊訂單、會員、課程權限</strong>要匯出、對帳、再匯入。會員密碼搬不走，要請大家重設。</li>
+</ul>
+
+<h2>8. 更新後的建議：全部搬到 Cloudflare，可以嗎？</h2>
+<p><strong>可以，而且應該搬。</strong>但分三種做法：</p>
+
+<h3>第一種：介紹型網站 → 變成純網頁，放 Worker</h3>
+<ul>
+  <li><strong>便宜：</strong>Cloudflare 免費額度通常就夠；最多每月 US$5 的付費方案可以放全部網站。</li>
+  <li><strong>安全：</strong>純網頁沒有後台、沒有資料庫、沒有外掛，駭客沒有東西可以打。</li>
+  <li><strong>AI 好維護：</strong>跟關係花園新官網同一套做法，改內容就是改檔案。</li>
+</ul>
+
+<h3>第二種：有購物車的網站 → 一套共用的小商店系統</h3>
+<p>購物車難的不是「放商品」，是「收錢」。所以把最危險的那段交給別人：</p>
+<ul>
+  <li><strong>刷卡交給綠界的付款頁。</strong>客人是在綠界的網站輸入卡號，卡號不會經過我們。</li>
+  <li><strong>我們只做三件事：</strong>商品頁、訂單紀錄、收到綠界「已付款」通知後開通課程或出貨。</li>
+  <li><strong>蓋一次，三家共用。</strong>關係花園、noodle1895、中臺課程站用同一套程式，各自換商品和外觀。</li>
+</ul>
+<p><strong>代價（要講清楚）：</strong></p>
+<ul>
+  <li>第一家要開發 25–40 個工作天（9/23 的估算）。超商取貨、電子發票另計。</li>
+  <li>程式是我們的，出錯沒有平台客服可以找。訂單和會員個資也是我們要顧。</li>
+  <li>所以要先拿一家最單純的試做，驗收「付款成功、失敗、重複通知、退款」都對，再搬下一家。</li>
+</ul>
+
+<h3>第三種：等不及的商店 → Shopify</h3>
+<p>哪一家需要幾週內就穩定收錢、或功能很複雜，就用 Shopify（每月約 NT$700＋營業額 2%）。這是安全網，不是首選。</p>
+
+<h3>建議順序</h3>
+<ol>
+  <li><strong>今天：</strong>確認 <code>pengelola</code> 帳號是不是你的；決定要不要讓我開除錯紀錄救能量商店。</li>
+  <li><strong>這週：</strong>清掉空站和舊備份，把檔案額度降下來。這一步會刪東西，要你逐項同意。</li>
+  <li><strong>接下來：</strong>先搬梵亞官網和 5 個簡單的介紹型網站。每搬走一個，A2 的風險就少一份。</li>
+  <li><strong>同時：</strong>問清楚 4 個「要先確認」的網站有沒有真的在收錢。</li>
+  <li><strong>最後：</strong>做共用商店系統，能量商店當第一家。</li>
+</ol>
+
+<h2>10. 資料來源與限制</h2>
+<ul class="small">
+  <li>已核對｜A2 後台：2026-11-18 透過你登入的 cPanel 讀取網域、額度、資料庫、信箱清單，以及各網站的資料夾與外掛名稱。只讀取，沒有修改、刪除或下載。沒有讀任何含密碼的設定檔。</li>
+  <li>未核對｜各網站前台實際功能、流量、訂單量、DNS 在哪裡、客戶合約。</li>
+</ul>
+<p class="small">「已核對」＝我今天親自打開官方頁面或實測。「第三方」＝別人的文章，數字可能過期。</p>
+<ul class="small">
+  <li>已核對｜商店現況：2026-11-18 對 shop.rsg.com.tw 的公開頁面實測。沒有登入、沒有改任何東西。</li>
+  <li>已核對｜<a href="https://www.shopify.com/tw/pricing">Shopify 台灣價格頁</a>：Basic 月繳 799／年繳 690，第三方金流費率 2%。</li>
+  <li>已核對｜<a href="https://apps.shopify.com/ecpay-app-credit-card">綠界 Shopify 刷卡外掛</a>：綠界科技開發，免費安裝，費率門檻 2.2%，目前 0 則評論。</li>
+  <li>已核對｜<a href="https://teachify.tw/pricing">Teachify 價格頁</a>、<a href="https://teachify.tw/features">功能頁</a>、<a href="https://teachify.tw/faq/payment-gateways">金流說明</a>。</li>
+  <li>已核對｜<a href="https://www.cyberbiz.io/pricing/">CYBERBIZ 價格頁</a>。</li>
+  <li>第三方｜SHOPLINE 台灣價格：<a href="https://ajmartech.com/blogs/all-articles/ecommerce-platform-taiwan">ajmartech</a>、<a href="https://www.timtech.tw/news/ecommerce-platform-cost">提昇科技</a>。官方價格頁我沒打開成功。</li>
+  <li>第三方（舊聞）｜<a href="https://www.bnext.com.tw/article/78035/ecpay-shopline">綠界宣布停止與 SHOPLINE 合作</a>。現況未確認。</li>
+  <li>第三方｜Shopify 的 AI 工具包：<a href="https://askphill.com/blogs/blog/shopify-just-released-an-ai-toolkit-for-claude-heres-what-it-actually-does">askphill</a>。</li>
+  <li>第三方｜Shopify 課程外掛：<a href="https://apps.shopify.com/courses-app">Tevello</a>、<a href="https://apps.shopify.com/courses">Courses Plus</a>。價格各家文章說法不一。</li>
+  <li>第三方｜Wix：<a href="https://www.wix.com/app-market/ecpay-pay-button">綠界付款按鈕外掛</a>、<a href="https://support.wix.com/zh-hant/article/online-programs-an-overview">Online Programs 說明</a>。</li>
+  <li>第三方｜WooCommerce 內建 AI 接口：<a href="https://blog.elest.io/woocommerce-mcp-give-ai-agents-read-only-store-access/">elest.io</a>。未對照官方更新紀錄。</li>
+  <li>內部｜自建工期 25–40 天出自 <code>rsg-site/docs/shop-migration-assessment-20260923.md</code>。</li>
+</ul>
+<p class="small">沒有查的平台：91APP、meepShop、WACA、1shop、EasyStore（WACA 搜尋無有效結果；其餘未查）。這份報告沒有實際開試用店測試。</p>
+
+</main>
+</body>
+</html>

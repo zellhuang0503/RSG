@@ -1,0 +1,55 @@
+---
+interface Props {
+ slides: {src:string;alt:string;href?:string}[];
+ label:string;
+ variant?:'banner'|'posters';
+ autoplay?:boolean;
+}
+const {slides,label,variant='banner',autoplay=false}=Astro.props;
+---
+<rsg-carousel class={`carousel ${variant}`} aria-label={label} aria-roledescription="輪播" role="region" data-autoplay={autoplay?'true':'false'} tabindex="0">
+ <div class="carousel-stage">
+  {slides.map((slide,i)=><div class="carousel-slide" hidden={i!==0} role="group" aria-roledescription="投影片" aria-label={`${i+1} / ${slides.length}`}>
+   {slide.href?<a href={slide.href}><img src={slide.src} alt={slide.alt} loading="lazy"/></a>:<img src={slide.src} alt={slide.alt} loading={i===0&&variant==='banner'?'eager':'lazy'} fetchpriority={i===0&&variant==='banner'?'high':undefined}/>}
+  </div>)}
+  <button class="carousel-arrow previous" aria-label={`上一張${label}`} data-step="-1">‹</button>
+  <button class="carousel-arrow next" aria-label={`下一張${label}`} data-step="1">›</button>
+ </div>
+ <div class="carousel-controls">
+  <div class="carousel-pickers" aria-label="選擇圖片">{slides.map((slide,i)=><button data-slide={i} aria-label={`第 ${i+1} 張：${slide.alt}`} aria-pressed={i===0}>{variant==='posters'?<img src={slide.src} alt="" loading="lazy"/>:<span class="carousel-dot"/>}</button>)}</div>
+  {autoplay&&<button class="carousel-play" aria-label="暫停自動輪播">暫停</button>}
+ </div>
+ <noscript><p class="carousel-noscript">{slides.map(slide=><a href={slide.href||slide.src}>{slide.alt}</a>)}</p></noscript>
+</rsg-carousel>
+<script>
+ class GardenCarousel extends HTMLElement {
+  connectedCallback(){
+   const slides=Array.from(this.querySelectorAll<HTMLElement>('.carousel-slide'));
+   const pickers=Array.from(this.querySelectorAll<HTMLButtonElement>('[data-slide]'));
+   const play=this.querySelector<HTMLButtonElement>('.carousel-play');
+   let index=0;
+   let running=this.dataset.autoplay==='true'&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+   let timer:ReturnType<typeof setInterval>|undefined;
+   const show=(next:number)=>{
+    index=(next+slides.length)%slides.length;
+    slides.forEach((s,i)=>s.hidden=i!==index);
+    pickers.forEach((b,i)=>b.setAttribute('aria-pressed',String(i===index)));
+   };
+   const stop=()=>{clearInterval(timer);timer=undefined;};
+   const refresh=()=>{
+    stop();
+    if(play){play.textContent=running?'暫停':'播放';play.setAttribute('aria-label',running?'暫停自動輪播':'播放自動輪播');}
+    if(running&&!document.hidden&&!this.matches(':hover, :focus-within'))timer=setInterval(()=>show(index+1),6500);
+   };
+   this.querySelectorAll<HTMLButtonElement>('[data-step]').forEach(b=>b.addEventListener('click',()=>{show(index+Number(b.dataset.step));refresh();}));
+   pickers.forEach((b,i)=>b.addEventListener('click',()=>{show(i);refresh();}));
+   play?.addEventListener('click',()=>{running=!running;refresh();});
+   this.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();show(index+(e.key==='ArrowLeft'?-1:1));refresh();}});
+   this.addEventListener('mouseenter',stop);this.addEventListener('mouseleave',refresh);
+   this.addEventListener('focusin',stop);this.addEventListener('focusout',()=>setTimeout(refresh,0));
+   document.addEventListener('visibilitychange',refresh);
+   refresh();
+  }
+ }
+ if(!customElements.get('rsg-carousel'))customElements.define('rsg-carousel',GardenCarousel);
+</script>
