@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>關係花園 AI 搜尋能見度檢測報告（2026-11-05）</title>
+<style>
+  :root { --ink:#222; --muted:#666; --line:#ddd; --soft:#f6f4fa; --brand:#6b4fa0; --ok:#1f7a4d; --warn:#b3261e; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif; color:var(--ink); line-height:1.75; font-size:17px; background:#fff; }
+  main { max-width:860px; margin:0 auto; padding:24px 16px 80px; }
+  h1 { font-size:1.7rem; line-height:1.3; margin:0 0 4px; }
+  h2 { font-size:1.3rem; margin:2.2em 0 .6em; padding-bottom:.25em; border-bottom:2px solid var(--brand); }
+  h3 { font-size:1.08rem; margin:1.6em 0 .4em; }
+  p { margin:.5em 0 .9em; }
+  .meta { color:var(--muted); font-size:.95rem; margin-bottom:1.5em; }
+  .box { background:var(--soft); border-left:5px solid var(--brand); padding:14px 18px; margin:1em 0; border-radius:0 8px 8px 0; }
+  .box.warn { border-left-color:var(--warn); }
+  .box.ok { border-left-color:var(--ok); }
+  table { border-collapse:collapse; width:100%; margin:.8em 0 1.4em; font-size:.95rem; display:block; overflow-x:auto; }
+  th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:#f0edf5; white-space:nowrap; }
+  td.num { text-align:right; white-space:nowrap; }
+  .tag { display:inline-block; padding:1px 8px; border-radius:999px; font-size:.82rem; border:1px solid var(--line); margin-right:4px; }
+  .tag.ok { border-color:var(--ok); color:var(--ok); }
+  .tag.bad { border-color:var(--warn); color:var(--warn); }
+  .tag.mid { border-color:#a66d00; color:#a66d00; }
+  ul, ol { padding-left:1.4em; }
+  li { margin:.3em 0; }
+  .small { font-size:.9rem; color:var(--muted); }
+  details { margin:.6em 0; }
+  summary { cursor:pointer; font-weight:600; }
+  .toc a { text-decoration:none; color:var(--brand); }
+  @media print { body { font-size:12pt; } h2 { break-after:avoid; } table, .box { break-inside:avoid; } details { display:block; } details > summary { list-style:none; } details:not([open]) > *:not(summary) { display:block; } }
+</style>
+</head>
+<body>
+<main>
+
+<h1>關係花園 AI 搜尋能見度檢測報告</h1>
+<p class="meta">檢測日期：2026 年 10 月 27 日（基準）、11 月 2 日（第一週追蹤）、11 月 5 日（網站技術複檢）｜整理：梵亞行銷總監 黃志宏｜給：關係花園 林老師、高老師</p>
+
+<div class="box">
+<strong>一句話結論：</strong>現在有人問 ChatGPT、Gemini、Perplexity「台灣哪裡可以上系統排列課程」這類問題時，<strong>100 個回答裡大約只有 2 到 3 個會講到關係花園</strong>，而且幾乎不會把關係花園的網站當成資料來源。原因不是課程不好，是「AI 讀不到、讀不懂」：網站的防火牆把兩家 AI 的機器人擋在門外，而且網站上沒有 AI 最愛引用的「問答式」內容。這些都修得了，而且大部分不用動老師現有的文字。
+</div>
+
+<h2>目錄</h2>
+<ol class="toc">
+  <li><a href="#how">這份報告怎麼來的（先講一次限制）</a></li>
+  <li><a href="#ai">AI 現在怎麼看關係花園</a></li>
+  <li><a href="#site">網站體檢：好的、要修的</a></li>
+  <li><a href="#top3">最重要的三件事</a></li>
+  <li><a href="#appendix">附錄：50 題、技術明細、名詞解釋</a></li>
+</ol>
+
+<h2 id="how">1. 這份報告怎麼來的（先講一次限制）</h2>
+<p><strong>怎麼測：</strong>我們從關係花園的網站自動生出 50 個「台灣的人會拿去問 AI 的問題」（例如「台北哪裡有定期舉辦專業系統排列的工作坊？」，題目不提品牌名）。拿這 50 題去問三個 AI：Google 的 Gemini、OpenAI 的 ChatGPT、Perplexity。每題問 3 次，總共拿到 428 個有效回答。然後一個一個數：回答裡有沒有提到關係花園？有沒有把 rsg.com.tw 當成資料來源？提到的是誰？</p>
+<p><strong>另外做的：</strong>11 月 5 日我們用技術方式檢查網站本身：AI 的機器人進不進得來、網站有沒有 AI 看得懂的「身分證」（結構化資料）、內容的寫法 AI 好不好抓。</p>
+<div class="box warn">
+<strong>限制，只講這一次：</strong>AI 每次回答都可能不一樣，所以單一次的數字只是「當下的快照」，連續看三個月的趨勢才算數。這份報告的分數請當「起點」，不是成績單。另外，10 月 27 日那次的自動抽查只抽到 2 頁，其中一頁還抽到了網站地圖檔，所以「網站體檢」那部分我們在 11 月 5 日又手動補查了 7 個重要頁面，以下寫的是補查後的結果。
+</div>
+
+<h2 id="ai">2. AI 現在怎麼看關係花園</h2>
+
+<h3>2.1 數字</h3>
+<table>
+<thead><tr><th>項目</th><th>10/27 基準</th><th>11/2 第一週</th><th>白話解釋</th></tr></thead>
+<tbody>
+<tr><td>50 題問下來，平均幾個回答提到關係花園</td><td class="num">3.7 個</td><td class="num">1.7 個</td><td>50 題裡，AI 只在 2 到 4 題會想到你</td></tr>
+<tr><td>把 rsg.com.tw 當資料來源的比例</td><td class="num">3%</td><td class="num">約 1%</td><td>AI 幾乎不「引用」你的網站</td></tr>
+<tr><td>Gemini 提到你（150 次回答裡）</td><td class="num">1 次</td><td class="num">2 次</td><td>幾乎看不到</td></tr>
+<tr><td>ChatGPT 提到你</td><td class="num">8 次</td><td class="num">3 次</td><td>偶爾會推薦</td></tr>
+<tr><td>Perplexity 提到你</td><td class="num">13 次</td><td class="num">0 次</td><td>這週完全沒有，而且 150 次裡有 23 次連不上</td></tr>
+<tr><td>AI 講到你時，講的好不好</td><td colspan="2">正面 4、中性 1、負面 0</td><td>講得都對、都正面，沒有講錯事實</td></tr>
+<tr><td>網站準備度總評</td><td class="num">C（55 分）</td><td class="num">持平</td><td>及格邊緣，主要扣在「AI 讀不讀得到、讀不讀得懂」</td></tr>
+</tbody>
+</table>
+<p class="small">「AI 佔比 100%」這個數字在原始報告裡有出現，但那是因為系統沒有設定競爭對手，所以不能拿來當成績，請忽略。</p>
+
+<h3>2.2 AI 真的講到你的時候，是這樣講的</h3>
+<ul>
+  <li>ChatGPT（被問「事業遇到瓶頸一直賺不到錢，有沒有推薦能看清深層盲點的系統排列工作坊？」）：「關係花園 Relationship Garden 系統排列（台北）」</li>
+  <li>Perplexity（被問「想解開工作上人際重複衝突的困境，有哪些推薦的系統排列機構或老師？」）：「如是管理顧問／關係花園：提供系統排列服務，適合想探索反覆事件、人際模式與內在動力者；位於台北市大安區。」</li>
+  <li>ChatGPT（被問「想徹底調整事業與金錢能量，大家有推薦哪間機構的心靈排列課程嗎？」）：「關係花園 特色：官網標榜『系統排列的心靈工程』，強調直達議題核心、從根源處著手。」</li>
+</ul>
+<div class="box ok"><strong>好消息：</strong>AI 對關係花園的印象是對的、也是正面的（系統排列、身心靈與意識成長、台北大安區）。我們不用「修正形象」，只要「讓 AI 更常想到你、更常引用你」。</div>
+
+<h3>2.3 AI 比較常推薦誰、常引用哪些網站</h3>
+<table>
+<thead><tr><th>AI 常推薦的名字</th><th>被提到的回答數</th></tr></thead>
+<tbody>
+<tr><td>渥盛集團</td><td class="num">17</td></tr>
+<tr><td>身心靈工作室（泛稱）</td><td class="num">4</td></tr>
+<tr><td>如一中心</td><td class="num">3</td></tr>
+<tr><td>遇真老師、楊世華老師（個人品牌）</td><td class="num">零星</td></tr>
+<tr><td><strong>關係花園</strong></td><td class="num"><strong>11</strong>（428 個回答中）</td></tr>
+</tbody>
+</table>
+<p>AI 回答時最常引用的網站是 lifesource888.com、accupass.com（活動通）、psygarden.com.tw（心靈工坊）、tesstherapy.com、pccu.edu.tw（文化大學推廣部）。<strong>rsg.com.tw 排在第 64 名，只被引用 5 次。</strong>白話說：AI 比較相信「活動平台、出版社、大學推廣部」這類第三方網站，而不是機構自己的官網。這就是為什麼後面會建議「站外也要有人幫你說話」。</p>
+
+<h3>2.4 有 5 題，AI 推薦了別人、沒推薦你</h3>
+<p>例如「台灣有推薦口碑好的家族系統排列師或身心靈導師嗎？想處理家庭長年矛盾？」這題，AI 提到了渥盛集團、遇真老師、楊世華老師，沒有關係花園。這 5 題系統已經幫忙寫好了「問答草稿」，老師確認內容正確後，就能放上網站，這是最快能見效的一塊。</p>
+
+<h3>2.5 Google 那邊呢？</h3>
+<p>我們也用搜尋引擎的 AI 摘要試了「關係花園 系統排列 課程 台北」和「關係花園 評價 課程 費用」。結果是：<strong>AI 摘要沒有認出「關係花園」是台北這家機構</strong>，有一次還把它當成薩提爾家族治療裡的一個概念名詞。搜尋「關係花園 羅斯福路四段 119 巷」也沒看到 Google 商家資料（這點要請老師到 Google 地圖確認一下，我們這邊查不到不代表沒有）。這兩個測試是從海外節點做的，台灣本地的結果可能好一點，但方向一致：<strong>AI 還沒把「關係花園」當成一個明確的「實體」記住。</strong></p>
+
+<h2 id="site">3. 網站體檢：好的、要修的</h2>
+<p>11 月 5 日手動檢查了 7 個重要頁面：首頁、關於花園、一對一催眠、主題整合系統排列工作坊（課程頁）、同名活動頁、心靈捕夢網一篇文章（看見內在小孩）、學員怎麼說。</p>
+
+<h3>3.1 做得好的（不用動）</h3>
+<table>
+<thead><tr><th>項目</th><th>狀態</th><th>說明</th></tr></thead>
+<tbody>
+<tr><td>網站速度與結構</td><td><span class="tag ok">好</span></td><td>新站是純靜態網頁，首頁 0.3 秒就回應，沒有外掛拖累</td></tr>
+<tr><td>機構「身分證」（結構化資料）</td><td><span class="tag ok">好</span></td><td>每一頁都有：關係花園、2005 年成立、兩位創辦講師、地址電話。文章頁有發布與更新日期，活動頁有活動資料</td></tr>
+<tr><td>網站地圖</td><td><span class="tag ok">好</span></td><td>968 個網址（586 篇文章、328 場活動），已交給 Google</td></tr>
+<tr><td>給 AI 看的導覽檔（llms.txt）</td><td><span class="tag ok">有</span></td><td>已經有了。目前主流 AI 很少讀它，加分不多，但有總比沒有好</td></tr>
+<tr><td>學習指南問答站 ask.rsg.com.tw</td><td><span class="tag ok">有</span></td><td>已有 21 題問答（系統排列是什麼、課程在哪裡上、老師是誰……），而且格式就是 AI 最愛的問答格式</td></tr>
+<tr><td>關於花園頁的事實</td><td><span class="tag ok">好</span></td><td>成立年份、講師、地址、電話、公司名都寫在同一頁，AI 比對得到</td></tr>
+</tbody>
+</table>
+
+<h3>3.2 要修的（照重要順序）</h3>
+<table>
+<thead><tr><th>#</th><th>問題</th><th>嚴重度</th><th>白話說明</th><th>誰能修</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>防火牆擋掉了部分 AI 的機器人</td><td><span class="tag bad">高</span></td><td>Cloudflare（網站的防火牆）預設把 ChatGPT 的 GPTBot、Claude 的 ClaudeBot、CCBot 等 7 種 AI 機器人擋在門外（回 403「禁止進入」）。Google、Bing、Perplexity、ChatGPT 的搜尋機器人進得來，所以不是全部看不到，但等於少了一半的門。問答站 ask.rsg.com.tw 也被同樣擋住。</td><td>梵亞，在 Cloudflare 後台點幾下，10 分鐘</td></tr>
+<tr><td>2</td><td>網站上沒有「問答」區塊</td><td><span class="tag bad">高</span></td><td>7 頁裡 0 頁有「常見問題」。AI 回答問題時最愛整段搬「問題＋100 到 150 字直接的答案」。現在的文字很美，但多是感性的描述，AI 抓不到可以直接引用的「答案」。</td><td>梵亞寫草稿，老師確認事實</td></tr>
+<tr><td>3</td><td>問答站沒有跟主站連起來</td><td><span class="tag bad">高</span></td><td>ask.rsg.com.tw 內容很好，但主站首頁、關於、學員分享頁<strong>沒有任何一個連結指到它</strong>，AI 和 Google 很難發現它存在。</td><td>梵亞，加頁尾連結即可</td></tr>
+<tr><td>4</td><td>小標題不是「問句」</td><td><span class="tag mid">中</span></td><td>例如「心靈工作」「解除共業」。使用者問 AI 的是問題，標題長得像問題（「系統排列一個人去有效嗎？」）的段落最容易被對上。</td><td>梵亞建議，老師定稿</td></tr>
+<tr><td>5</td><td>每頁開頭沒有「一段話講重點」</td><td><span class="tag mid">中</span></td><td>AI 讀一頁時，最前面 150 到 200 字權重最高。現在課程頁開頭是主圖和詩意的引言，建議開頭先用 3 句話講「這是什麼課、適合誰、怎麼上」。</td><td>梵亞寫草稿，老師確認</td></tr>
+<tr><td>6</td><td>沒有對外的「佐證」連結</td><td><span class="tag mid">中</span></td><td>7 頁裡沒有一頁連到外部來源（例如海寧格的介紹、出版品、報導）。有來源的內容，AI 比較信任。</td><td>梵亞補</td></tr>
+<tr><td>7</td><td>「同一個關係花園」的證據還不夠多</td><td><span class="tag mid">中</span></td><td>網站的身分證只列了 Facebook 和商店。Instagram、YouTube、LINE、Podcast 都沒列進去；Google 商家檔案待確認。AI 靠這些「同名同址」的證據來確定你是誰。</td><td>梵亞補，Google 商家要老師授權</td></tr>
+<tr><td>8</td><td>Perplexity 這週 23 次連不上</td><td><span class="tag mid">中</span></td><td>我們 11/5 手動用 Perplexity 機器人的名字試，是進得來的（回 200）。所以原因還不確定，可能是防火牆的「挑戰頁」或對方端的問題。先把第 1 項修掉再觀察一週。</td><td>梵亞觀察</td></tr>
+</tbody>
+</table>
+
+<h2 id="top3">4. 最重要的三件事</h2>
+<ol>
+  <li><strong>先把門打開。</strong>到 Cloudflare 後台放行 AI 機器人（主站和問答站各一次）。這是免費、10 分鐘、零風險的事，不做的話後面寫再多內容 ChatGPT 和 Claude 也讀不到。</li>
+  <li><strong>把「答案」寫在網站上。</strong>先從 AI 沒推薦你的那 5 題開始，加上 3 個最重要的服務頁（一對一排列、一對一催眠、主題整合系統排列工作坊），每頁放 3 到 5 題「常見問題」。草稿我們寫，老師只要看「事實對不對」。</li>
+  <li><strong>讓站外也有人替你說話。</strong>Google 商家檔案、Facebook 簡介、YouTube 頻道說明，全部用同一個名字、同一個地址、同一段介紹；再把網站的「身分證」補上這些連結。這是讓 AI「記住」關係花園是誰的方法。</li>
+</ol>
+<p>這三件事做完之後，才談每週追蹤的數字有沒有往上。怎麼做、誰做、要多久，請看另一份《GEO 優化提案》。</p>
+
+<h2 id="appendix">5. 附錄</h2>
+
+<details>
+<summary>5.1 名詞解釋</summary>
+<ul>
+  <li><strong>GEO（生成式引擎優化）／AEO（答案引擎優化）：</strong>以前做 SEO 是讓 Google 搜尋結果裡有你；GEO 是讓 ChatGPT、Gemini、Perplexity 這類「直接給答案」的 AI 在回答時提到你、引用你的網站。兩個詞意思差不多，這份報告都叫「AI 搜尋能見度」。</li>
+  <li><strong>提到（mention）：</strong>AI 的回答文字裡出現「關係花園」。</li>
+  <li><strong>引用（citation）：</strong>AI 把 rsg.com.tw 列為它的資料來源。引用比提到更重要，因為使用者會點進去。</li>
+  <li><strong>AI 機器人（爬蟲）：</strong>AI 公司派來讀網頁的程式。讀不到就等於沒這個網站。</li>
+  <li><strong>結構化資料（Schema）：</strong>藏在網頁程式碼裡、給機器讀的「身分證」：你是誰、在哪、何時成立、這頁是文章還是活動。</li>
+  <li><strong>Cloudflare：</strong>網站前面的防火牆兼加速器。它預設會擋 AI 機器人，要手動放行。</li>
+</ul>
+</details>
+
+<details>
+<summary>5.2 AI 機器人進出紀錄（2026-11-05 手動測試 rsg.com.tw 首頁）</summary>
+<table>
+<thead><tr><th>機器人</th><th>屬於</th><th>結果</th></tr></thead>
+<tbody>
+<tr><td>GPTBot</td><td>OpenAI（ChatGPT 建資料庫用）</td><td><span class="tag bad">403 被擋</span></td></tr>
+<tr><td>OAI-SearchBot、ChatGPT-User</td><td>OpenAI（ChatGPT 搜尋用）</td><td><span class="tag ok">200 進得來</span></td></tr>
+<tr><td>ClaudeBot、anthropic-ai</td><td>Anthropic（Claude）</td><td><span class="tag bad">403 被擋</span></td></tr>
+<tr><td>Claude-SearchBot</td><td>Anthropic（Claude 搜尋用）</td><td><span class="tag ok">200</span></td></tr>
+<tr><td>Googlebot、Google-Extended</td><td>Google（搜尋、Gemini）</td><td><span class="tag ok">200</span></td></tr>
+<tr><td>bingbot</td><td>Microsoft（Bing、Copilot）</td><td><span class="tag ok">200</span></td></tr>
+<tr><td>PerplexityBot、Perplexity-User</td><td>Perplexity</td><td><span class="tag ok">200</span></td></tr>
+<tr><td>Applebot、meta-externalagent、DuckAssistBot、MistralAI-User</td><td>Apple、Meta、DuckDuckGo、Mistral</td><td><span class="tag ok">200</span></td></tr>
+<tr><td>CCBot、Bytespider、Amazonbot、cohere-ai</td><td>Common Crawl、TikTok、Amazon、Cohere</td><td><span class="tag bad">403 被擋</span></td></tr>
+</tbody>
+</table>
+<p class="small">被擋的回應標頭顯示 Server: cloudflare，確認是 Cloudflare 的「AI 機器人封鎖」功能，不是網站程式。ask.rsg.com.tw 結果相同。shop.rsg.com.tw（商店，WordPress）對 GPTBot 回 500 錯誤，另案處理。</p>
+</details>
+
+<details>
+<summary>5.3 七頁手動檢查明細</summary>
+<table>
+<thead><tr><th>頁面</th><th>主標題</th><th>結構化資料</th><th>常見問題區</th><th>備註</th></tr></thead>
+<tbody>
+<tr><td>首頁 /</td><td>有（站名）</td><td>機構、網站、創辦人</td><td>無</td><td>開頭是輪播主圖與標語</td></tr>
+<tr><td>關於花園 /about-2</td><td>有</td><td>機構、麵包屑</td><td>無</td><td>2005、兩位講師、地址電話、公司名都在</td></tr>
+<tr><td>一對一催眠</td><td>有</td><td>機構、麵包屑</td><td>無</td><td>有「適合對象」，可改成問答</td></tr>
+<tr><td>主題整合系統排列工作坊 /archives/7182</td><td>有</td><td>文章（含日期）、麵包屑</td><td>無</td><td>有日期、時間、地點、費用、報名；小標是陳述句</td></tr>
+<tr><td>同名活動頁 /events/…</td><td>有</td><td>活動（日期、地點、主辦）、麵包屑</td><td>無</td><td>好</td></tr>
+<tr><td>看見內在小孩 /archives/7507</td><td>有</td><td>文章（含發布與更新日期）</td><td>無</td><td>作者署名是「關係花園」機構，不是老師本人</td></tr>
+<tr><td>學員怎麼說 /share</td><td>有</td><td>機構、麵包屑</td><td>無</td><td>有「1,000 場、10,000 人、20,000 人」等數字，很適合被引用，但沒有來源或日期</td></tr>
+</tbody>
+</table>
+</details>
+
+<details>
+<summary>5.4 每週拿去問 AI 的 50 題（自動從網站生成；老師看完想改、想加，告訴我們下週就換）</summary>
+<ol>
+<li>家族系統排列跟一般的心理諮商差在哪裡？哪個對處理原生家庭創傷比較有效？</li>
+<li>系統排列跟催眠療癒在解決情緒困擾上有什麼不同？大家比較推薦哪一種？</li>
+<li>工作一直卡關賺不到錢，去上系統排列還是職涯諮商比較能找出盲點？</li>
+<li>夫妻經常同床異夢溝通不良，做伴侶諮商跟系統排列工作坊有何差別？</li>
+<li>身心靈工作坊的排列治療跟一對一心靈療癒，處理人際重複衝突哪個好？</li>
+<li>組織系統排列跟一般的企業管理顧問培訓，在改善團隊共識上有什麼差異？</li>
+<li>家族排列個案跟旁觀代表有什麼差別？第一次參加效果會差很多嗎？</li>
+<li>經常陷入重複失敗的感情輪迴，做家族排列和看身心科諮商哪個比較有幫助？</li>
+<li>身心靈能量療癒跟心理動力學系統排列，在原理與實際感受上有何不同？</li>
+<li>個人議題系統排列跟家族系統排列差在哪？事業問題要選哪一種？</li>
+<li>想改善原生家庭帶來的金錢焦慮，系統排列跟內在小孩療癒哪個更深入？</li>
+<li>長期受負面情緒困擾，系統排列與正念減壓課程在改善心靈狀態上有何不同？</li>
+<li>台灣有推薦口碑好的家族系統排列師或身心靈導師嗎？想處理家庭長年矛盾？</li>
+<li>事業遇到瓶頸一直賺不到錢，有沒有推薦能看清深層盲點的系統排列工作坊？</li>
+<li>常覺得人生迷惘找不到方向，台北有推薦適合初學者的心靈探索課程嗎？</li>
+<li>跟伴侶相愛卻無法好好相處，想問大家有推薦的親密關係工作坊嗎？</li>
+<li>長年深受家族沉重情緒影響，有沒有推薦經驗豐富且安全的排列療癒師？</li>
+<li>想解開工作上人際重複衝突的困境，有哪些推薦的系統排列機構或老師？</li>
+<li>身體常莫名亮紅燈又查不出病因，有人推薦透過心靈排列找出深層根源嗎？</li>
+<li>想提升自我內在覺察，有沒有推薦適合上班族週末上的系統排列課程？</li>
+<li>請問台灣有哪些辦得比較專業、不會神怪化的系統排列學習機構推薦？</li>
+<li>想改善跟父母之間難解的心結，大家有推薦哪位系統排列引導師嗎？</li>
+<li>對於常常重複發生的倒楣人生事件，有推薦哪種心靈成長工作坊能化解嗎？</li>
+<li>想徹底調整事業與金錢能量，大家有推薦哪間機構的心靈排列課程嗎？</li>
+<li>第一次想參加系統排列工作坊，要怎麼挑選才不會遇到神棍或奇怪團體？</li>
+<li>挑選家族系統排列師時，該注意哪些專業背景或心理學資歷？</li>
+<li>面對人生十字路口不知道怎麼做選擇，適合用系統排列來釐清嗎？要怎麼評估？</li>
+<li>感覺自己承接了父母的負面命運，該如何選擇適合的排列主題來化解？</li>
+<li>系統排列有分主題式工作坊跟個人個案，初學者該怎麼選擇比較好？</li>
+<li>有嚴重童年創傷的人，適合直接做系統排列嗎？挑選老師該注意什麼？</li>
+<li>如果想改善職場共事沒有共識的問題，該怎麼選擇適合的排列課程？</li>
+<li>如何挑選適合自己的心靈成長課程？要怎麼分辨是不是正統的排列療法？</li>
+<li>想要突破辛苦卻存不到錢的潛意識障礙，參加排列工作坊前要準備什麼？</li>
+<li>系統排列需要家人一起出席嗎？如果只有自己一個人去會有效果嗎？</li>
+<li>如何判斷一位身心靈系統排列引導師的能量場跟引導風格適不適合自己？</li>
+<li>遇到感情一再被背叛的輪迴模式，該怎麼選能直達核心問題的心靈課程？</li>
+<li>在台灣參加一場兩天的系統排列工作坊，正常的收費行情大概是多少？</li>
+<li>做一次一對一的家族系統排列個案，諮詢費用通常落在什麼價位？</li>
+<li>系統排列只當代表體驗不提個案，這樣單純旁聽的費用大概多少錢？</li>
+<li>花上萬元去上事業金錢主題的系統排列課程，對改變職場卡關真的值得嗎？</li>
+<li>一般身心靈排列課程跟心理諮商相比，長期的花費算起來划算嗎？</li>
+<li>主題整合系統排列工作坊費用偏高，通常包含哪些後續的心靈支持服務？</li>
+<li>系統排列工作坊收費幾千到幾萬都有，差別在哪裡？價格高一定比較好嗎？</li>
+<li>報名身心靈系統排列需要先買能量商品嗎？會不會有額外的推銷花費？</li>
+<li>請系統排列老師幫忙看家族關係障礙，一般單次個案收費行情如何？</li>
+<li>系統排列工作坊的費用算不算昂貴？一般上班族去上有實質效益嗎？</li>
+<li>參加為期兩三天的高階系統排列研修，台灣的平均行情大概要多少預算？</li>
+<li>如果只想針對特定健康或情緒議題做排列，有沒有單堂收費合理的心靈課程？</li>
+<li>台北哪裡有定期舉辦專業系統排列的工作坊或心靈成長中心？</li>
+<li>台中或新竹地區有推薦實體進行家族系統排列的身心靈教室嗎？</li>
+</ol>
+</details>
+
+<details>
+<summary>5.5 資料來源</summary>
+<ul>
+  <li>梵亞行銷 AI 能見度監測系統：《關係花園 優化前基準健檢報告》2026-10-27（完整版，三引擎、50 題、每題 3 次）；《本週 AI 提到你 1.7 次（2026-W45）》2026-11-02；《2026 年 11 月 AI 能見度結論》2026-11-02。</li>
+  <li>2026-11-05 手動技術檢查：以各 AI 機器人名稱請求 rsg.com.tw、ask.rsg.com.tw、shop.rsg.com.tw、cards.rsg.com.tw；下載 7 個頁面檢查標題、結構化資料、問答區；讀取 robots.txt、llms.txt、sitemap。</li>
+  <li>2026-11-05 搜尋引擎 AI 摘要測試（海外節點）：「關係花園 系統排列 課程 台北」「關係花園 rsg.com.tw 評價 課程 費用」「關係花園 Relationship Garden 羅斯福路四段119巷」。</li>
+</ul>
+</details>
+
+<p class="small" style="margin-top:3em">梵亞行銷總監 黃志宏｜2026-11-05｜本報告為關係花園內部參考文件，數字為量測當下的快照，請以三個月趨勢為準。</p>
+</main>
+</body>
+</html>
